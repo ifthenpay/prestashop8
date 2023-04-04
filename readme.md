@@ -1,6 +1,6 @@
 # Ifthenpay Prestashop 8 payment module
 
-Read this in ![Português](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/pt.png) [Portuguese](readme.pt.md), and ![Inglês](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/en.png) [English](readme.md)
+Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pt.png) [Portuguese](readme.pt.md), and ![Inglês](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/en.png) [English](readme.md)
 
 [1. Introduction](#Introduction)
 
@@ -83,27 +83,27 @@ Follow the table below to verify Ifthenpay's module compatibility with your onli
 You may install the module for the first time on you Prestashop platform or just update it.
 
 * To install it for the first time, go the module's [Github](https://github.com/ifthenpay/prestashop) page and click the the latest release;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/release.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/release.png)
 </br>
 
 * And download the installer zip named "ifthenpay.zip";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/release_download.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/release_download.png)
 </br>
 
 * Or if you are upgrading, you can download it from Prestashop in Modules/Ifthenpay/Configure;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/upgrade_download.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/upgrade_download.png)
 </br>
 
 * Go to Module Manager;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/module_manager.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/module_manager.png)
 </br>
 
 * Click "Upload a module";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/click_upload_module.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/click_upload_module.png)
 </br>
 
 * Drag the installer zip on to "Upload a module" box;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/drag_upload_module.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/drag_upload_module.png)
 </br>
 
 
@@ -112,13 +112,13 @@ You may install the module for the first time on you Prestashop platform or just
 # Configuration
 ## Backoffice key
 * After a successful installation click the "Configure" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/click_configure.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/click_configure.png)
 </br>
 
 * Insert your Ifthenpay Backoffice key and save:
 1. The backoffice key is given upon contract and is made of four sets of four digits separated by a dash (-), insert it in the Backoffice key field;
 2. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/insert_backoffice_key.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/insert_backoffice_key.png)
 </br>
 
 ## Enable Payment Method
@@ -128,13 +128,13 @@ The following takes Multibanco as example, but the process is the same for the r
 1. (optional) Switch on this option if you are testing the payment methods, this will prevent the callback activation;
 2. Enable the payment method by switching the "Status" to Enabled;
 3. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/enable_multibanco.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/enable_multibanco.png)
 </br>
 
 ## Multibanco
 
 * To configure Multibanco payment method click the "MANAGE" button for Multibanco;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/manage_multibanco.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/manage_multibanco.png)
 </br>
 
 * Configure Multibanco payment method:
@@ -146,11 +146,11 @@ The following takes Multibanco as example, but the process is the same for the r
 6. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
 7. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place;
 8. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/config_multibanco.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_multibanco.png)
 </br>
 
 * If you previously set the "Callback" to activate, after saving, it's state will be updated below with the generated Anti-Phishing key and Callback Url;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/multibanco_callback_activated.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/multibanco_callback_activated.png)
 </br>
 
 ## Multibanco with Dynamic References
@@ -162,7 +162,7 @@ Multibanco with Dynamic References payment method generates references by reques
 2. Select a Sub Entity.
 3. (optional) Select number of days for deadline.
 4. (optional) Activate Cancel Multibanco Order, by selecting this option, Multibanco orders that are still unpaid after the deadline will have status changed to "Cancelled";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/config_multibanco_dynamic.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_multibanco_dynamic.png)
 </br>
 
 
@@ -170,7 +170,7 @@ Multibanco with Dynamic References payment method generates references by reques
 ## MB WAY
 
 * Click the "Manage" button for MB WAY;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/manage_mbway.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/manage_mbway.png)
 </br>
 
 * Configure MB WAY payment method:
@@ -183,11 +183,11 @@ Multibanco with Dynamic References payment method generates references by reques
 7. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
 8. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
 9. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/config_mbway.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_mbway.png)
 </br>
 
 * If you set the "Callback" to activate, it's state will be updated below with the generated Anti-Phishing key and Callback Url;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_callback_activated.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_callback_activated.png)
 </br>
 
 
@@ -196,7 +196,7 @@ Multibanco with Dynamic References payment method generates references by reques
 ## Credit Card
 
 * In Modules/Ifthenpay/Configure, click the "MANAGE" button for Credit Card;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/manage_ccard.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/manage_ccard.png)
 </br>
 
 * Configure Credit Card (also referred to as Ccard) payment method:
@@ -207,14 +207,14 @@ Multibanco with Dynamic References payment method generates references by reques
 5. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
 6. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
 7. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/config_ccard.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_ccard.png)
 </br>
 
 
 ## Payshop
 
 * In Modules/Ifthenpay/Configure, click the "MANAGE" button for Payshop;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/manage_payshop.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/manage_payshop.png)
 </br>
 
 * Configure Payshop payment method:
@@ -227,11 +227,11 @@ Multibanco with Dynamic References payment method generates references by reques
 7. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
 8. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
 9. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/config_payshop.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_payshop.png)
 </br>
 
 * If you set the "Callback" to activate, it's state will be updated below with the generated Anti-Phishing key and Callback Url;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/payshop_callback_activated.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_callback_activated.png)
 </br>
 
 
@@ -247,21 +247,21 @@ Multibanco payment method is used to explain the following procedures. The proce
 ## Update Payment Data
 
   * After changing the order, click the "Update Multibanco Data" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/update_payment_data.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/update_payment_data.png)
 </br>
 
 
 ## Resend Payment Data
 
   * After updating the payment data, you must resend the payment details to this order's customer by clicking the "Resend Payment Data" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/resend_payment_data.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/resend_payment_data.png)
 </br>
   
 
 ## Remember Payment Data
   
   * If you have long deadlines on your payment methods and want to remind your customer of an order's pending payment, click the "Remember Payment Details" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/remember_payment_details.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/remember_payment_details.png)
 </br>
 
 ## Choose Payment Method
@@ -269,19 +269,19 @@ Multibanco payment method is used to explain the following procedures. The proce
 Choose a different payment method:
 
   * Start the process by clicking the "Choose new Payment Method" button;
-  ![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/choose_payment_method.png)
+  ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/choose_payment_method.png)
 </br>
 
   * From the newly shown select box, select your new payment method (1), and click the "Change Payment Method" button (2);
-  ![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/select_payment_method.png)
+  ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/select_payment_method.png)
 </br>
 
   * The payment details will be updated with the new methods payment data, now you must click the "Resend Payment Data" to let your customer know;
-  ![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/new_payment_method.png)
+  ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/new_payment_method.png)
 </br>
 
   * If you are changing from Multibanco or Payshop to MB WAY, you are required to input the customer's phone number and click the "Change Payment Method" button. This action sends the MB WAY notification automatically, but you can use the "Resend Payment Data" button if the customer does not pay in the 5 minutes time window and requires another payment notification to their MB WAY app;
-    ![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/change_to_mbway_payment.png)
+    ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/change_to_mbway_payment.png)
 </br>
 
 
@@ -291,13 +291,13 @@ Choose a different payment method:
 ## Support
 
 * In Modules/Ifthenpay/Configure click the "Go to Support!" button to be redirected to the Ifthenpay helpdesk page;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/support.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/support.png)
 </br>
 
 ## Request account
 
 * If you still do not have an Ifthenpay account, you may request one by filling the membership contract pdf file that you can download by clicking the "Request an account!" button, and send it along with requested documentation to the email ifthenpay@ifthenpay.com
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/request_account.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/request_account.png)
 </br>
 
 
@@ -306,41 +306,41 @@ Choose a different payment method:
 If you already have an Ifthenpay account, but don't have a payment method unlocked, you can make an automatic request to Ifthenpay;
 
 * At Modules/Ifthenpay/Configure, there will be a "REQUEST ... ACCOUNT CREATION" button for every payment method that you have yet to unlock. Click the button for the payment method you require. After Ifthenpay's team have added your payment method, the list of payment methods available on your module will be updated with the new one. 
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/request_account_creation.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/request_account_creation.png)
 
 
 ## Logs
 
 * You can consult logs related to this module at Module/Ifthenpay/Configure by clicking the tab "LOGS";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/click_logs.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/click_logs.png)
 </br>
 
 * The logs will record errors and other events that can be helpful in detecting issues;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/logs.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/logs.png)
 </br>
 
 ## Reset Configuration
 
 * If for example you acquired a new Backoffice key, and want to assign it to your site, but already have one assigned, you can reset the module's configuration.
 At Module/Ifthenpay/Configure click the "Reset" button. **Warning, this action will reset all current configurations for this module**;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/reset.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/reset.png)
 </br>
 
 * After reset, you will once again be asked for your Backoffice key;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/backoffice_key.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/backoffice_key.png)
 </br>
 
 ## Updates
 
 * At Module/Ifthenpay/Configure, bottom of the page you can check if there are any updates available for the module;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/update.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/update.png)
 </br>
 
 ## Sandbox Mode
 
 * You may want to run tests before going into production. To do so, you must turn "Sandbox Mode" to Enabled and click the "Save" button, before activating any payment method Callback.
 The Sandbox Mode is used in order to prevent the Callback activation and the communication between our server and your store.
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/sandbox_mode.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/sandbox_mode.png)
 </br>
 
 ## Callback
@@ -349,15 +349,15 @@ The Sandbox Mode is used in order to prevent the Callback activation and the com
 
 * Callback statuses:
 1. Callback Disabled (order will not change state upon receiving payment);
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/callback_status_disabled.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/callback_status_disabled.png)
 </br>
 
 2. Callback Activated (order will change state upon receiving payment);
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/callback_status_activated.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/callback_status_activated.png)
 </br>
 
 3. Callback Activated & Sandbox Mode enabled (order will not change state upon receiving payment);
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/callback_status_sandbox.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/callback_status_sandbox.png)
 </br>
 
 ## Test Callback
@@ -365,31 +365,31 @@ The Sandbox Mode is used in order to prevent the Callback activation and the com
 In each payment method config page (except Ccard), you can test the Callback functionality by clicking the "Test Callback" button. This will simulate a successful payment for a order in your store, and will change its status. Requires Callback to be activated;
 
 **Multibanco:** Use the following data (1) and (2) from order payment details:
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/multibanco_callback_data.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/multibanco_callback_data.png)
 </br>
 
 to fill the Test Callback form and click the "Test Callback" button (3):
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/multibanco_callback_test.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/multibanco_callback_test.png)
 </br>
 </br>
 
 **MB WAY:** Use the following data (1) and (2) from order payment details:
 
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_callback_data.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_callback_data.png)
 </br>
 
 to fill the Test Callback form and click the "Test Callback" button (3):
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_callback_test.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_callback_test.png)
 </br>
 </br>
 
 **Payshop:** Use the following data (1) and (2) from order payment details:
 
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/payshop_callback_data.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_callback_data.png)
 </br>
 
 to fill the Test Callback form and click the "Test Callback" button (3):
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/payshop_callback_test.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_callback_test.png)
 </br>
 
 
@@ -400,7 +400,7 @@ To fix this issue, replace the "js" folder with "js_uglyfied" folder.
 1. Rename "js" folder to "js_minimized".
 2. Rename "js_uglyfied" folder to "js".
 
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/ccc_fix.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/ccc_fix.png)
 </br>
 
 
@@ -413,11 +413,11 @@ The following action are described from the perspective of the consumer.
 1. Select "Pay by Multibanco";
 2. Check the box of "terms of service" (this will depend on your Prestashop configuration);
 3. Click "PLACE ORDER" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/checkout_multibanco.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_multibanco.png)
 </br>
 
 * Upon confirmation, you will be greeted with the Multibanco payment information;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/multibanco_payment_return.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/multibanco_payment_return.png)
 </br>
 
 ## Paying order with Payshop
@@ -426,11 +426,11 @@ The following action are described from the perspective of the consumer.
 1. Select "Pay by Payshop";
 2. Check the box of "terms of service" (this will depend on your Prestashop configuration);
 3. Click "PLACE ORDER" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/checkout_payshop.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_payshop.png)
 </br>
 
 * Upon confirmation, you will be greeted with the Payshop payment information;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/payshop_payment_return.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_payment_return.png)
 </br>
 
 ## Paying order with MB WAY
@@ -440,30 +440,30 @@ The following action are described from the perspective of the consumer.
 2. Input the mobile phone number of a smartphone with MB WAY app installed;
 3. Check the box of "terms of service" (this will depend on your Prestashop configuration);
 4. Click "PLACE ORDER" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/checkout_mbway.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_mbway.png)
 </br>
 
 * Upon confirmation, you will be greeted with the MB WAY countdown, and payment information:
 1. MB WAY countdown;
 2. MB WAY payment information;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_payment_return.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_payment_return.png)
 </br>
 
 * During countdown, interactions from user with MB WAY app will update countdown accordingly:
 1. if you accept the payment in the smartphone's MB WAY app, the countdown will update with "Order Paid!";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_payment_paid.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_payment_paid.png)
 </br>
 
 2. if you reject the payment in the smartphone's MB WAY app, the countdown will update with "payment refused!";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_payment_refused.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_payment_refused.png)
 </br>
 
 3. if at checkout you inputted a phone number to a smartphone that does not have MB WAY app installed, or there are communication issues with SIBS servers at that moment, the countdown will update with "payment failed!";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_payment_error.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_payment_error.png)
 </br>
 
 * if you ran out of time, you can resend a MB WAY notification by clicking "RESEND MB WAY NOTIFICATION";
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/mbway_payment_notification_resend.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_payment_notification_resend.png)
 </br>
 
 ## Paying order with Credit Card
@@ -472,7 +472,7 @@ The following action are described from the perspective of the consumer.
 1. Select "Pay by Credit Card";
 2. Check the box of "terms of service" (this will depend on your Prestashop configuration);
 3. Click "PLACE ORDER" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/checkout_payshop.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_payshop.png)
 </br>
 
 * Fill Credit Card data:
@@ -481,9 +481,9 @@ The following action are described from the perspective of the consumer.
 3. Input CVV/CVC;
 4. Input Name;
 5. Click "PAY" button;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/ccard_payment.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/ccard_payment.png)
 </br>
 
 * After paying you will be redirected back to the store;
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/ccard_payment_return.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/ccard_payment_return.png)
 </br>
