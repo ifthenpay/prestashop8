@@ -65,15 +65,15 @@ Este módulo permite gerar uma referência de pagamento que o consumidor pode us
 Mais informações em [Ifthenpay](https://ifthenpay.com). 
 
 
+
 # Compatibilidade
 
 Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a sua loja online.
-|                  | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8.0 [8.0.0 - 8.0.2] |
+|                  | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8.0 [8.0.0 - 8.0.3] |
 |------------------|----------------|----------------|--------------------------------|
-| Ifthenpay v1.3.0 | Não compatível | Compatível     | Não compatível                 |
-| Ifthenpay v1.3.1 | Não compatível | Compatível     | Não compatível                 |
-| Ifthenpay v1.3.2 | Não compatível | Compatível     | Não compatível                 |
-| Ifthenpay v1.3.3 | Não compatível | Compatível     | Não compatível                 |
+| Ifthenpay v8.0.0 | Não compatível | Não compatível | Compatível                     |
+
+
 
 # Instalação
 
@@ -102,7 +102,6 @@ Pode instalar o módulo pela primeira vez na sua plataforma Prestashop ou apenas
 * Arrastar o instalador zip para a caixa "Enviar um módulo";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/drag_upload_module.png)
 </br>
-
 
 
 
@@ -231,7 +230,6 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 * Se selecionou "Callback" ativado anteriormente, após salvar, o estado do Callback será mostrado abaixo com a Chave Anti-Phishing e Url de Callback criados;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/payshop_callback_activated.png)
 </br>
-
 
 
 
@@ -389,15 +387,7 @@ para preencher o formulário de Testar Callback e clicar no botão "Testar Callb
 para preencher o formulário de Testar Callback e clicar no botão "Testar Callback" (3):
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/payshop_callback_test.png)
 </br>
-## Bugs conhecidos e soluções
 
-* Em algumas versões do prestashop, habilitar o ccc (Combinar, Comprimir e Cache) para javascript, resultará em erros de minimização.
-Para reparar esta situação, substitua a pasta "js" pela pasta "js_uglyfied".
-1. Altere o nome da pasta "js" para "js_minimized".
-2. Altere o nome da pasta "js_uglyfied" para "js".
-
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/ccc_fix.png)
-</br>
 
 
 # Experiência do Utilizador Consumidor
