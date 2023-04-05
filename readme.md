@@ -44,6 +44,7 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Paying order with Credit Card](#Paying-order-with-Credit-Card)
 
 
+
 # Introduction
 ![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
 
@@ -67,16 +68,15 @@ This module will allow you to generate a payment by Visa or Master card, that th
 See more at [Ifthenpay](https://ifthenpay.com). 
 
 
+
 # Compatibility
 
 Follow the table below to verify Ifthenpay's module compatibility with your online store.
 |                  | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8.0 [8.0.0 - 8.0.2] |
 |------------------|----------------|----------------|--------------------------------|
-| Ifthenpay v1.3.0 | Not compatible | Compatible     | Not Compatible                 |
-| Ifthenpay v1.3.1 | Not compatible | Compatible     | Not Compatible                 |
-| Ifthenpay v1.3.2 | Not compatible | Compatible     | Not Compatible                 |
-| Ifthenpay v1.3.3 | Not compatible | Compatible     | Not Compatible                 |
 | Ifthenpay v8.0.0 | Not compatible | Not compatible | Compatible                     |
+
+
 
 # Installation
 
@@ -105,7 +105,6 @@ You may install the module for the first time on you Prestashop platform or just
 * Drag the installer zip on to "Upload a module" box;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/drag_upload_module.png)
 </br>
-
 
 
 
@@ -153,6 +152,7 @@ The following takes Multibanco as example, but the process is the same for the r
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/multibanco_callback_activated.png)
 </br>
 
+
 ## Multibanco with Dynamic References
 
 Multibanco with Dynamic References payment method generates references by request, and is used if you wish to add a deadline with limited number of days to your order payment.
@@ -164,7 +164,6 @@ Multibanco with Dynamic References payment method generates references by reques
 4. (optional) Activate Cancel Multibanco Order, by selecting this option, Multibanco orders that are still unpaid after the deadline will have status changed to "Cancelled";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_multibanco_dynamic.png)
 </br>
-
 
 
 ## MB WAY
@@ -189,8 +188,6 @@ Multibanco with Dynamic References payment method generates references by reques
 * If you set the "Callback" to activate, it's state will be updated below with the generated Anti-Phishing key and Callback Url;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_callback_activated.png)
 </br>
-
-
 
 
 ## Credit Card
@@ -236,7 +233,6 @@ Multibanco with Dynamic References payment method generates references by reques
 
 
 
-
 # Edit payment details
 **Important Notice:** It is not possible to change to or update the Credit Card payment method.
 At Prestashop order details, you can edit the order payment method and payment data.
@@ -256,13 +252,14 @@ Multibanco payment method is used to explain the following procedures. The proce
   * After updating the payment data, you must resend the payment details to this order's customer by clicking the "Resend Payment Data" button;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/resend_payment_data.png)
 </br>
-  
+
 
 ## Remember Payment Data
   
   * If you have long deadlines on your payment methods and want to remind your customer of an order's pending payment, click the "Remember Payment Details" button;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/remember_payment_details.png)
 </br>
+
 
 ## Choose Payment Method
 
@@ -294,6 +291,7 @@ Choose a different payment method:
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/support.png)
 </br>
 
+
 ## Request account
 
 * If you still do not have an Ifthenpay account, you may request one by filling the membership contract pdf file that you can download by clicking the "Request an account!" button, and send it along with requested documentation to the email ifthenpay@ifthenpay.com
@@ -319,6 +317,7 @@ If you already have an Ifthenpay account, but don't have a payment method unlock
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/logs.png)
 </br>
 
+
 ## Reset Configuration
 
 * If for example you acquired a new Backoffice key, and want to assign it to your site, but already have one assigned, you can reset the module's configuration.
@@ -330,11 +329,13 @@ At Module/Ifthenpay/Configure click the "Reset" button. **Warning, this action w
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/backoffice_key.png)
 </br>
 
+
 ## Updates
 
 * At Module/Ifthenpay/Configure, bottom of the page you can check if there are any updates available for the module;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/update.png)
 </br>
+
 
 ## Sandbox Mode
 
@@ -342,6 +343,7 @@ At Module/Ifthenpay/Configure click the "Reset" button. **Warning, this action w
 The Sandbox Mode is used in order to prevent the Callback activation and the communication between our server and your store.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/sandbox_mode.png)
 </br>
+
 
 ## Callback
 
@@ -359,6 +361,7 @@ The Sandbox Mode is used in order to prevent the Callback activation and the com
 3. Callback Activated & Sandbox Mode enabled (order will not change state upon receiving payment);
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/callback_status_sandbox.png)
 </br>
+
 
 ## Test Callback
 
@@ -404,6 +407,7 @@ To fix this issue, replace the "js" folder with "js_uglyfied" folder.
 </br>
 
 
+
 # Customer usage experience
 The following action are described from the perspective of the consumer.
 
@@ -420,6 +424,7 @@ The following action are described from the perspective of the consumer.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/multibanco_payment_return.png)
 </br>
 
+
 ## Paying order with Payshop
 
 * Select Payshop at checkout and place order:
@@ -432,6 +437,7 @@ The following action are described from the perspective of the consumer.
 * Upon confirmation, you will be greeted with the Payshop payment information;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_payment_return.png)
 </br>
+
 
 ## Paying order with MB WAY
 
@@ -465,6 +471,7 @@ The following action are described from the perspective of the consumer.
 * if you ran out of time, you can resend a MB WAY notification by clicking "RESEND MB WAY NOTIFICATION";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/mbway_payment_notification_resend.png)
 </br>
+
 
 ## Paying order with Credit Card
 
