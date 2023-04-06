@@ -82,7 +82,7 @@ Follow the table below to verify Ifthenpay's module compatibility with your onli
 
 You may install the module for the first time on you Prestashop platform or just update it.
 
-* To install it for the first time, go the module's [Github](https://github.com/ifthenpay/prestashop) page and click the the latest release;
+* To install it for the first time, go the module's [Github](https://github.com/ifthenpay/prestashop8) page and click the the latest release;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/release.png)
 </br>
 
@@ -393,17 +393,6 @@ to fill the Test Callback form and click the "Test Callback" button (3):
 
 to fill the Test Callback form and click the "Test Callback" button (3):
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_callback_test.png)
-</br>
-
-
-## Known bug and fixes
-
-* In some versions of Prestashop, enabling the ccc (Combine, Compress and Cache) for javascript, will result in minimization errors.
-To fix this issue, replace the "js" folder with "js_uglyfied" folder.
-1. Rename "js" folder to "js_minimized".
-2. Rename "js_uglyfied" folder to "js".
-
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/ccc_fix.png)
 </br>
 
 
