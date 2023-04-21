@@ -38,7 +38,7 @@ class CCardAdminOrder extends CCardBase implements AdminOrderInterface
 {
     public function setSmartyVariables($paymentInDatabase)
     {
-        $this->smartyDefaultData->setIdPedido($this->paymentDataFromDb['requestId']);
+        $this->smartyDefaultData->setIdPedido($this->paymentDataFromDb['transaction_id']);
     }
 
     public function getAdminOrder()

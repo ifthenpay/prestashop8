@@ -33,9 +33,9 @@ if (!defined('_PS_VERSION_')) {
 
 class IfthenpayLogProcess
 {
-    const ERROR = 'error';
-
     const INFO = 'info';
+    const WARNING = 'warning';
+    const ERROR = 'error';
 
     public static function addLog($message, $type, $orderId)
     {

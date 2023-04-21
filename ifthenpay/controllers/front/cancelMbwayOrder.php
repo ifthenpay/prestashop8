@@ -56,7 +56,7 @@ class IfthenpayCancelMbwayOrderModuleFrontController extends ModuleFrontControll
                 $orderId  = Tools::getValue('orderId');
                 $mbwayKey = Configuration::get('IFTHENPAY_MBWAY_KEY');
                 $paymentData = IfthenpayModelFactory::build('mbway')->getByOrderId((string) $orderId);
-                $requestId = $paymentData['id_transacao'];
+                $requestId = $paymentData['transaction_id'];
 
 
                 $request = $this->webservice->getRequest(

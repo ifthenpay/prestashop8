@@ -50,6 +50,13 @@ class Payment
 
     protected function formatNumber($number)
     {
+        /**
+         * Verifies if $number is an integer
+         */
+	    if (ctype_digit($number)) {
+	        $number = number_format($number, 2);
+	    }
+
         $verifySepDecimal = number_format(99, 2);
 
         $valorTmp = $number;

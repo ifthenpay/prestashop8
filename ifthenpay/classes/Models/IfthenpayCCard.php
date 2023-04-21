@@ -36,7 +36,7 @@ class IfthenpayCCard extends \ObjectModel implements PaymentModelInterface
 {
     public $id;
     public $id_ifthenpay_ccard;
-    public $id_transacao;
+    public $transaction_id;
     public $referencia;
     public $validade;
     public $order_id;
@@ -47,7 +47,7 @@ class IfthenpayCCard extends \ObjectModel implements PaymentModelInterface
         'multilang' => false,
         'multishop' => true,
         'fields' => [
-            'requestId' => [
+            'transaction_id' => [
                 'type' => self::TYPE_STRING,
                 'required' => true,
                 'validate' => 'isString',
@@ -87,10 +87,10 @@ class IfthenpayCCard extends \ObjectModel implements PaymentModelInterface
         }
     }
 
-    public static function getCCardByRequestId($requestId)
+    public static function getCCardByRequestId($transaction_id)
     {
         $rowOrder = \Db::getInstance()
-            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (requestId = ' . '\'' . \pSQL((string) $requestId) .  '\') ');
+            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transaction_id) .  '\') ');
             if (is_array($rowOrder)) {
             return $rowOrder[0];
         } else {

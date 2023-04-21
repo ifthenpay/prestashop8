@@ -95,7 +95,7 @@
 							</ul>
 						{else}
 							<ul class="list-group">
-															<li class="list-group-item">
+								<li class="list-group-item">
 									{l s='IdRequest:' mod='ifthenpay'}
 									<span class="badge">{$idPedido}</span>
 								</li>
@@ -139,3 +139,46 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(document).ready(function(){
+	
+	let paymentsList = [];
+	{foreach $paymentMethods as $key => $value}
+		paymentsList.push('{$value}');
+	{/foreach}
+
+	const refundBtn = document.getElementsByClassName('partial-refund-display');
+	if (refundBtn.length === 1) {
+
+		refundBtn[0].addEventListener("click", function(event) {
+
+			if (paymentsList.includes('{$paymentMethod}')) {
+				const msgbox = document.getElementById("content-message-box");
+				msgbox.innerHTML="";
+				let msg = document.createElement("div");
+				let key = prompt("Please enter the backoffice key:");
+
+				if (key != '') {
+
+					if (key != '{$backofficeKey}') {
+
+						document.getElementById("cancel_product_save").disabled = true;
+						msg.innerHTML = "<div class='alert alert-danger'>Invalid backoffice Key</div>";
+						msgbox.appendChild(msg);
+
+					} else {
+
+						document.getElementById("cancel_product_save").disabled = false;
+						msg.innerHTML = "<div class='alert alert-success'>Backoffice Key was inserted successfully</div>";
+						msgbox.appendChild(msg);
+					}
+
+				}
+			}
+		});
+
+	}
+
+});
+</script>

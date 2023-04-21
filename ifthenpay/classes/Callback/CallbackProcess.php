@@ -87,9 +87,9 @@ class CallbackProcess
     {
         $ifthenpayModel = IfthenpayModelFactory::build($this->paymentMethod, $this->paymentData['id_ifthenpay_' . $this->paymentMethod]);
 
-        //WORKAROUND: odd behaviour from prestashop model object, it loses the requestId of the order for Ccard, so there is a need to set it in the next two lines
-        if($this->paymentMethod == 'ccard' && isset($this->paymentData['requestId'])){
-            $ifthenpayModel->requestId = $this->paymentData['requestId'];		
+        //WORKAROUND: odd behaviour from prestashop model object, it loses the transaction_id of the order for Ccard, so there is a need to set it in the next two lines
+        if($this->paymentMethod == 'ccard' && isset($this->paymentData['transaction_id'])){
+            $ifthenpayModel->transaction_id = $this->paymentData['transaction_id'];		
         }
         $ifthenpayModel->status = $status;
         $ifthenpayModel->update();

@@ -41,7 +41,7 @@ class PayshopBase extends PaymentBase
 
     protected function saveToDatabase()
     {
-        $this->paymentModel->id_transacao = $this->paymentGatewayResultData->idPedido;
+        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->referencia = $this->paymentGatewayResultData->referencia;
         $this->paymentModel->validade = $this->paymentGatewayResultData->validade;
         $this->paymentModel->order_id = $this->paymentDefaultData->order->id;
@@ -53,7 +53,7 @@ class PayshopBase extends PaymentBase
     {
         $this->setPaymentModel('payshop', $this->paymentDataFromDb['id_ifthenpay_payshop']);
         $this->paymentModel->referencia = $this->paymentGatewayResultData->referencia;
-        $this->paymentModel->id_transacao = $this->paymentGatewayResultData->idPedido;
+        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->update();
     }
 

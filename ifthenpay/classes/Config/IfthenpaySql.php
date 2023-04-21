@@ -43,7 +43,7 @@ class IfthenpaySql implements InstallerInterface
             `entidade` varchar(5) NOT NULL,
             `referencia` varchar(9) NOT NULL,
             `validade` varchar(16),
-            `request_id` varchar(50),
+            `transaction_id` varchar(50),
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_multibanco`),
@@ -51,30 +51,30 @@ class IfthenpaySql implements InstallerInterface
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
         'mbway' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_mbway` (
             `id_ifthenpay_mbway` int(10) unsigned NOT NULL auto_increment,
-            `id_transacao` varchar(20) NOT NULL,
+            `transaction_id` varchar(20) NOT NULL,
             `telemovel` varchar(20) NOT NULL,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_mbway`),
-            INDEX `idTransacao` (`id_transacao`)
+            INDEX `transaction_id` (`transaction_id`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
         'payshop' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_payshop` (
             `id_ifthenpay_payshop` int(10) unsigned NOT NULL auto_increment,
-            `id_transacao` varchar(20) NOT NULL,
+            `transaction_id` varchar(20) NOT NULL,
             `referencia` varchar(13) NOT NULL,
             `validade` varchar(8) NOT NULL,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_payshop`),
-            INDEX `idTransacao` (`id_transacao`)
+            INDEX `transaction_id` (`transaction_id`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
           'ccard' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ccard` (
             `id_ifthenpay_ccard` int(10) unsigned NOT NULL auto_increment,
-            `requestId` varchar(50) NOT NULL,
+            `transaction_id` varchar(50) NOT NULL,
             `order_id` int(11) NOT NULL,
             `status` varchar(50) NOT NULL,
             PRIMARY KEY  (`id_ifthenpay_ccard`),
-            INDEX `requestId` (`requestId`)
+            INDEX `transaction_id` (`transaction_id`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
     ];
 

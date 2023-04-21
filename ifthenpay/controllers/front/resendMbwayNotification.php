@@ -65,7 +65,7 @@ class IfthenpayResendMbwayNotificationModuleFrontController extends ModuleFrontC
             $ifthenpayMbway = IfthenpayModelFactory::build('mbway');
             $mbwayDB = $ifthenpayMbway->getByOrderId($orderId);
             $ifthenpayMbway = IfthenpayModelFactory::build('mbway', $mbwayDB['id_ifthenpay_mbway']);
-            $ifthenpayMbway->id_transacao = $gatewayResult->idPedido;
+            $ifthenpayMbway->transaction_id = $gatewayResult->idPedido;
             $ifthenpayMbway->update();
             Utility::setPrestashopCookie('mbwayResendNotificationSent', true);
             IfthenpayLogProcess::addLog('Resend MB WAY notification (front-end) with success', IfthenpayLogProcess::INFO, (int) $orderId);

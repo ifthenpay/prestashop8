@@ -82,7 +82,7 @@ class MbwayBase extends PaymentBase
 
     protected function saveToDatabase()
     {
-        $this->paymentModel->id_transacao = $this->paymentGatewayResultData->idPedido;
+        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->telemovel = $this->paymentGatewayResultData->telemovel;
         $this->paymentModel->order_id = $this->paymentDefaultData->order->id;
         $this->paymentModel->status = 'pending';
@@ -92,7 +92,7 @@ class MbwayBase extends PaymentBase
     protected function updateDatabase()
     {
         $this->setPaymentModel('mbway', $this->paymentDataFromDb['id_ifthenpay_mbway']);
-        $this->paymentModel->id_transacao = $this->paymentGatewayResultData->idPedido;
+        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->update();
     }
 

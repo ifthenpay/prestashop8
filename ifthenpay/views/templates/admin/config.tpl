@@ -63,7 +63,7 @@
                 <h6>{l s='Protected user data, no need to enter bank or card information' mod='ifthenpay'}</h6>
             </li>
             <li>
-                <h6>{l s='Multichannel payments: Multibanco ATMs, Homebanking,<br> mobile phones, POS, MB SPOT network, MB WAY, PAYSHOP network, Post Offices' mod='ifthenpay'}
+                <h6>{l s='Multichannel payments: Multibanco ATMs, Homebanking, mobile phones, POS, MB SPOT network, MB WAY, PAYSHOP network, Post Offices' mod='ifthenpay'}
                 </h6>
             </li>
             <li>

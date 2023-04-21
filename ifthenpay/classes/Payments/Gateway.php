@@ -33,6 +33,7 @@ use PrestaShop\Module\Ifthenpay\Builders\DataBuilder;
 use PrestaShop\Module\Ifthenpay\Factory\Payment\PaymentFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Request\RequestFactory;
 use PrestaShop\Module\Ifthenpay\Builders\GatewayDataBuilder;
+use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 
 class Gateway
 {
@@ -182,5 +183,16 @@ class Gateway
     {
         $paymentMethod = PaymentFactory::build($paymentMethod, $data, $orderId, $valor, $this->webservice);
         return $paymentMethod->buy();
+    }
+
+    public function refund($body)
+    { 
+        $refund = $this->webservice->postRequest(
+            'http://ifthenpay.com/api/endpoint/payments/refund',
+            $body,
+            true
+        )->getResponseJson();
+
+        return $refund;
     }
 }

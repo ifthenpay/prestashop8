@@ -36,7 +36,7 @@ class IfthenpayMbway extends \ObjectModel implements PaymentModelInterface
 {
     public $id;
     public $id_ifthenpay_mbway;
-    public $id_transacao;
+    public $transaction_id;
     public $telemovel;
     public $order_id;
 
@@ -46,7 +46,7 @@ class IfthenpayMbway extends \ObjectModel implements PaymentModelInterface
         'multilang' => false,
         'multishop' => true,
         'fields' => [
-            'id_transacao' => [
+            'transaction_id' => [
                 'type' => self::TYPE_STRING,
                 'required' => true,
                 'validate' => 'isString',
@@ -92,10 +92,10 @@ class IfthenpayMbway extends \ObjectModel implements PaymentModelInterface
         }
     }
 
-    public static function getMbwayByIdTransacao($idTransacao)
+    public static function getMbwayByIdTransacao($transaction_id)
     {
         $rowOrder = \Db::getInstance()
-            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (id_transacao = ' . '\'' . \pSQL($idTransacao) .  '\') ');
+            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL($transaction_id) .  '\') ');
             
         if (is_array($rowOrder) && !empty($rowOrder)) {
             return $rowOrder[0];

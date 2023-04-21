@@ -36,7 +36,6 @@ class CallbackStrategy
 {    
     public function execute($request)
     {
-        $request['type'] = 'offline';
         if ($request['type'] === 'offline') {
             return (new CallbackOffline())->setPaymentMethod($request['payment'])->setRequest($request)->process();
         } else if ($request['type'] === 'online') {

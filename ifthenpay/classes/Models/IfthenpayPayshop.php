@@ -36,7 +36,7 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
 {
     public $id;
     public $id_ifthenpay_payshop;
-    public $id_transacao;
+    public $transaction_id;
     public $referencia;
     public $validade;
     public $order_id;
@@ -47,7 +47,7 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
         'multilang' => false,
         'multishop' => true,
         'fields' => [
-            'id_transacao' => [
+            'transaction_id' => [
                 'type' => self::TYPE_STRING,
                 'required' => true,
                 'validate' => 'isString',
@@ -98,10 +98,10 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
         }
     }
 
-    public static function getPayshopByIdTransacao($idTransacao)
+    public static function getPayshopByIdTransacao($transaction_id)
     {
         $rowOrder = \Db::getInstance()
-            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (id_transacao = ' . '\'' . \pSQL((string) $idTransacao) .  '\') ');
+            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transaction_id) .  '\') ');
             if (is_array($rowOrder)) {
             return $rowOrder[0];
         } else {

@@ -38,7 +38,7 @@ class MbwayAdminOrder extends MbwayBase implements AdminOrderInterface
     public function setSmartyVariables($paymentInDatabase)
     {
         $this->smartyDefaultData->setTelemovel($this->paymentDataFromDb['telemovel']);
-        $this->smartyDefaultData->setIdPedido($this->paymentDataFromDb['id_transacao']);
+        $this->smartyDefaultData->setIdPedido($this->paymentDataFromDb['transaction_id']);
     }
 
     public function getAdminOrder()

@@ -64,7 +64,7 @@ class IfthenpayMultibanco extends \ObjectModel implements PaymentModelInterface
                 'validate' => 'isString',
                 'size' => 16
             ],
-            'request_id' => [
+            'transaction_id' => [
                 'type' => self::TYPE_STRING,
                 'required' => false,
                 'validate' => 'isString',

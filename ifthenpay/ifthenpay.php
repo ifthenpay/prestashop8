@@ -87,7 +87,7 @@ class Ifthenpay extends PaymentModule
 
     /**
      * Don't forget to create update methods if needed:
-     * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update
+     * https://devdocs.prestashop-project.org/8/modules/creation/enabling-auto-update/
      */
     public function install()
     {
@@ -101,9 +101,9 @@ class Ifthenpay extends PaymentModule
         }
         if (
             !parent::install() || !$this->registerHook('payment') || !$this->registerHook('paymentOptions') ||
-            !$this->registerHook('paymentReturn') || !$this->registerHook('displayAdminOrder') ||
-            !$this->registerHook('displayOrderDetail') || !$this->registerHook('header') ||
-            !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || !$this->registerHook('displayBackOfficeHeader')
+            !$this->registerHook('paymentReturn') || !$this->registerHook('displayAdminOrder') || !$this->registerHook('displayOrderDetail') || 
+            !$this->registerHook('header') || !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || 
+            !$this->registerHook('displayBackOfficeHeader') || !$this->registerHook('actionProductCancel')
         ) {
             return false;
         }
@@ -139,7 +139,7 @@ class Ifthenpay extends PaymentModule
 
     /**
      * Load the configuration form
-     * this is the first configuration page, where it shows all four payment methods and update status
+     * this is the first configuration page, where it shows all payment methods and update status
      */
     public function getContent()
     {
@@ -190,7 +190,6 @@ class Ifthenpay extends PaymentModule
 
     /**
      * Create the form that will be displayed in the configuration of your module.
-     * this is the first configuration page, where it shows all four payment methods and update status
      */
     protected function renderForm()
     {
@@ -216,15 +215,19 @@ class Ifthenpay extends PaymentModule
 
         return $helper->generateForm(array($this->getConfigForm()));
     }
+    
     /**
      * Create the structure of your form.
-     * this is the first configuration page, where it shows all four payment methods and update status
+     * This is the first configuration page, where it shows all payment methods and update status.
      */
     protected function getConfigForm()
     {
         $form = [];
 
-        // if there is no backoffice key in database...ask for one
+        /**
+         * If there is no backofficeKey stored in the DB, 
+         * the user will be asked to enter one.
+         */
         if (!$this->ifthenpayConfig['IFTHENPAY_BACKOFFICE_KEY']) {
 
             $form = [
@@ -248,9 +251,10 @@ class Ifthenpay extends PaymentModule
             return $form;
         }
 
-        // if already has backoffice key then show config for available payment methods
-
-
+        /**
+         * If there is already a backofficeKey inserted,
+         * then the module configuration menu will appear.
+         */
         $form = [
             'form' => [
                 'input' => [
@@ -282,7 +286,9 @@ class Ifthenpay extends PaymentModule
             ],
         ];
 
-        // get available payment methods
+        /**
+         * Get available payment methods
+         */
         $ifthenpayUserPaymentMethods = (array) unserialize(
             $this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']
         );
@@ -337,8 +343,11 @@ class Ifthenpay extends PaymentModule
             ];
         }
 
-        // check for mb dynamic references and if not create "request" button
 
+        /** 
+         * Check MB Dynamic References. 
+         * Otherwise, a "request" button must be created. 
+         */
         $accounts = unserialize(Configuration::get('IFTHENPAY_USER_ACCOUNT'));
 
         if ($accounts) {
@@ -391,10 +400,9 @@ class Ifthenpay extends PaymentModule
         return $form;
     }
 
-    /**
-     * Set values for the inputs.
-     * this is the first configuration page, where it shows all four payment methods and update status
-     */
+    /** 
+    * Set values for the inputs.
+    */
     protected function getConfigFormValues()
     {
         $formValues = array(
@@ -585,14 +593,16 @@ class Ifthenpay extends PaymentModule
             $paymentMethods[$paymentMethod] = $order;
         }
 
-        // order by value
+        /**
+         * Sort by value
+         */
         asort($paymentMethods, 1);
 
         return array_keys($paymentMethods);
     }
 
     /**
-     * Return payment options available for PS 1.7+
+     * Return payment options available for Prestashop 8
      *
      * @param array Hook parameters
      *
@@ -800,8 +810,6 @@ class Ifthenpay extends PaymentModule
 
 
 
-
-
     public function hookPaymentReturn($params)
     {
         if (!$this->active) {
@@ -864,7 +872,7 @@ class Ifthenpay extends PaymentModule
                 );
                 return $this->display(__FILE__, 'payment_return.tpl');
             }
-            //return $this->fetch('module:ifthenpay/views/templates/hook/payment_return.tpl');
+            // return $this->fetch('module:ifthenpay/views/templates/hook/payment_return.tpl');
             return $this->display(__FILE__, 'payment_return.tpl');
         }
     }
@@ -875,10 +883,9 @@ class Ifthenpay extends PaymentModule
             return;
         }
 
-        $order = PrestashopModelFactory::buildOrder((string) $params['id_order']);
         $message = '';
+        $order = PrestashopModelFactory::buildOrder((string) $params['id_order']);
         $ifthenpayGateway = GatewayFactory::build('gateway');
-
         $previousModulePaymentMethod = $ifthenpayGateway->checkIfPaymentMethodIsPreviousModule($order->payment);
 
         if ($previousModulePaymentMethod) {
@@ -919,11 +926,17 @@ class Ifthenpay extends PaymentModule
                     $this,
                     $message
                 )->execute();
+                
+                $array = (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']);
+
                 $this->smarty->assign($ifthenpayAdminOrder->getSmartyVariables()->toArray());
+                $this->smarty->assign('backofficeKey', $this->ifthenpayConfig['IFTHENPAY_BACKOFFICE_KEY']);
+                $this->smarty->assign('paymentMethods', (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']));
 
                 // commented out since it would quickly add records to table unnecessarily
                 // IfthenpayLogProcess::addLog('Payment order successfully withdrawn (hookdisplayAdminOrder).', IfthenpayLogProcess::INFO, $params['id_order']);
                 return $this->display(__FILE__, 'admin.tpl');
+
             } catch (\Throwable $th) {
                 IfthenpayLogProcess::addLog('Error getting admin order payment details (hookdisplayAdminOrder) possible assignment of payment method that is not yet saved - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, $params['id_order']);
                 return $this->displayError($this->l('An error occurred while getting payment method information, check logs for more details'));
@@ -943,11 +956,13 @@ class Ifthenpay extends PaymentModule
 
             $this->context->controller->addJS($this->_path . 'views/js/adminAccountSettingsPage' . $versioning . '.js');
             $this->context->controller->addCSS($this->_path . 'views/css/ifthenpayConfig' . $versioning . '.css');
+
             Media::addJsDef(
                 [
                     'controllerUrl' => $this->context->link->getAdminLink('AdminIfthenpayResetAccount'),
                 ]
             );
+
         } elseif (
             Tools::getValue('controller') === 'AdminOrders' &&
             $this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']
@@ -1075,5 +1090,53 @@ class Ifthenpay extends PaymentModule
             ConfigFactory::buildCancelPayshopOrder()->cancelOrder();
             ConfigFactory::buildCancelMultibancoOrder()->cancelOrder();
         }
+    }
+
+    public function hookActionProductCancel($params)
+    {
+        if (!$this->active || !Validate::isLoadedObject($params['order'])) {
+            return false;
+        }
+
+        $orderID = (int) $params['order']->id;
+        $payment = $params['order']->payment;
+        $router = $this->get('router');
+        $paymentData = IfthenpayModelFactory::build($payment)->getByOrderId((string) $orderID);
+
+        if ($payment == 'payshop' || $payment == 'multibanco') {
+
+            $type = 'warning';
+            $msg = 'It is not possible to proceed with the refund through '.$payment;
+
+            IfthenpayLogProcess::addLog($msg, IfthenpayLogProcess::WARNING, $orderID);
+            $this->get('session')->getFlashBag()->add($type, $msg);
+            Tools::redirectAdmin($router->generate('admin_orders_view', ['orderId'=> $orderID]));
+        }
+
+        $ifthenpayGateway = GatewayFactory::build('gateway');
+
+        $body = [
+            'backofficekey' => $this->ifthenpayConfig['IFTHENPAY_BACKOFFICE_KEY'],
+            'requestId' => $paymentData['transaction_id'],
+            'amount' => $params['cancel_amount']
+        ];
+
+        $response = $ifthenpayGateway->refund($body);
+
+        if($response['Code'] != 1) {
+
+            $type = 'error';
+            IfthenpayLogProcess::addLog($response['Message'], IfthenpayLogProcess::ERROR, $orderID);
+            $this->get('session')->getFlashBag()->add($type, $response['Message']);
+            Tools::redirectAdmin($router->generate('admin_orders_view', ['orderId'=> $orderID]));
+        }
+        else {
+            $new_history = PrestashopModelFactory::buildOrderHistory();
+            $new_history->id_order =  $orderID;
+            $new_history->changeIdOrderState((int) Configuration::get('PS_OS_REFUND'), $orderID);
+            $new_history->addWithemail();
+            IfthenpayLogProcess::addLog($response['Message'], IfthenpayLogProcess::INFO, $orderID);
+        }
+
     }
 }

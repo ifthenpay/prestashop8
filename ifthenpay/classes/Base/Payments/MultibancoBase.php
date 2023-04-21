@@ -49,7 +49,7 @@ class MultibancoBase extends PaymentBase
         $this->paymentModel->entidade = $this->paymentGatewayResultData->entidade;
         $this->paymentModel->referencia = $this->paymentGatewayResultData->referencia;
         $this->paymentModel->order_id = $this->paymentDefaultData->order->id;
-        $this->paymentModel->request_id = isset($this->paymentGatewayResultData->idPedido) ? $this->paymentGatewayResultData->idPedido : null;
+        $this->paymentModel->transaction_id = isset($this->paymentGatewayResultData->idPedido) ? $this->paymentGatewayResultData->idPedido : null;
         $this->paymentModel->validade = isset($this->paymentGatewayResultData->validade) ? $this->paymentGatewayResultData->validade : null;
         $this->paymentModel->status = 'pending';
         $this->paymentModel->save();

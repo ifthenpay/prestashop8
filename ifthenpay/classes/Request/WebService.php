@@ -62,20 +62,20 @@ class WebService
         return json_decode(json_encode(json_decode((string) $this->response->getBody())), true);
     }
 
-    public function postRequest($url, $data, $jsonContentType = false)
+    public function postRequest($url, $data, $json = false)
     {
         try {
             $this->response = $this->client->post(
                 $url,
-                $jsonContentType ? ['json' => $data] :
-                ['form_params' => $data]
+                $json ? ['json' => $data] : ['form_params' => $data]
             );
             return $this;
         } catch (\Throwable $th) {
             throw $th;
         }
     }
-
+    
+    // TODO: Verify if this method is deprecated
     public function getRequest($url, $data = [])
     {
         try {

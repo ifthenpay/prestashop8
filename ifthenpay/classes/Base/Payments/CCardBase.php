@@ -61,7 +61,7 @@ class CCardBase extends PaymentBase
 
     protected function saveToDatabase()
     {
-        $this->paymentModel->requestId = $this->paymentGatewayResultData->idPedido;
+        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->order_id = $this->paymentDefaultData->order->id;
         $this->paymentModel->status = 'pending';
         $this->paymentModel->save();
@@ -71,7 +71,7 @@ class CCardBase extends PaymentBase
     {
         /*$this->setPaymentModel('ccard', $this->paymentDataFromDb['id_ifthenpay_ccard']);
         $this->paymentModel->referencia = $this->paymentGatewayResultData->referencia;
-        $this->paymentModel->id_transacao = $this->paymentGatewayResultData->idPedido;
+        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->update();*/
     }
 

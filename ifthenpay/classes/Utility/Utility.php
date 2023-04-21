@@ -84,16 +84,8 @@ class Utility
     public static function getFormatedPrice($order)
     {
         $price = $order->getOrdersTotalPaid();
-        if (version_compare(_PS_VERSION_, '1.7.6', '<')) {
-            return \Tools::displayPrice(
-                $price,
-                PrestashopModelFactory::buildCurrency((string) $order->id_currency),
-                false
-            );
-        } else {
-            return \Context::getContext()->currentLocale
-                ->formatPrice($price, \Context::getContext()->currency->iso_code);
-        }
+        return \Context::getContext()
+                ->currentLocale->formatPrice($price, \Context::getContext()->currency->iso_code);
     }
 
     public static function getMailTranslationString($paymentType, $type = '')
@@ -108,8 +100,9 @@ class Utility
     public static function convertPriceToEuros($order)
     {
         $actualCurrency = PrestashopModelFactory::buildCurrency((string) $order->id_currency);
-        $ammount = $order->getOrdersTotalPaid();
-        //convert ammount to euros if currency is no euros
+        $amount = $order->getOrdersTotalPaid();
+
+        // Convert amount to EUR if currency is different
         if ($actualCurrency->iso_code !== 'EUR') {
             return \Tools::convertPriceFull(
                 $order->getOrdersTotalPaid(),
@@ -117,7 +110,7 @@ class Utility
                 PrestashopModelFactory::buildCurrency((string) \Currency::getIdByIsoCode('EUR'))
             );
         }
-        return $ammount;
+        return $amount;
     }
 
     public static function getClassName($class)
@@ -129,7 +122,6 @@ class Utility
     {
         $range = 50;
         $pages = ceil($rows / $range);
-
 
         $html = '';
         if ($pages) {
