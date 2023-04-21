@@ -79,7 +79,7 @@ Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a 
 
 Pode instalar o módulo pela primeira vez na sua plataforma Prestashop ou apenas atualizar este.
 
-* Para instalar pela primeira vez, ir à página [Github](https://github.com/ifthenpay/prestashop) do módulo e clicar na última "release";
+* Para instalar pela primeira vez, ir à página [Github](https://github.com/ifthenpay/prestashop8) do módulo e clicar na última "release";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/release.png)
 </br>
 
