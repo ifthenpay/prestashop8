@@ -49,7 +49,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.0.0';
+        $this->version = '8.0.1';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -179,9 +179,9 @@ class Ifthenpay extends PaymentModule
             $this->context->smarty->assign('updateIfthenpayModuleAvailable', $needUpgrade['upgrade'] ? true : false);
             $this->context->smarty->assign('upgradeModuleBulletPoints', $needUpgrade['upgrade'] ? $needUpgrade['body'] : '');
             $this->context->smarty->assign('moduleUpgradeUrlDownload', $needUpgrade['upgrade'] ? $needUpgrade['download'] : '');
-            $this->context->smarty->assign('spinnerUrl', $this->_path .'ifthenpay/views/img/oval.svg');
-            $this->context->smarty->assign('updateSystemIcon', $this->_path . 'views/img/system-update.png');
-            $this->context->smarty->assign('updatedModuleIcon', $this->_path . 'views/img/updated.png');
+            $this->context->smarty->assign('spinnerUrl', Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/oval.svg'));
+            $this->context->smarty->assign('updateSystemIcon', Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/system-update.png'));
+            $this->context->smarty->assign('updatedModuleIcon', Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/updated.png'));
             $this->context->smarty->assign('ifthenpayVersion', $this->version);
 
             return $formMessages . $this->context->smarty->fetch($this->local_path . 'views/templates/admin/config.tpl');

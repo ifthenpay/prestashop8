@@ -89,10 +89,10 @@ class IfthenpayAdminOrder extends IfthenpayStrategy
         
         $this->smartyDefaultData->setPaymentMethod($this->order->payment);
         $this->smartyDefaultData->setPaymentLogo( 
-            _PS_BASE_URL_.__PS_BASE_URI__ 
-            . 'modules/ifthenpay/views/img/' . $this->order->payment . '.png'
+            \Media::getMediaPath(
+                _PS_MODULE_DIR_ . 'ifthenpay/views/img/' . $this->order->payment . '.png'
+            )
         );
-
         $this->smartyDefaultData->setUpdateControllerUrl(\Context::getContext()->link->getAdminLink('Update') . $this->getControllersUrlParameters());
         $this->smartyDefaultData->setResendControllerUrl(\Context::getContext()->link->getAdminLink('Resend') . $this->getControllersUrlParameters());
         $this->smartyDefaultData->setRememberControllerUrl(\Context::getContext()->link->getAdminLink('Remember') . $this->getControllersUrlParameters());
