@@ -23,35 +23,34 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace PrestaShop\Module\Ifthenpay\Factory\Models;
+
+namespace PrestaShop\Module\Ifthenpay\Factory\Admin;
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayLog;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayCCard;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayMbway;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayPayshop;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayMultibanco;
+use PrestaShop\Module\Ifthenpay\Admin\Payments\MbwayAdminRefund;
+use PrestaShop\Module\Ifthenpay\Admin\Payments\PayshopAdminRefund;
 
-class IfthenpayModelFactory
+class AdminRefundFactory
 {
-    public static function build($type, $modelId = null)
-    {
+    public static function build(
+        $type,
+        $paymentDefaultData,
+        $ifthenpayModule,
+        $smartyDefaultData = null,
+        $emailDefaultData = null
+    ) {
         switch ($type) {
-            case 'multibanco':
-                return new IfthenpayMultibanco($modelId);
             case 'mbway':
-                return new IfthenpayMbway($modelId);
-            case 'payshop':
-                return new IfthenpayPayshop($modelId);
+                return new MbwayAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
             case 'ccard':
-                return new IfthenpayCCard($modelId);
-            case 'log':
-                return new IfthenpayLog($modelId);
+                return new MbwayAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+            case 'payshop':
+                return new PayshopAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
             default:
-                throw new \Exception("Unknown Payment Model Class");
+                throw new \Exception('Unknown Admin Remember class');
         }
     }
 }

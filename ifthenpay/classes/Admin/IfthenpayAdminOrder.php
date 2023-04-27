@@ -96,6 +96,7 @@ class IfthenpayAdminOrder extends IfthenpayStrategy
         $this->smartyDefaultData->setUpdateControllerUrl(\Context::getContext()->link->getAdminLink('Update') . $this->getControllersUrlParameters());
         $this->smartyDefaultData->setResendControllerUrl(\Context::getContext()->link->getAdminLink('Resend') . $this->getControllersUrlParameters());
         $this->smartyDefaultData->setRememberControllerUrl(\Context::getContext()->link->getAdminLink('Remember') . $this->getControllersUrlParameters());
+        $this->smartyDefaultData->setRefundControllerUrl(\Context::getContext()->link->getAdminLink('Refund') . $this->getControllersUrlParameters());
         $this->smartyDefaultData->setChooseNewPaymentMethodControllerUrl(\Context::getContext()->link->getAdminLink('AdminIfthenpayChooseNewPaymentMethod') . $this->getControllersUrlParameters());
         $this->smartyDefaultData->setMessage($this->message);
     }

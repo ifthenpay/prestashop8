@@ -77,6 +77,12 @@ class SmartyDataBuilder extends DataBuilder implements SmartyDataBuilderInterfac
         return $this;
     }
 
+    public function setRefundControllerUrl($value)
+    {
+        $this->data->refundControllerUrl = $value;
+        return $this;
+    }
+
     public function setResendMbwayNotificationControllerUrl($value)
     {
         $this->data->resendMbwayNotificationControllerUrl = $value;

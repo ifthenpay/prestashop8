@@ -40,6 +40,7 @@ interface SmartyDataBuilderInterface extends DataBuilderInterface
     public function setUpdateControllerUrl($value);
     public function setResendControllerUrl($value);
     public function setRememberControllerUrl($value);
+    public function setRefundControllerUrl($value);
     public function setMessage($value);
     public function setResendMbwayNotificationControllerUrl($value);
     public function setChooseNewPaymentMethodControllerUrl($value);

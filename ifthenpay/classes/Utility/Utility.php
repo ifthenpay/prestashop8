@@ -200,4 +200,10 @@ class Utility
         $strData .= '}';
         return $strData;
     }
+
+    public function GenerateSecurityCode() {
+        $rnd = rand(10000, 99999);
+        $code = strval($rnd);
+        return $code;
+    }
 }

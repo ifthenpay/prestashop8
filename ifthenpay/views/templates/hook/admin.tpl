@@ -142,7 +142,7 @@
 
 <script>
 $(document).ready(function(){
-	
+
 	let paymentsList = [];
 	{foreach $paymentMethods as $key => $value}
 		paymentsList.push('{$value}');
@@ -154,27 +154,48 @@ $(document).ready(function(){
 		refundBtn[0].addEventListener("click", function(event) {
 
 			if (paymentsList.includes('{$paymentMethod}')) {
+
+				document.getElementById("cancel_product_save").disabled = true;
 				const msgbox = document.getElementById("content-message-box");
 				msgbox.innerHTML="";
+
 				let msg = document.createElement("div");
-				let key = prompt("Please enter the backoffice key:");
+				let confirmRefund = confirm("Are you sure you want to make a refund? If so, you will receive a security code via email.");
 
-				if (key != '') {
+				if (confirmRefund) {
 
-					if (key != '{$backofficeKey}') {
+						$.ajax({
+							url: '{$refundControllerUrl}',
+							type: 'GET',
+							headers: { "cache-control": "no-cache" },
+							success: function(data) {
+								
+								let securityCode = prompt("Please enter the security code from the email sent:");
 
-						document.getElementById("cancel_product_save").disabled = true;
-						msg.innerHTML = "<div class='alert alert-danger'>Invalid backoffice Key</div>";
-						msgbox.appendChild(msg);
+								if (securityCode != '') {
 
-					} else {
+									if (securityCode != JSON.parse(data).code) {
 
-						document.getElementById("cancel_product_save").disabled = false;
-						msg.innerHTML = "<div class='alert alert-success'>Backoffice Key was inserted successfully</div>";
-						msgbox.appendChild(msg);
-					}
+										msg.innerHTML = "<div class='alert alert-danger'>Invalid backoffice Key</div>";
+										msgbox.appendChild(msg);
 
+									} else {
+
+										document.getElementById("cancel_product_save").disabled = false;
+										msg.innerHTML = "<div class='alert alert-success'>Backoffice Key was inserted successfully</div>";
+										msgbox.appendChild(msg);
+
+									}
+
+								}
+								
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								alert('Ocorreu um erro: ' + textStatus + ', ' + errorThrown);
+							}
+						});
 				}
+
 			}
 		});
 

@@ -62,6 +62,7 @@ class Ifthenpay extends PaymentModule
             'update',
             'remember',
             'resend',
+            'refund',
             'resendMbwayNotification',
             'updateIfthenpayUserAccount',
             'adminIfthenpayChooseNewPaymentMethod',
@@ -927,10 +928,7 @@ class Ifthenpay extends PaymentModule
                     $message
                 )->execute();
                 
-                $array = (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']);
-
                 $this->smarty->assign($ifthenpayAdminOrder->getSmartyVariables()->toArray());
-                $this->smarty->assign('backofficeKey', $this->ifthenpayConfig['IFTHENPAY_BACKOFFICE_KEY']);
                 $this->smarty->assign('paymentMethods', (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']));
 
                 // commented out since it would quickly add records to table unnecessarily
@@ -989,7 +987,6 @@ class Ifthenpay extends PaymentModule
 
         $activePmArray = [];
         foreach ($pmArray as $pm) {
-
 
             if (Configuration::get('IFTHENPAY_' . strtoupper($pm))) {
 
@@ -1104,7 +1101,7 @@ class Ifthenpay extends PaymentModule
         $paymentData = IfthenpayModelFactory::build($payment)->getByOrderId((string) $orderID);
 
         if ($payment == 'payshop' || $payment == 'multibanco') {
-
+            
             $type = 'warning';
             $msg = 'It is not possible to proceed with the refund through '.$payment;
 
@@ -1139,4 +1136,5 @@ class Ifthenpay extends PaymentModule
         }
 
     }
+
 }

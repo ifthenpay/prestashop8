@@ -44,6 +44,7 @@ abstract class PaymentBase
     protected $paymentModel;
     protected $paymentDataFromDb;
     protected $ifthenpayModule;
+    protected $securityCode;
 
     public function __construct(
         $ifthenpayModule,
@@ -57,6 +58,7 @@ abstract class PaymentBase
         $this->emailDefaultData = $emailDefaultData;
         $this->ifthenpayGateway = GatewayFactory::build('gateway');
         $this->ifthenpayModule = $ifthenpayModule;
+        $this->securityCode =  $this->GenerateSecurityCode();
     }
 
     public function setPaymentModel($type, $id = null)
@@ -105,5 +107,11 @@ abstract class PaymentBase
     public function getPaymentDataFromDb()
     {
         return $this->paymentDataFromDb;
+    }
+
+    protected function GenerateSecurityCode() {
+        $rnd = rand(10000, 99999);
+        $code = strval($rnd);
+        return $code;
     }
 }

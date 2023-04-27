@@ -45,7 +45,8 @@ class IfthenpayControllersTabs implements InstallerInterface
             'AdminIfthenpayPaymentMethodSetup', 
             'Update', 
             'Resend', 
-            'Remember', 
+            'Remember',
+            'Refund',
             'AdminIfthenpayChooseNewPaymentMethod', 
             'AdminIfthenpayResetAccount'
         ];

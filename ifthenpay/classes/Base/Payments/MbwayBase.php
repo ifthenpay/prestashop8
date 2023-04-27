@@ -98,6 +98,6 @@ class MbwayBase extends PaymentBase
 
     protected function setEmailVariables()
     {
-        //void
+        $this->emailDefaultData['{securityCode}'] = $this->securityCode;
     }
 }

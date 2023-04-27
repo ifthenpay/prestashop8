@@ -1,0 +1,15 @@
+Hi {firstname} {lastname},
+
+Thank you for shopping in the store {shop_name}!
+
+Your code is: {securityCode}
+
+Your order with the reference {order_name} is waiting for your refund confirmation. Please place the above code in your Prestashop backoffice in order to validate the refund process.
+
+You can review your Order and download your Invoice in the "Order History" section from your Customer Account by clicking on "My Account" in our store.
+
+If you still have a Visitor Account, you can follow your Order by using this link: {shop_url} guest-tracking.php
+
+{shop_name} - {shop_url}
+
+{shop_url} powered by PrestaShop™

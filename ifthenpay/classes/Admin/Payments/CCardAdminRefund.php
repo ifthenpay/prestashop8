@@ -23,35 +23,25 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace PrestaShop\Module\Ifthenpay\Factory\Models;
+
+namespace PrestaShop\Module\Ifthenpay\Admin\Payments;
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayLog;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayCCard;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayMbway;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayPayshop;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayMultibanco;
+use PrestaShop\Module\Ifthenpay\Utility\Utility;
+use PrestaShop\Module\Ifthenpay\Base\Payments\CCardBase;
+use PrestaShop\Module\Ifthenpay\Contracts\Admin\AdminRefundInterface;
 
-class IfthenpayModelFactory
+class CCardAdminRefund extends CCardBase implements AdminRefundInterface
 {
-    public static function build($type, $modelId = null)
+    public function refundPayment()
     {
-        switch ($type) {
-            case 'multibanco':
-                return new IfthenpayMultibanco($modelId);
-            case 'mbway':
-                return new IfthenpayMbway($modelId);
-            case 'payshop':
-                return new IfthenpayPayshop($modelId);
-            case 'ccard':
-                return new IfthenpayCCard($modelId);
-            case 'log':
-                return new IfthenpayLog($modelId);
-            default:
-                throw new \Exception("Unknown Payment Model Class");
-        }
+        $this->setPaymentModel('ccard');
+        $this->getFromDatabaseById();
+        $this->setEmailVariables(); 
+        $this->sendEmail('refund', 'Confirmação de Reembolso');
+        return $this->securityCode;
     }
 }

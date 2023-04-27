@@ -32,8 +32,9 @@ if (!defined('_PS_VERSION_')) {
 use PrestaShop\Module\Ifthenpay\Admin\IfthenpayAdminOrder;
 use PrestaShop\Module\Ifthenpay\Admin\IfthenpayAdminResend;
 use PrestaShop\Module\Ifthenpay\Admin\IfthenpayAdminUpdate;
-use PrestaShop\Module\Ifthenpay\Admin\IfthenpayOrderDetail;
 use PrestaShop\Module\Ifthenpay\Admin\IfthenpayAdminRemember;
+use PrestaShop\Module\Ifthenpay\Admin\IfthenpayAdminRefund;
+use PrestaShop\Module\Ifthenpay\Admin\IfthenpayOrderDetail;
 use PrestaShop\Module\Ifthenpay\Payments\Data\IfthenpayPaymentReturn;
 
 class IfthenpayStrategyFactory
@@ -51,6 +52,8 @@ class IfthenpayStrategyFactory
                 return new IfthenpayAdminResend($order, $ifthenpayModule);
             case 'ifthenpayAdminUpdate':
                 return new IfthenpayAdminUpdate($order, $ifthenpayModule);
+            case 'ifthenpayAdminRefund':
+                return new IfthenpayAdminRefund($order, $ifthenpayModule);
             case 'ifthenpayOrderDetail':
                 return new IfthenpayOrderDetail($order, $ifthenpayModule);
             default:

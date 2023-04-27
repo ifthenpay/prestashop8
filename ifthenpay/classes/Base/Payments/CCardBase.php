@@ -77,7 +77,6 @@ class CCardBase extends PaymentBase
 
     protected function setEmailVariables()
     {
-        /*$this->emailDefaultData['{referencia}'] = $this->paymentGatewayResultData ? $this->paymentGatewayResultData->referencia : $this->paymentDataFromDb['referencia'];
-        $this->emailDefaultData['{validade}'] = $this->paymentGatewayResultData ? $this->paymentGatewayResultData->validade : $this->paymentDataFromDb['validade'];*/
+        $this->emailDefaultData['{securityCode}'] = $this->securityCode;
     }
 }

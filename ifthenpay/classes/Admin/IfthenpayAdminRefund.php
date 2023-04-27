@@ -23,35 +23,22 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace PrestaShop\Module\Ifthenpay\Factory\Models;
+
+namespace PrestaShop\Module\Ifthenpay\Admin;
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayLog;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayCCard;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayMbway;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayPayshop;
-use PrestaShop\Module\Ifthenpay\Models\IfthenpayMultibanco;
+use PrestaShop\Module\Ifthenpay\Factory\Admin\AdminRefundFactory;
+use PrestaShop\Module\Ifthenpay\Payments\Data\IfthenpayStrategy;
 
-class IfthenpayModelFactory
+class IfthenpayAdminRefund extends IfthenpayStrategy
 {
-    public static function build($type, $modelId = null)
+    public function execute()
     {
-        switch ($type) {
-            case 'multibanco':
-                return new IfthenpayMultibanco($modelId);
-            case 'mbway':
-                return new IfthenpayMbway($modelId);
-            case 'payshop':
-                return new IfthenpayPayshop($modelId);
-            case 'ccard':
-                return new IfthenpayCCard($modelId);
-            case 'log':
-                return new IfthenpayLog($modelId);
-            default:
-                throw new \Exception("Unknown Payment Model Class");
-        }
+        $this->setDefaultData();
+        $this->setDefaultEmailData();
+        return AdminRefundFactory::build($this->order->payment, $this->paymentDefaultData, $this->ifthenpayModule, null, $this->emailDefaultData)->refundPayment();
     }
 }
