@@ -201,7 +201,7 @@ class Utility
         return $strData;
     }
 
-    public function GenerateSecurityCode() {
+    public static function GenerateSecurityCode() {
         $rnd = rand(10000, 99999);
         $code = strval($rnd);
         return $code;

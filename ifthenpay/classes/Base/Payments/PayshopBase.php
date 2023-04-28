@@ -68,6 +68,5 @@ class PayshopBase extends PaymentBase
         }
 
         $this->emailDefaultData['{validade}'] = $validade;
-        $this->emailDefaultData['{securityCode}'] = $this->securityCode;
     }
 }

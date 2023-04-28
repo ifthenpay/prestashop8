@@ -44,9 +44,8 @@ class RefundController extends ModuleAdminController
 
             $response = IfthenpayStrategyFactory::build('ifthenpayAdminRefund', $order, $this->module)->execute();
             IfthenpayLogProcess::addLog('Refund notification sent with success', IfthenpayLogProcess::INFO, $order->id);
-            // Utility::setPrestashopCookie('success', $this->module->l('Refund notification sent with success!', pathinfo(__FILE__)['filename']));
             
-            // Return Security Code to AJAX success
+            /* Return Security Code to AJAX success */
             $data = array('code' => $response);
             die(json_encode($data));
 
@@ -54,7 +53,7 @@ class RefundController extends ModuleAdminController
             IfthenpayLogProcess::addLog('Error sending refund notification - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, $order->id);
             Utility::setPrestashopCookie('error', $this->module->l('Error sending refund notification!', pathinfo(__FILE__)['filename']));
         }
-        
+
         Utility::redirectAdminOrder($order);
     }
 }

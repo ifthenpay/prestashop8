@@ -30,7 +30,6 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Utility\Utility;
 use PrestaShop\Module\Ifthenpay\Base\Payments\CCardBase;
 use PrestaShop\Module\Ifthenpay\Contracts\Admin\AdminRefundInterface;
 

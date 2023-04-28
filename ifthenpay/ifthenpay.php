@@ -927,12 +927,17 @@ class Ifthenpay extends PaymentModule
                     $this,
                     $message
                 )->execute();
-                
+
                 $this->smarty->assign($ifthenpayAdminOrder->getSmartyVariables()->toArray());
                 $this->smarty->assign('paymentMethods', (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']));
-
-                // commented out since it would quickly add records to table unnecessarily
-                // IfthenpayLogProcess::addLog('Payment order successfully withdrawn (hookdisplayAdminOrder).', IfthenpayLogProcess::INFO, $params['id_order']);
+                $this->smarty->assign('refundNotAvailable', $this->l('The partial refund feature is not available for '));
+                $this->smarty->assign('confirmRefund', $this->l('Are you sure you want to make a refund? If so, you will receive a security code via email.'));
+                $this->smarty->assign('refundNotification', $this->l('Refund notification sent with success!'));
+                $this->smarty->assign('promptCode', $this->l('Please enter the security code from the email sent:'));
+                $this->smarty->assign('timeExceeded', $this->l('the validation time has been exceeded!'));
+                $this->smarty->assign('invalidCode', $this->l('Invalid security code'));
+                $this->smarty->assign('validationSuccessful', $this->l('Security code was inserted successfully! You can now proceed with the refund.'));
+                
                 return $this->display(__FILE__, 'admin.tpl');
 
             } catch (\Throwable $th) {
@@ -1100,31 +1105,30 @@ class Ifthenpay extends PaymentModule
         $router = $this->get('router');
         $paymentData = IfthenpayModelFactory::build($payment)->getByOrderId((string) $orderID);
 
-        if ($payment == 'payshop' || $payment == 'multibanco') {
+        if ($payment == 'multibanco' || $payment == 'payshop') {
             
             $type = 'warning';
-            $msg = 'It is not possible to proceed with the refund through '.$payment;
+            $msg = $this->l('The partial refund feature is not available for ').$payment;
 
             IfthenpayLogProcess::addLog($msg, IfthenpayLogProcess::WARNING, $orderID);
             $this->get('session')->getFlashBag()->add($type, $msg);
             Tools::redirectAdmin($router->generate('admin_orders_view', ['orderId'=> $orderID]));
         }
 
-        $ifthenpayGateway = GatewayFactory::build('gateway');
-
         $body = [
             'backofficekey' => $this->ifthenpayConfig['IFTHENPAY_BACKOFFICE_KEY'],
             'requestId' => $paymentData['transaction_id'],
             'amount' => $params['cancel_amount']
         ];
-
+        
+        $ifthenpayGateway = GatewayFactory::build('gateway');
         $response = $ifthenpayGateway->refund($body);
 
         if($response['Code'] != 1) {
 
             $type = 'error';
             IfthenpayLogProcess::addLog($response['Message'], IfthenpayLogProcess::ERROR, $orderID);
-            $this->get('session')->getFlashBag()->add($type, $response['Message']);
+            $this->get('session')->getFlashBag()->add($type, $this->l('An error occurred during the request to the Ifthenpay API Gateway. We were unable to refund the intended payment.'));
             Tools::redirectAdmin($router->generate('admin_orders_view', ['orderId'=> $orderID]));
         }
         else {

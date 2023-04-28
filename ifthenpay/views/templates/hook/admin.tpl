@@ -141,65 +141,79 @@
 </div>
 
 <script>
-$(document).ready(function(){
+	{* PARTIAL REFUND METHOD *}
+	$(document).ready(function(){
 
-	let paymentsList = [];
-	{foreach $paymentMethods as $key => $value}
-		paymentsList.push('{$value}');
-	{/foreach}
+		let paymentsList = [];
+		{foreach $paymentMethods as $key => $value}
+			paymentsList.push('{$value}');
+		{/foreach}
 
-	const refundBtn = document.getElementsByClassName('partial-refund-display');
-	if (refundBtn.length === 1) {
+		const refundBtn = document.getElementsByClassName('partial-refund-display');
+		if (refundBtn.length === 1) {
 
-		refundBtn[0].addEventListener("click", function(event) {
+			refundBtn[0].addEventListener("click", function(event) {
 
-			if (paymentsList.includes('{$paymentMethod}')) {
+				if (paymentsList.includes('{$paymentMethod}')) {
 
-				document.getElementById("cancel_product_save").disabled = true;
-				const msgbox = document.getElementById("content-message-box");
-				msgbox.innerHTML="";
+					document.getElementById("cancel_product_save").disabled = true;
+					const msgbox = document.getElementById("content-message-box");
 
-				let msg = document.createElement("div");
-				let confirmRefund = confirm("Are you sure you want to make a refund? If so, you will receive a security code via email.");
+					{if $paymentMethod == 'mbway' || $paymentMethod == 'ccard'}
 
-				if (confirmRefund) {
+						let confirmRefund = confirm('{$confirmRefund}');
+						if (confirmRefund) {
 
-						$.ajax({
-							url: '{$refundControllerUrl}',
-							type: 'GET',
-							headers: { "cache-control": "no-cache" },
-							success: function(data) {
-								
-								let securityCode = prompt("Please enter the security code from the email sent:");
+							$.ajax({
+								url: '{$refundControllerUrl}',
+								type: 'GET',
+								headers: { "cache-control": "no-cache" },
+								success: function(data) {
+									const initialDate = Date.now();
+									const timeLimit = 5 * 60 * 1000;
 
-								if (securityCode != '') {
 
-									if (securityCode != JSON.parse(data).code) {
+									let msg = document.createElement("div");
+									msg.innerHTML = "<div class='alert alert-success'>{$refundNotification}</div>";
+									msgbox.appendChild(msg);
 
-										msg.innerHTML = "<div class='alert alert-danger'>Invalid backoffice Key</div>";
-										msgbox.appendChild(msg);
+									setTimeout(function() {
 
-									} else {
+										let securityCode = prompt("{$promptCode}");
 
-										document.getElementById("cancel_product_save").disabled = false;
-										msg.innerHTML = "<div class='alert alert-success'>Backoffice Key was inserted successfully</div>";
-										msgbox.appendChild(msg);
+										if (securityCode != '') {
 
-									}
+											let timeExceeded = (Date.now() - initialDate > timeLimit) ? "{$timeExceeded}" : "";
 
+											if ((securityCode != JSON.parse(data).code) || (Date.now() - initialDate > timeLimit)) {
+
+												let msg = document.createElement("div");
+												msg.innerHTML = "<div class='alert alert-danger'>" + "{$invalidCode}" + "{$timeExceeded}" + "</div>";
+												msgbox.appendChild(msg);
+
+											} else {
+
+												document.getElementById("cancel_product_save").disabled = false;
+												let msg = document.createElement("div");
+												msg.innerHTML = "<div class='alert alert-success'>{$validationSuccessful}</div>";
+												msgbox.appendChild(msg);
+
+											}
+										}
+									}, 500)
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+									alert('Ocorreu um erro: ' + textStatus + ', ' + errorThrown);
 								}
-								
-							},
-							error: function(jqXHR, textStatus, errorThrown) {
-								alert('Ocorreu um erro: ' + textStatus + ', ' + errorThrown);
-							}
-						});
+							});
+						}
+					{else}
+						let msg = document.createElement("div");
+						msg.innerHTML = "<div class='alert alert-warning'>" + "{$refundNotAvailable}" + "{$paymentMethod}" + "</div>";
+						msgbox.appendChild(msg);
+					{/if}
 				}
-
-			}
-		});
-
-	}
-
-});
+			});
+		}
+	});
 </script>

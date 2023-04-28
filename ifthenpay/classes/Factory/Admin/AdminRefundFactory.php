@@ -31,7 +31,7 @@ if (!defined('_PS_VERSION_')) {
 }
 
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MbwayAdminRefund;
-use PrestaShop\Module\Ifthenpay\Admin\Payments\PayshopAdminRefund;
+use PrestaShop\Module\Ifthenpay\Admin\Payments\CCardAdminRefund;
 
 class AdminRefundFactory
 {
@@ -46,11 +46,9 @@ class AdminRefundFactory
             case 'mbway':
                 return new MbwayAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
             case 'ccard':
-                return new MbwayAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
-            case 'payshop':
-                return new PayshopAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+                return new CCardAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
             default:
-                throw new \Exception('Unknown Admin Remember class');
+                throw new \Exception('Unknown Admin Refund class');
         }
     }
 }

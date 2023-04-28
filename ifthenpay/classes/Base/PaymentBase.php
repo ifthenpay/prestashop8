@@ -32,6 +32,7 @@ if (!defined('_PS_VERSION_')) {
 use PrestaShop\Module\Ifthenpay\Factory\Builder\BuilderFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Payment\GatewayFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Models\IfthenpayModelFactory;
+use PrestaShop\Module\Ifthenpay\Utility\Utility;
 
 abstract class PaymentBase
 {
@@ -58,7 +59,7 @@ abstract class PaymentBase
         $this->emailDefaultData = $emailDefaultData;
         $this->ifthenpayGateway = GatewayFactory::build('gateway');
         $this->ifthenpayModule = $ifthenpayModule;
-        $this->securityCode =  $this->GenerateSecurityCode();
+        $this->securityCode =  Utility::GenerateSecurityCode();
     }
 
     public function setPaymentModel($type, $id = null)
@@ -109,9 +110,4 @@ abstract class PaymentBase
         return $this->paymentDataFromDb;
     }
 
-    protected function GenerateSecurityCode() {
-        $rnd = rand(10000, 99999);
-        $code = strval($rnd);
-        return $code;
-    }
 }
