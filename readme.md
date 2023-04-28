@@ -34,7 +34,6 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Sandbox Mode](#Sandbox-Mode)
   * [Callback](#Callback)
   * [Test Callback](#Test-Callback)
-  * [Known bug and fixes](#Known-bug-and-fixes)
 
 
 [7. Customer usage experience](#Customer-usage-experience)
