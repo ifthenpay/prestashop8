@@ -33,7 +33,6 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Modo Sandbox](#Modo-Sandbox)
   * [Callback](#Callback)
   * [Testar Callback](#Testar-Callback)
-  * [Bugs conhecidos e soluções](#Bugs-conhecidos-e-soluções)
 
 
 [7. Experiência do Utilizador Consumidor](#Experiência-do-Utilizador-Consumidor)
