@@ -85,7 +85,6 @@ class IfthenpayConfiguration implements InstallerInterface
                         \Configuration::deleteByName('IFTHENPAY_MULTIBANCO_URL_CALLBACK');
                         \Configuration::deleteByName('IFTHENPAY_MULTIBANCO_CHAVE_ANTI_PHISHING');
                         \Configuration::deleteByName('IFTHENPAY_MULTIBANCO_CANCEL_ORDER_AFTER_TIMEOUT');
-
                         break;
                     case 'mbway':
                         \Configuration::deleteByName('IFTHENPAY_MBWAY_KEY');
@@ -94,7 +93,7 @@ class IfthenpayConfiguration implements InstallerInterface
                         \Configuration::deleteByName('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT');
                         \Configuration::deleteByName('IFTHENPAY_MBWAY_SHOW_COUNTDOWN');
                         \Configuration::deleteByName('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT');
-
+                        \Configuration::deleteByName('IFTHENPAY_MBWAY_REFUND');
                         break;
                     case 'payshop':
                         \Configuration::deleteByName('IFTHENPAY_PAYSHOP_KEY');
@@ -106,6 +105,7 @@ class IfthenpayConfiguration implements InstallerInterface
                     case 'ccard':
                         \Configuration::deleteByName('IFTHENPAY_CCARD_KEY');
                         \Configuration::deleteByName('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT');
+                        \Configuration::deleteByName('IFTHENPAY_CCARD_REFUND');
                         break;
                     default:
                 }

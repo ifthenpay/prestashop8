@@ -1,0 +1,7 @@
+O seu código é: {securityCode}
+
+Este código irá estar ativo durante 10 minutos. Se não o inserir na página de Reembolso, que acabou de visitar, dentro desse espaço de tempo, poderá ter que reiniciar o processo de reembolso.
+
+Se não reconhecer ou esperar este e-mail, poderá sempre relatar comportamento suspeito à nossa equipa de suporte.
+
+Por favor não responda a este email. O endereço de envio serve apenas para transmitir mensagens automáticas.

@@ -36,19 +36,17 @@ use PrestaShop\Module\Ifthenpay\Forms\ConfigForm;
 class PayshopConfigForm extends ConfigForm
 {
     protected $paymentMethod = 'payshop';
-
-    protected $options = []; // array of entity options for GUI select
-
-
+    protected $options = [];    // array of entity options for GUI select
 
     public function getForm()
     {
         // assign template variables
-        $this->setSmartyVariables();
-
+        $this->setSmartyVariables();    
         $this->setFormParent();
-        $this->setEntityOptions(); // sets the $this->options
-        $this->addActivateCallbackToForm();
+
+        // sets the $this->options
+        $this->setEntityOptions();
+                
         $this->form['form']['input'][] = [
             'type' => 'select',
             'label' => $this->ifthenpayModule->l('Payshop key', pathinfo(__FILE__)['filename']),
@@ -61,12 +59,9 @@ class PayshopConfigForm extends ConfigForm
                 'name' => 'name'
             ]
         ];
-        $this->form['form']['input'][] = [
-            'type' => 'text',
-            'label' => $this->ifthenpayModule->l('Deadline', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_PAYSHOP_VALIDADE',
-            'desc' => $this->ifthenpayModule->l('Choose the number of days (from 1 to 99), leave empty if you do not want expiration.', pathinfo(__FILE__)['filename'])
-        ];
+
+        // activate auto callback
+        $this->addActivateCallbackToForm();
 
         // cancel after deadline
         $this->form['form']['input'][] = [
@@ -79,14 +74,21 @@ class PayshopConfigForm extends ConfigForm
                 [
                     'id' => 'active_on',
                     'value' => true,
-                    'label' => $this->ifthenpayModule->l('Activate', pathinfo(__FILE__)['filename'])
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
                 ],
                 [
                     'id' => 'active_off',
                     'value' => false,
-                    'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
                 ]
             ]
+        ];
+
+        $this->form['form']['input'][] = [
+            'type' => 'text',
+            'label' => $this->ifthenpayModule->l('Deadline', pathinfo(__FILE__)['filename']),
+            'name' => 'IFTHENPAY_PAYSHOP_VALIDADE',
+            'desc' => $this->ifthenpayModule->l('Choose the number of days (from 1 to 99), leave empty if you do not want expiration.', pathinfo(__FILE__)['filename'])
         ];
 
         // add min max and country form elements

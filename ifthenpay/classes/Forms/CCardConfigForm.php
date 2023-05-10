@@ -36,9 +36,7 @@ use PrestaShop\Module\Ifthenpay\Forms\ConfigForm;
 class CCardConfigForm extends ConfigForm
 {
     protected $paymentMethod = 'ccard';
-
     protected $options = []; // array of entity options for GUI select
-
 
     /**
      * "gets" the form into object... it sets the form that will display in the payment method configuration
@@ -49,8 +47,9 @@ class CCardConfigForm extends ConfigForm
     {
         // assign template variables
         $this->setSmartyVariables();
-
         $this->setFormParent();
+
+        // sets the $this->options
         $this->setEntityOptions();
 
         $this->form['form']['input'][] = [
@@ -71,18 +70,39 @@ class CCardConfigForm extends ConfigForm
             'type' => 'switch',
             'label' => $this->ifthenpayModule->l('Cancel CCard Order', pathinfo(__FILE__)['filename']),
             'name' => 'IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT',
-            'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page.'),
+            'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page.', pathinfo(__FILE__)['filename']),
             'is_bool' => true,
             'values' => [
                 [
                     'id' => 'active_on',
                     'value' => true,
-                    'label' => $this->ifthenpayModule->l('Activate', pathinfo(__FILE__)['filename'])
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
                 ],
                 [
                     'id' => 'active_off',
                     'value' => false,
-                    'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
+                ]
+            ]
+        ];
+
+        // activate partial refund method
+        $this->form['form']['input'][] = [
+            'type' => 'switch',
+            'label' => $this->ifthenpayModule->l('Partial Refund', pathinfo(__FILE__)['filename']),
+            'name' => 'IFTHENPAY_CCARD_REFUND',
+            'desc' => $this->ifthenpayModule->l('Allows the admin to make partial refunds directly to the Ifthenpay Payment Gateway.', pathinfo(__FILE__)['filename']),
+            'is_bool' => true,
+            'values' => [
+                [
+                    'id' => 'active_on',
+                    'value' => true,
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
+                ],
+                [
+                    'id' => 'active_off',
+                    'value' => false,
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
                 ]
             ]
         ];
@@ -101,6 +121,7 @@ class CCardConfigForm extends ConfigForm
         return array_merge(parent::getCommonConfigFormValues(), [
             'IFTHENPAY_CCARD_KEY' => \Configuration::get('IFTHENPAY_CCARD_KEY'),
             'IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'),
+            'IFTHENPAY_CCARD_REFUND' => \Configuration::get('IFTHENPAY_CCARD_REFUND')
         ]);
     }
 
@@ -133,7 +154,7 @@ class CCardConfigForm extends ConfigForm
             // save specific values
             \Configuration::updateValue('IFTHENPAY_CCARD_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
             \Configuration::updateValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'));
-
+            \Configuration::updateValue('IFTHENPAY_CCARD_REFUND', \Tools::getValue('IFTHENPAY_CCARD_REFUND'));
             $this->updatePayMethodCommonValues();
 
             // response msg after submiting form
@@ -142,7 +163,7 @@ class CCardConfigForm extends ConfigForm
             return true;
 
         } else {
-            
+
             return false;
         }
     }
@@ -176,5 +197,6 @@ class CCardConfigForm extends ConfigForm
         $this->deleteCommonConfigValues();
         \Configuration::deleteByName('IFTHENPAY_CCARD_KEY');
         \Configuration::deleteByName('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT');
+        \Configuration::deleteByName('IFTHENPAY_CCARD_REFUND');
     }
 }

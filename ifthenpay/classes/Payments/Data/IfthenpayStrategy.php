@@ -38,10 +38,10 @@ class IfthenpayStrategy
     protected $paymentDefaultData;
     protected $smartyDefaultData;
     protected $emailDefaultData;
+    protected $emailAdminData;
     protected $order;
     protected $paymentValueFormated;
     protected $ifthenpayModule;
-
 
     public function __construct($order, $ifthenpayModule)
     {
@@ -60,6 +60,14 @@ class IfthenpayStrategy
         $this->paymentDefaultData->setCustomer(PrestashopModelFactory::buildCustomer((string) $this->order->id_customer));
     }
 
+    protected function setAdminData()
+    {
+        $context = \Context::getContext();
+        $this->paymentDefaultData->setOrder($this->order);
+        $this->paymentDefaultData->setPaymentMethod($this->order->payment);
+        $this->paymentDefaultData->setCustomer(PrestashopModelFactory::buildEmployee((string) $context->employee->id));
+    }
+
     protected function setDefaultEmailData()
     {
         $data = $this->paymentDefaultData->getData();
@@ -67,5 +75,15 @@ class IfthenpayStrategy
         $this->emailDefaultData['{firstname}'] = $data->customer->firstname;
         $this->emailDefaultData['{lastname}'] = $data->customer->lastname;
         $this->emailDefaultData['{total_paid}'] = $this->paymentValueFormated;
+    }
+
+    protected function setAdminEmailData()
+    {
+        $context = \Context::getContext();
+        $data = $this->paymentDefaultData->getData();
+        $this->emailAdminData['{order_name}'] = $data->order->reference;
+        $this->emailAdminData['{firstname}'] = $context->employee->firstname;
+        $this->emailAdminData['{lastname}'] = $context->employee->lastname;
+        $this->emailAdminData['{total_paid}'] = $this->paymentValueFormated;
     }
 }

@@ -90,10 +90,13 @@ class Utility
 
     public static function getMailTranslationString($paymentType, $type = '')
     {
-        if ($type === 'details') {
-            return \Context::getContext()->language->iso_code === 'pt' ? 'Dados de pagamento ' . ucfirst($paymentType) : 'Payment details for ' . ucfirst($paymentType);
-        } else {
-            return \Context::getContext()->language->iso_code === 'pt' ? 'Pagamento em falta...' : 'Payment missing...';
+        switch ($type) {
+            case 'refund':
+                return \Context::getContext()->language->iso_code === 'pt' ? 'Confirmação de Reembolso ' . ucfirst($paymentType) : 'Refund Confirmation for ' . ucfirst($paymentType);
+            case 'details':
+                return \Context::getContext()->language->iso_code === 'pt' ? 'Dados de pagamento ' . ucfirst($paymentType) : 'Payment details for ' . ucfirst($paymentType);
+            default:
+                return \Context::getContext()->language->iso_code === 'pt' ? 'Pagamento em falta...' : 'Payment missing...';
         }
     }
 

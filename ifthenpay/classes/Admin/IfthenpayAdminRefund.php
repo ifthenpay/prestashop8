@@ -38,7 +38,7 @@ class IfthenpayAdminRefund extends IfthenpayStrategy
     public function execute()
     {
         $this->setDefaultData();
-        $this->setDefaultEmailData();
-        return AdminRefundFactory::build($this->order->payment, $this->paymentDefaultData, $this->ifthenpayModule, null, $this->emailDefaultData)->refundPayment();
+        $this->setAdminEmailData();
+        return AdminRefundFactory::build($this->order->payment, $this->paymentDefaultData, $this->ifthenpayModule, null, $this->emailAdminData)->refundPayment();
     }
 }

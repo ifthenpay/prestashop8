@@ -36,7 +36,6 @@ use PrestaShop\Module\Ifthenpay\Utility\Utility;
 class MultibancoConfigForm extends ConfigForm
 {
     protected $paymentMethod = 'multibanco';
-
     protected $subEntityOptions = []; // array of subentity options for GUI select
     protected $options = []; // array of entity options for GUI select
 
@@ -50,11 +49,11 @@ class MultibancoConfigForm extends ConfigForm
     {
         // assign template variables
         $this->setSmartyVariables();
-
         $this->setFormParent();
+
+        // sets the $this->options
         $this->setEntityOptions();
         $this->setSubEntityOptions();
-        $this->addActivateCallbackToForm();
 
         // ENTITY
         $this->form['form']['input'][] = [
@@ -109,15 +108,18 @@ class MultibancoConfigForm extends ConfigForm
                 [
                     'id' => 'active_on',
                     'value' => true,
-                    'label' => $this->ifthenpayModule->l('Activate', pathinfo(__FILE__)['filename'])
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
                 ],
                 [
                     'id' => 'active_off',
                     'value' => false,
-                    'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
                 ]
             ]
         ];
+    
+        // activate auto callback
+        $this->addActivateCallbackToForm();
 
         // add min max and country form elements
         $this->addMinMaxFieldsToForm();

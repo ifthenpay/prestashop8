@@ -36,10 +36,7 @@ use PrestaShop\Module\Ifthenpay\Forms\ConfigForm;
 class MbwayConfigForm extends ConfigForm
 {
     protected $paymentMethod = 'mbway';
-
     protected $options = []; // array of entity options for GUI select
-
-
 
     /**
      * "gets" the form into object... it sets the form that will display in the payment method configuration
@@ -50,51 +47,11 @@ class MbwayConfigForm extends ConfigForm
     {
         // assign template variables
         $this->setSmartyVariables();
-
         $this->setFormParent();
-        $this->setEntityOptions();
-        $this->addActivateCallbackToForm();
 
-        // cancel after timer of 30 minutes
-        $this->form['form']['input'][] = [
-            'type' => 'switch',
-            'label' => $this->ifthenpayModule->l('Cancel MB WAY Order', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT',
-            'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page and will only work if the callback is activated.'),
-            'is_bool' => true,
-            'values' => [
-                [
-                    'id' => 'active_on',
-                    'value' => true,
-                    'label' => $this->ifthenpayModule->l('Activate', pathinfo(__FILE__)['filename'])
-                ],
-                [
-                    'id' => 'active_off',
-                    'value' => false,
-                    'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
-                ]
-            ]
-        ];
-        // show javascript countdown after order confirmation
-        $this->form['form']['input'][] = [
-            'type' => 'switch',
-            'label' => $this->ifthenpayModule->l('MB WAY Countdown', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_MBWAY_SHOW_COUNTDOWN',
-            'desc' => $this->ifthenpayModule->l('Display MB WAY Countdown after confirming order. Disable this option if having conflicts with "one page checkout" plugins.'),
-            'is_bool' => true,
-            'values' => [
-                [
-                    'id' => 'active_on',
-                    'value' => true,
-                    'label' => $this->ifthenpayModule->l('Activate', pathinfo(__FILE__)['filename'])
-                ],
-                [
-                    'id' => 'active_off',
-                    'value' => false,
-                    'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
-                ]
-            ]
-        ];
+        // sets the $this->options
+        $this->setEntityOptions();
+        
         // select mbway key
         $this->form['form']['input'][] = [
             'type' => 'select',
@@ -108,6 +65,72 @@ class MbwayConfigForm extends ConfigForm
                 'name' => 'name'
             ]
         ];
+        
+        // activate auto callback
+        $this->addActivateCallbackToForm();
+
+        // cancel after timer of 30 minutes
+        $this->form['form']['input'][] = [
+            'type' => 'switch',
+            'label' => $this->ifthenpayModule->l('Cancel MB WAY Order', pathinfo(__FILE__)['filename']),
+            'name' => 'IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT',
+            'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page and will only work if the callback is activated.', pathinfo(__FILE__)['filename']),
+            'is_bool' => true,
+            'values' => [
+                [
+                    'id' => 'active_on',
+                    'value' => true,
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
+                ],
+                [
+                    'id' => 'active_off',
+                    'value' => false,
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
+                ]
+            ]
+        ];
+
+        // show javascript countdown after order confirmation
+        $this->form['form']['input'][] = [
+            'type' => 'switch',
+            'label' => $this->ifthenpayModule->l('MB WAY Countdown', pathinfo(__FILE__)['filename']),
+            'name' => 'IFTHENPAY_MBWAY_SHOW_COUNTDOWN',
+            'desc' => $this->ifthenpayModule->l('Display MB WAY Countdown after confirming order. Disable this option if having conflicts with "one page checkout" plugins.', pathinfo(__FILE__)['filename']),
+            'is_bool' => true,
+            'values' => [
+                [
+                    'id' => 'active_on',
+                    'value' => true,
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
+                ],
+                [
+                    'id' => 'active_off',
+                    'value' => false,
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
+                ]
+            ]
+        ];
+
+        // activate partial refund method
+        $this->form['form']['input'][] = [
+            'type' => 'switch',
+            'label' => $this->ifthenpayModule->l('Partial Refund', pathinfo(__FILE__)['filename']),
+            'name' => 'IFTHENPAY_MBWAY_REFUND',
+            'desc' => $this->ifthenpayModule->l('Allows the admin to make partial refunds directly to the Ifthenpay Payment Gateway.', pathinfo(__FILE__)['filename']),
+            'is_bool' => true,
+            'values' => [
+                [
+                    'id' => 'active_on',
+                    'value' => true,
+                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
+                ],
+                [
+                    'id' => 'active_off',
+                    'value' => false,
+                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
+                ]
+            ]
+        ];
 
         // add min max and country form elements
         $this->addMinMaxFieldsToForm();
@@ -118,6 +141,7 @@ class MbwayConfigForm extends ConfigForm
         $this->generateHelperForm();
     }
 
+    
     protected function getConfigFormValues()
     {
         $mbWayCountdown = \Configuration::get('IFTHENPAY_MBWAY_SHOW_COUNTDOWN') !== false ? \Configuration::get('IFTHENPAY_MBWAY_SHOW_COUNTDOWN') : '1';
@@ -125,9 +149,11 @@ class MbwayConfigForm extends ConfigForm
         return array_merge(parent::getCommonConfigFormValues(), [
             'IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT'),
             'IFTHENPAY_MBWAY_KEY' => \Configuration::get('IFTHENPAY_MBWAY_KEY'),
-            'IFTHENPAY_MBWAY_SHOW_COUNTDOWN' => $mbWayCountdown
+            'IFTHENPAY_MBWAY_SHOW_COUNTDOWN' => $mbWayCountdown,
+            'IFTHENPAY_MBWAY_REFUND' => \Configuration::get('IFTHENPAY_MBWAY_REFUND')
         ]);
     }
+
 
     public function setSmartyVariables()
     {
@@ -135,9 +161,9 @@ class MbwayConfigForm extends ConfigForm
         parent::assignSmartyPayMethodsCommonVars();
 
         // specific to this payment method
-
         \Context::getContext()->smarty->assign('mbwayKey', \Configuration::get('IFTHENPAY_MBWAY_KEY'));
     }
+
 
     public function setGatewayBuilderData()
     {
@@ -149,6 +175,7 @@ class MbwayConfigForm extends ConfigForm
         $this->gatewayDataBuilder->setSubEntidade($getMbwayKeyFromRequest ? $getMbwayKeyFromRequest : \Configuration::get('IFTHENPAY_MBWAY_KEY'));
     }
 
+
     public function processForm()
     {
         if ($this->isValid()) {
@@ -159,6 +186,7 @@ class MbwayConfigForm extends ConfigForm
             \Configuration::updateValue('IFTHENPAY_MBWAY_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
             \Configuration::updateValue('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT'));
             \Configuration::updateValue('IFTHENPAY_MBWAY_SHOW_COUNTDOWN', \Tools::getValue('IFTHENPAY_MBWAY_SHOW_COUNTDOWN'));
+            \Configuration::updateValue('IFTHENPAY_MBWAY_REFUND', \Tools::getValue('IFTHENPAY_MBWAY_REFUND'));
 
             $this->setIfthenpayCallback();
             $this->updatePayMethodCommonValues();
@@ -202,5 +230,6 @@ class MbwayConfigForm extends ConfigForm
         \Configuration::deleteByName('IFTHENPAY_MBWAY_CHAVE_ANTI_PHISHING');
         \Configuration::deleteByName('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT');
         \Configuration::deleteByName('IFTHENPAY_MBWAY_SHOW_COUNTDOWN');
+        \Configuration::deleteByName('IFTHENPAY_MBWAY_REFUND');
     }
 }

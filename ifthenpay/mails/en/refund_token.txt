@@ -1,0 +1,7 @@
+Your code is: {securityCode}
+
+This code will be active for 10 minutes. If you do not enter it on the Refund page you just visited within that time, you may have to restart the refund process.
+
+If you don't recognize or expect this email, you can always report suspicious behavior to our support team.
+
+Please do not reply to this email. The sending address is only for transmitting automatic messages.

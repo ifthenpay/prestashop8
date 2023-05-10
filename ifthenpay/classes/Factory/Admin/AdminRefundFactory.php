@@ -40,13 +40,13 @@ class AdminRefundFactory
         $paymentDefaultData,
         $ifthenpayModule,
         $smartyDefaultData = null,
-        $emailDefaultData = null
+        $emailAdminData = null
     ) {
         switch ($type) {
             case 'mbway':
-                return new MbwayAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+                return new MbwayAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailAdminData);
             case 'ccard':
-                return new CCardAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+                return new CCardAdminRefund($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailAdminData);
             default:
                 throw new \Exception('Unknown Admin Refund class');
         }

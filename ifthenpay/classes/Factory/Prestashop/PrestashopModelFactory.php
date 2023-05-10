@@ -60,4 +60,9 @@ class PrestashopModelFactory
     {
         return new \Customer($id);
     }
+
+    public static function buildEmployee($id = null)
+    {
+        return new \Employee($id);
+    }
 }

@@ -25,6 +25,7 @@
 
 
 namespace PrestaShop\Module\Ifthenpay\Admin\Payments;
+use PrestaShop\Module\Ifthenpay\Utility\Utility;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -40,7 +41,7 @@ class MbwayAdminRefund extends MbwayBase implements AdminRefundInterface
         $this->setPaymentModel('mbway');
         $this->getFromDatabaseById();
         $this->setEmailVariables(); 
-        $this->sendEmail('refund', 'Confirmação de Reembolso');
+        $this->sendEmailToAdmin('refund', Utility::getMailTranslationString('mbway', 'refund'));
         return $this->securityCode;
     }
 }

@@ -40,6 +40,7 @@ abstract class PaymentBase
     protected $paymentDefaultData;
     protected $smartyDefaultData;
     protected $emailDefaultData;
+    protected $emailAdminData;
     protected $paymentGatewayResultData;
     protected $ifthenpayGateway;
     protected $paymentModel;
@@ -74,7 +75,7 @@ abstract class PaymentBase
     }
 
     protected function sendEmail($emailTemplate, $emailSubject)
-    {
+    {        
         \Mail::Send(
             (int)$this->paymentDefaultData->order->id_lang,
             $emailTemplate,
@@ -82,6 +83,26 @@ abstract class PaymentBase
             $this->emailDefaultData,
             $this->paymentDefaultData->customer->email,
             $this->paymentDefaultData->customer->firstname . ' ' . $this->paymentDefaultData->customer->lastname,
+            null,
+            null,
+            null,
+            null,
+            _PS_MODULE_DIR_ . 'ifthenpay/mails/',
+            false,
+            (int)$this->paymentDefaultData->order->id_shop
+        );
+    }
+
+    protected function sendEmailToAdmin($emailTemplate, $emailSubject)
+    {
+        $context = \Context::getContext();
+        \Mail::Send(
+            (int)$context->employee->id_lang,
+            $emailTemplate,
+            $emailSubject,
+            $this->emailDefaultData,
+            $context->employee->email,
+            $context->employee->firstname . ' ' . $context->employee->lastname,
             null,
             null,
             null,

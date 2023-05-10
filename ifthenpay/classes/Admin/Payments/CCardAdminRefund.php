@@ -25,6 +25,7 @@
 
 
 namespace PrestaShop\Module\Ifthenpay\Admin\Payments;
+use PrestaShop\Module\Ifthenpay\Utility\Utility;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -40,7 +41,7 @@ class CCardAdminRefund extends CCardBase implements AdminRefundInterface
         $this->setPaymentModel('ccard');
         $this->getFromDatabaseById();
         $this->setEmailVariables(); 
-        $this->sendEmail('refund', 'Confirmação de Reembolso');
+        $this->sendEmailToAdmin('refund_token', Utility::getMailTranslationString('ccard', 'refund'));
         return $this->securityCode;
     }
 }

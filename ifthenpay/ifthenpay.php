@@ -49,7 +49,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.0.1';
+        $this->version = '8.0.2';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -263,7 +263,7 @@ class Ifthenpay extends PaymentModule
                         'type' => 'switch',
                         'label' => $this->l('Sandbox Mode'),
                         'name' => 'IFTHENPAY_ACTIVATE_SANDBOX_MODE',
-                        'desc' => $this->l('Activate sandbox mode, to test the module without activating the callback.'),
+                        'desc' => $this->l('Enable sandbox mode in order to test the module without having to enable the callback payment option.'),
                         'is_bool' => true,
                         'values' => [
                             [
@@ -912,7 +912,6 @@ class Ifthenpay extends PaymentModule
                 $this->context->cookie->__unset('success');
                 $this->context->cookie->write();
             }
-
             if ($this->context->cookie->__isset('error')) {
                 $message = $this->displayError($this->context->cookie->__get('error'));
                 $this->context->cookie->__unset('error');
@@ -928,13 +927,28 @@ class Ifthenpay extends PaymentModule
                     $message
                 )->execute();
 
+                /**
+                 * Partial Refund configuration
+                 */
+                switch($order->payment) {
+                    case 'mbway':
+                        $switchRefund = Configuration::get('IFTHENPAY_MBWAY_REFUND');
+                        break;
+                    case 'ccard':
+                        $switchRefund = Configuration::get('IFTHENPAY_CCARD_REFUND');
+                        break;
+                    default:
+                        $switchRefund = false;
+                }
+                
                 $this->smarty->assign($ifthenpayAdminOrder->getSmartyVariables()->toArray());
                 $this->smarty->assign('paymentMethods', (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']));
+                $this->smarty->assign('swtichRefund', $switchRefund);
                 $this->smarty->assign('refundNotAvailable', $this->l('The partial refund feature is not available for '));
-                $this->smarty->assign('confirmRefund', $this->l('Are you sure you want to make a refund? If so, you will receive a security code via email.'));
+                $this->smarty->assign('confirmRefund', $this->l('Are you sure you want to make a refund of the payment previously made? If you proceed, the following operation will be irreversible.'));
                 $this->smarty->assign('refundNotification', $this->l('Refund notification sent with success!'));
-                $this->smarty->assign('promptCode', $this->l('Please enter the security code from the email sent:'));
-                $this->smarty->assign('timeExceeded', $this->l('the validation time has been exceeded!'));
+                $this->smarty->assign('promptCode', $this->l('Please check your email inbox and enter the security code:'));
+                $this->smarty->assign('timeExceeded', $this->l(': the validation time has been exceeded!'));
                 $this->smarty->assign('invalidCode', $this->l('Invalid security code'));
                 $this->smarty->assign('validationSuccessful', $this->l('Security code was inserted successfully! You can now proceed with the refund.'));
                 

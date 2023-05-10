@@ -143,13 +143,16 @@
 <script>
 	{* PARTIAL REFUND METHOD *}
 	$(document).ready(function(){
+		
+		{if $swtichRefund }
+			
+			const refundBtn = document.getElementsByClassName('partial-refund-display');
+			let paymentsList = [];
+			{foreach $paymentMethods as $key => $value}
+				paymentsList.push('{$value}');
+			{/foreach}
 
-		let paymentsList = [];
-		{foreach $paymentMethods as $key => $value}
-			paymentsList.push('{$value}');
-		{/foreach}
-
-		const refundBtn = document.getElementsByClassName('partial-refund-display');
+		{/if}
 		if (refundBtn.length === 1) {
 
 			refundBtn[0].addEventListener("click", function(event) {
@@ -170,7 +173,7 @@
 								headers: { "cache-control": "no-cache" },
 								success: function(data) {
 									const initialDate = Date.now();
-									const timeLimit = 5 * 60 * 1000;
+									const timeLimit = 10 * 60 * 1000;
 
 
 									let msg = document.createElement("div");
@@ -181,11 +184,9 @@
 
 										let securityCode = prompt("{$promptCode}");
 
-										if (securityCode != '') {
+										if (securityCode == JSON.parse(data).code) {
 
-											let timeExceeded = (Date.now() - initialDate > timeLimit) ? "{$timeExceeded}" : "";
-
-											if ((securityCode != JSON.parse(data).code) || (Date.now() - initialDate > timeLimit)) {
+											if (Date.now() - initialDate > timeLimit) {
 
 												let msg = document.createElement("div");
 												msg.innerHTML = "<div class='alert alert-danger'>" + "{$invalidCode}" + "{$timeExceeded}" + "</div>";
@@ -197,8 +198,13 @@
 												let msg = document.createElement("div");
 												msg.innerHTML = "<div class='alert alert-success'>{$validationSuccessful}</div>";
 												msgbox.appendChild(msg);
-
 											}
+										
+										} else {
+
+											let msg = document.createElement("div");
+											msg.innerHTML = "<div class='alert alert-danger'>" + "{$invalidCode}" + "!" + "</div>";
+											msgbox.appendChild(msg);
 										}
 									}, 500)
 								},
