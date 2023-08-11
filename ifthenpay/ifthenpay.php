@@ -49,7 +49,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.0.2';
+        $this->version = '8.0.3';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -103,7 +103,7 @@ class Ifthenpay extends PaymentModule
         if (
             !parent::install() || !$this->registerHook('payment') || !$this->registerHook('paymentOptions') ||
             !$this->registerHook('paymentReturn') || !$this->registerHook('displayAdminOrder') || !$this->registerHook('displayOrderDetail') || 
-            !$this->registerHook('header') || !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || 
+            !$this->registerHook('displayHeader') || !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || 
             !$this->registerHook('displayBackOfficeHeader') || !$this->registerHook('actionProductCancel')
         ) {
             return false;

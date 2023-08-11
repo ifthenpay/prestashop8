@@ -18,10 +18,11 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @copyright 2007-2023 Ifthenpay Lda
 *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
+*  @copyright 2007-2023 Ifthenpay Lda
 *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
 */
+
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
