@@ -119,7 +119,6 @@ class IfthenpaySql implements InstallerInterface
 
     private function migrate_from_17_to_8()
     {
-        $count = 0;
         $tablesToCheck = array(
             array('name' => _DB_PREFIX_ . 'ifthenpay_multibanco',   'oldColumnName' => 'request_id'),
             array('name' => _DB_PREFIX_ . 'ifthenpay_mbway',        'oldColumnName' => 'id_transacao'),
@@ -129,18 +128,15 @@ class IfthenpaySql implements InstallerInterface
     
         foreach ($tablesToCheck as $tableInfo) {
             
-            $columnCheckResult = checkColumnsExistence($tableInfo['name'], $tableInfo['oldColumnName']);
+            $columnCheckResult = $this->checkColumnsExistence($tableInfo['name'], $tableInfo['oldColumnName']);
             
             if ($columnCheckResult == 1) {
-                $alterColumnResponse = alterColumnName($tableInfo['name'], $tableInfo['oldColumnName']);
-                $count += $alterColumnResponse ? 1 : 0;
+                $this->alterColumnName($tableInfo['name'], $tableInfo['oldColumnName']);
             }
         }
-    
-        return $count > 0 ? true : false;
     }
 
-    function checkColumnsExistence($tableName, $oldColumnName)
+    private function checkColumnsExistence($tableName, $oldColumnName)
     {
         $query = 'SELECT COUNT(*) AS column_exists
                 FROM information_schema.columns
@@ -152,7 +148,7 @@ class IfthenpaySql implements InstallerInterface
         return $count > 0 ? 1 : 0;
     }
 
-    function alterColumnName($tableName, $oldColumnName)
+    private function alterColumnName($tableName, $oldColumnName)
     {
         $newColumnName = 'transaction_id';
 
@@ -162,8 +158,6 @@ class IfthenpaySql implements InstallerInterface
         $result = \Db::getInstance()->execute($alterQuery);
 
         IfthenpayLogProcess::addLog('Ran migration script (alterColumnName()) for table ' . $tableName . ' with result code = ' . $result, IfthenpayLogProcess::INFO, 0);
-
-        return $result == 1 ? true : false;
     }
 
     private function createShopSql()
