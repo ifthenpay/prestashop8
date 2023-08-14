@@ -24,6 +24,7 @@
  */
 
 namespace PrestaShop\Module\Ifthenpay\Config;
+use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -116,6 +117,55 @@ class IfthenpaySql implements InstallerInterface
         $this->ifthenpayStatusKeys = ['IFTHENPAY_{paymentMethod}_OS_WAITING', 'IFTHENPAY_{paymentMethod}_OS_CONFIRMED'];
     }
 
+    private function migrate_from_17_to_8()
+    {
+        $count = 0;
+        $tablesToCheck = array(
+            array('name' => _DB_PREFIX_ . 'ifthenpay_multibanco',   'oldColumnName' => 'request_id'),
+            array('name' => _DB_PREFIX_ . 'ifthenpay_mbway',        'oldColumnName' => 'id_transacao'),
+            array('name' => _DB_PREFIX_ . 'ifthenpay_ccard',        'oldColumnName' => 'requestId'),
+            array('name' => _DB_PREFIX_ . 'ifthenpay_payshop',      'oldColumnName' => 'id_transacao')
+        );
+    
+        foreach ($tablesToCheck as $tableInfo) {
+            
+            $columnCheckResult = checkColumnsExistence($tableInfo['name'], $tableInfo['oldColumnName']);
+            
+            if ($columnCheckResult == 1) {
+                $alterColumnResponse = alterColumnName($tableInfo['name'], $tableInfo['oldColumnName']);
+                $count += $alterColumnResponse ? 1 : 0;
+            }
+        }
+    
+        return $count > 0 ? true : false;
+    }
+
+    function checkColumnsExistence($tableName, $oldColumnName)
+    {
+        $query = 'SELECT COUNT(*) AS column_exists
+                FROM information_schema.columns
+                WHERE table_name = \'' . pSQL($tableName) . '\'
+                AND column_name IN (\'' . pSQL($oldColumnName) . '\')';
+
+        $count = \Db::getInstance()->getValue($query);
+
+        return $count > 0 ? 1 : 0;
+    }
+
+    function alterColumnName($tableName, $oldColumnName)
+    {
+        $newColumnName = 'transaction_id';
+
+        $alterQuery = 'ALTER TABLE `' . pSQL($tableName) . '`
+                    CHANGE `' . pSQL($oldColumnName) . '` `' . pSQL($newColumnName) . '` VARCHAR(20) NULL';
+
+        $result = \Db::getInstance()->execute($alterQuery);
+
+        IfthenpayLogProcess::addLog('Ran migration script (alterColumnName()) for table ' . $tableName . ' with result code = ' . $result, IfthenpayLogProcess::INFO, 0);
+
+        return $result == 1 ? true : false;
+    }
+
     private function createShopSql()
     {
         foreach ($this->userPaymentMethods as $paymentMethod) {
@@ -176,6 +226,7 @@ class IfthenpaySql implements InstallerInterface
     {
         $this->createIfthenpaySql();
         $this->createShopSql();
+        $this->migrate_from_17_to_8();
     }
 
     public function uninstall()
