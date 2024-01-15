@@ -43,12 +43,12 @@ class Callback
     private $entidade;
     private $subEntidade;
     private $paymentType;
-
     private $urlCallbackParameters = [
-        'multibanco' => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]',
-        'mbway' => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
-        'payshop' => '?type=offline&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]',
-    ];
+		'multibanco' => '?type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]',
+		'mbway' => '?type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&referencia=[REFERENCIA]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
+		'payshop' => '?type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_cliente=[ID_CLIENTE]&id_transacao=[ID_TRANSACAO]&referencia=[REFERENCIA]&valor=[VALOR]&estado=[ESTADO]',
+		'cofidispay' => '?type=offline&ec={ec}&mv={mv}&payment={paymentMethod}&chave=[CHAVE_ANTI_PHISHING]&id_pedido=[ID_TRANSACAO]&valor=[VALOR]&estado=[ESTADO]',
+	];
 
     public function __construct($data)
     {
@@ -65,7 +65,16 @@ class Callback
 
     private function createUrlCallback($paymentType, $moduleLink)
     {
-        $this->urlCallback = $moduleLink . str_replace('{paymentMethod}', $paymentType, $this->urlCallbackParameters[$paymentType]);
+        $ecommerceVersion = 'ps_' . substr(_PS_VERSION_, 0, 9); // prevent version number of taking too many characters
+		$module = \Module::getInstanceByName('ifthenpay');
+		$moduleVersion = $module->version;
+
+		$paramStr = $this->urlCallbackParameters[$paymentType];
+		$paramStr = str_replace('{paymentMethod}', $paymentType, $paramStr);
+		$paramStr = str_replace('{ec}', $ecommerceVersion, $paramStr);
+		$paramStr = str_replace('{mv}', $moduleVersion, $paramStr);
+
+		$this->urlCallback = $moduleLink . $paramStr;
     }
 
     private function activateCallback()

@@ -219,12 +219,12 @@ class MultibancoConfigForm extends ConfigForm
         $subEntity = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_SUBENTIDADE');
 
         if ($entity == '') {
-            Utility::setPrestashopCookie('error', 'Selected Entity is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Selected Entity is not valid');
             return false;
         }
 
         if ($subEntity == '') {
-            Utility::setPrestashopCookie('error', 'Selected SubEntity is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Selected SubEntity is not valid');
             return false;
         }
 
@@ -247,7 +247,7 @@ class MultibancoConfigForm extends ConfigForm
     /**
      * generates an assoc array specifically for populating the select box of deadline of dynamic multibanco reference
      *
-     * @return void
+     * @return array
      */
     public function getDeadlineOptions()
     {

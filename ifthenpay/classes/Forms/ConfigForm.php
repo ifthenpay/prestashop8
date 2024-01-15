@@ -43,11 +43,10 @@ abstract class ConfigForm
     protected $ifthenpayModule;
     protected $ifthenpayController;
     protected $gatewayDataBuilder;
-    private $ifthenpayGateway;
+    protected $ifthenpayGateway;
     protected $options;
     protected $formFactory;
-
-
+    protected $subEntityOptions = []; 
 
     public function __construct($ifthenpayModule, $ifthenpayController = null)
     {
@@ -57,8 +56,6 @@ abstract class ConfigForm
         $this->ifthenpayGateway = GatewayFactory::build('gateway');
         $this->ifthenpayGateway->setAccount((array) unserialize(\Configuration::get('IFTHENPAY_USER_ACCOUNT')));
     }
-
-
 
 
     protected function checkIfCallbackIsSet()
@@ -71,7 +68,6 @@ abstract class ConfigForm
         }
         return true;
     }
-
 
 
     /**
@@ -102,7 +98,6 @@ abstract class ConfigForm
     }
 
 
-
     /**
      * Set values for the inputs.
      *
@@ -120,7 +115,6 @@ abstract class ConfigForm
             'IFTHENPAY_' . strtoupper($this->paymentMethod) . '_ORDER' => \Configuration::get('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_ORDER', false)
         ];
     }
-
 
 
     /**
@@ -156,7 +150,6 @@ abstract class ConfigForm
     }
 
 
-
     /**
      * adds activate callback switch to form
      *
@@ -186,7 +179,6 @@ abstract class ConfigForm
     }
 
 
-
     /**
      * adds max and min order value fields to form
      *
@@ -198,12 +190,14 @@ abstract class ConfigForm
             'type' => 'text',
             'label' => $this->ifthenpayModule->l('Minimum Order Value', pathinfo(__FILE__)['filename']),
             'name' => 'IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MINIMUM',
+            'id' => 'ifthenpayMinAmount',
             'desc' => $this->ifthenpayModule->l('Only display this payment method for orders with total value greater than inserted value.', pathinfo(__FILE__)['filename'])
         ];
         $this->form['form']['input'][] = [
             'type' => 'text',
             'label' => $this->ifthenpayModule->l('Maximum Order Value', pathinfo(__FILE__)['filename']),
             'name' => 'IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MAXIMUM',
+            'id' => 'ifthenpayMaxAmount',
             'desc' => $this->ifthenpayModule->l('Only display this payment method for orders with total value less than inserted value.', pathinfo(__FILE__)['filename'])
         ];
     }
@@ -220,7 +214,6 @@ abstract class ConfigForm
     }
 
 
-
     /**
      * adds countries field to form
      *
@@ -235,7 +228,7 @@ abstract class ConfigForm
             'label' => $this->ifthenpayModule->l('Country restrictions', pathinfo(__FILE__)['filename']),
             'id' => 'ifthenpay' . ucfirst($this->paymentMethod) . 'Countries',
             'name' => 'IFTHENPAY_' . strtoupper($this->paymentMethod) . '_COUNTRIES[]',
-            'desc' => $this->ifthenpayModule->l('Only display this payment method for orders with shipping country within the selected ones. Leave empty to allow all countries. Use CTRL keyboard key and mouse click to toggle selection.', pathinfo(__FILE__)['filename']),
+            'desc' => $this->ifthenpayModule->l('Only display this payment method for orders with shipping country within the selected ones. Leave empty to allow all countries. Use CTRL keyboard key and left mouse click to toggle selection.', pathinfo(__FILE__)['filename']),
             'multiple' => true,
             'options' => [
                 'query' => $countriesArr,
@@ -244,6 +237,7 @@ abstract class ConfigForm
             ]
         ];
     }
+
 
     /**
      * gets assoc array of countries in prestashop ...
@@ -262,7 +256,6 @@ abstract class ConfigForm
         }
         return $result;
     }
-
 
 
     /**
@@ -297,7 +290,6 @@ abstract class ConfigForm
             }
         }
     }
-
 
 
     /**
@@ -336,7 +328,6 @@ abstract class ConfigForm
     }
 
 
-
     /**
      * sets backoffice key and common values
      *
@@ -353,16 +344,17 @@ abstract class ConfigForm
     }
 
 
-
     protected function getCallbackControllerUrl()
     {
         return \Context::getContext()->link->getModuleLink('ifthenpay', 'callback', array(), true);
     }
 
+
     protected function getIfthenpayCallback()
     {
         return CallbackFactory::buildCallback($this->gatewayDataBuilder);
     }
+
 
     /**
      * Delete default config values
@@ -377,7 +369,6 @@ abstract class ConfigForm
         \Configuration::deleteByName('IFTHENPAY_' . strtoupper($this->paymentMethod . '_ORDER'));
         \Configuration::deleteByName('IFTHENPAY_' . strtoupper($this->paymentMethod));
     }
-
 
 
     /**
@@ -401,7 +392,6 @@ abstract class ConfigForm
     }
 
 
-
     /**
      * verifies if method has callback data stored in database
      *
@@ -411,6 +401,7 @@ abstract class ConfigForm
         return \Configuration::get('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_URL_CALLBACK') &&
         \Configuration::get('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_CHAVE_ANTI_PHISHING');
     }
+
 
     /**
      * saves payment method common values to database
@@ -428,7 +419,6 @@ abstract class ConfigForm
         $isActive = \Tools::getValue('IFTHENPAY_CALLBACK_ACTIVATE_FOR_' . strtoupper($this->paymentMethod)) ? true : false;
         \Configuration::updateValue('IFTHENPAY_CALLBACK_ACTIVATED_FOR_' . strtoupper($this->paymentMethod), $isActive);
     }
-
 
 
     /**
@@ -466,33 +456,32 @@ abstract class ConfigForm
         $order = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_ORDER');
 
         if (!preg_match( "/^[0-9]+([.][0-9]{3})*$/" , $minimum) && $minimum != '') {
-            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is not valid');
             return false;
         } 
         
         if (!preg_match( "/^[0-9]+([.][0-9]{3})*$/" , $maximum) && $maximum != '') {
-            Utility::setPrestashopCookie('error', 'Inputted Maximum Order Value is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Inputted Maximum Order Value is not valid');
             return false;
         } 
 
         if ($minimum > $maximum  && $minimum != '' && $maximum != '') {
-            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is larger than Maximum Order Value', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is larger than Maximum Order Value');
             return false;
         }
 
         if ($minimum == $maximum  && $minimum != '' && $maximum != '') {
-            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is equal to Maximum Order Value', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is equal to Maximum Order Value');
             return false;
         }
 
         if (!preg_match( "/^[0-9]+([.][0-9])*$/" , $order) && $order != '') {
-            Utility::setPrestashopCookie('error', 'Inputted Order Value is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Inputted Order Value is not valid');
             return false;
         } 
 
         return true;
     }
-
 
 
     abstract public function getForm();

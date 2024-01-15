@@ -49,7 +49,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.0.3';
+        $this->version = '8.0.4';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -73,7 +73,7 @@ class Ifthenpay extends PaymentModule
         parent::__construct();
 
         $this->displayName = $this->l('Ifthenpay');
-        $this->description = $this->l('Allows payments by Multibanco reference, MB WAY, Payshop and Credit Card.');
+        $this->description = $this->l('Allows payments by Multibanco reference, MB WAY, Payshop, Credit Card and Cofidis Pay');
         $this->confirmUninstall = $this->l('Are you sure you want to uninstall ifthenpay module?');
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
@@ -101,9 +101,9 @@ class Ifthenpay extends PaymentModule
             Shop::setContext(Shop::CONTEXT_ALL);
         }
         if (
-            !parent::install() || !$this->registerHook('payment') || !$this->registerHook('paymentOptions') ||
-            !$this->registerHook('paymentReturn') || !$this->registerHook('displayAdminOrder') || !$this->registerHook('displayOrderDetail') || 
-            !$this->registerHook('displayHeader') || !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || 
+            !parent::install() || !$this->registerHook('paymentOptions') || !$this->registerHook('paymentReturn') ||
+            !$this->registerHook('displayAdminOrder') || !$this->registerHook('displayOrderDetail') || !$this->registerHook('displayHeader') ||
+            !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || 
             !$this->registerHook('displayBackOfficeHeader') || !$this->registerHook('actionProductCancel')
         ) {
             return false;
@@ -611,26 +611,22 @@ class Ifthenpay extends PaymentModule
      */
     public function hookPaymentOptions($params)
     {
-
         if (!$this->active) {
             return;
         }
         if (!$this->checkCurrency($params['cart'])) {
             return;
         }
+
         $payments_options = [];
         $ifthenpayGateway = GatewayFactory::build('gateway');
-
-
         $orderedPaymentMethods = $this->getOrderedPaymentMethods();
-
 
         foreach ($orderedPaymentMethods as $paymentMethod) {
 
-            if (PrestashopModelFactory::buildCurrency($params['cart']->id_currency)->iso_code === 'EUR' || $paymentMethod === 'ccard') {
+            if (PrestashopModelFactory::buildCurrency($params['cart']->id_currency)->iso_code === 'EUR') {
 
                 if (Configuration::get('IFTHENPAY_' . Tools::strtoupper($paymentMethod)) && $this->isValid($params, $paymentMethod)) {
-
 
                     $option = PrestashopFactory::buildPaymentOption();
                     if ($paymentMethod === 'mbway') {
@@ -654,6 +650,14 @@ class Ifthenpay extends PaymentModule
                             $this->context->smarty->fetch(
                                 $this->local_path .
                                     'views/templates/front/mbwayPhone.tpl'
+                            )
+                        );
+                    }
+                    if ($paymentMethod === 'cofidispay') {
+                        $option->setAdditionalInformation(
+                            $this->context->smarty->fetch(
+                                $this->local_path .
+                                    'views/templates/front/cofidisOption.tpl'
                             )
                         );
                     }
@@ -730,6 +734,11 @@ class Ifthenpay extends PaymentModule
                     \Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_ENTIDADE') &&
                     \Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_SUBENTIDADE')
                 ) {
+                    return true;
+                }
+                break;
+            case 'cofidispay':
+                if (\Configuration::get('IFTHENPAY_COFIDIS_KEY')) {
                     return true;
                 }
                 break;

@@ -29,22 +29,36 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Base\Payments\CCardBase;
-use PrestaShop\Module\Ifthenpay\Contracts\Order\OrderDetailInterface;
+use PrestaShop\Module\Ifthenpay\Utility\Utility;
+use PrestaShop\Module\Ifthenpay\Base\Payments\CofidispayBase;
+use PrestaShop\Module\Ifthenpay\Contracts\Payments\PaymentReturnInterface;
 
-class CCardOrderDetail extends CCardBase implements OrderDetailInterface
+class CofidispayPaymentReturn extends CofidispayBase implements PaymentReturnInterface
 {
+
+
     public function setSmartyVariables()
     {
+        
         $this->smartyDefaultData->setPaymentMethod($this->ifthenpayGateway->getAliasPaymentMethods(
             $this->paymentDefaultData->order->payment, \Context::getContext()->language->iso_code));
-        $this->smartyDefaultData->setIdPedido($this->paymentDataFromDb['transaction_id']);
+
+        $this->smartyDefaultData->setIdPedido($this->paymentGatewayResultData->idPedido);
     }
-    public function getOrderDetail()
+
+    public function getPaymentReturn()
     {
-        $this->setPaymentModel('ccard');
-        $this->getFromDatabaseById();
+        $this->setPaymentModel('cofidispay');
+        $this->setGatewayBuilderData();
+        $this->paymentGatewayResultData = $this->ifthenpayGateway->execute(
+            $this->paymentDefaultData->paymentMethod,
+            $this->gatewayBuilder,
+            strval($this->paymentDefaultData->order->id),
+            strval(Utility::convertPriceToEuros($this->paymentDefaultData->order))
+        )->getData();
+        $this->saveToDatabase();
         $this->setSmartyVariables();
-        return $this;
+        \Tools::redirect($this->paymentGatewayResultData->paymentUrl);
+        //return $this;
     }
 }

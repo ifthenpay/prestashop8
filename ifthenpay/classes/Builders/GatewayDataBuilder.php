@@ -56,4 +56,10 @@ class GatewayDataBuilder extends DataBuilder implements GatewayDataBuilderInterf
         $this->data->ccardKey = $value;
         return $this;
     }
+
+    public function setCofidisKey($value)
+    {
+        $this->data->cofidisKey = $value;
+        return $this;
+    }
 }

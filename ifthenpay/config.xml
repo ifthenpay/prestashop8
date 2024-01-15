@@ -2,8 +2,8 @@
 <module>
     <name>ifthenpay</name>
     <displayName><![CDATA[Ifthenpay]]></displayName>
-    <version><![CDATA[8.0.3]]></version>
-    <description><![CDATA[Allows payments by Multibanco reference, MB WAY, Payshop and Credit Card.]]></description>
+    <version><![CDATA[8.0.4]]></version>
+    <description><![CDATA[Allows payments by Multibanco reference, MB WAY, Payshop, Credit Card and Cofidis Pay]]></description>
     <author><![CDATA[Ifthenpay]]></author>
     <tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure you want to uninstall the module?]]></confirmUninstall>

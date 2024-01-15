@@ -23,36 +23,28 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace PrestaShop\Module\Ifthenpay\Factory\Callback;
+
+namespace PrestaShop\Module\Ifthenpay\Callback;
+use PrestaShop\PrestaShop\Core\Domain\Order\ValueObject\OrderId;
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Callback\CallbackDataCCard;
-use PrestaShop\Module\Ifthenpay\Callback\CallbackDataCofidispay;
-use PrestaShop\Module\Ifthenpay\Callback\CallbackDataMbway;
-use PrestaShop\Module\Ifthenpay\Callback\CallbackDataMultibanco;
-use PrestaShop\Module\Ifthenpay\Callback\CallbackDataPayshop;
+use PrestaShop\Module\Ifthenpay\Factory\Models\IfthenpayModelFactory;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackDataInterface;
 
-class CallbackDataFactory
+class CallbackDataCofidispay implements CallbackDataInterface
 {
-    public static function build($type)
+    public function getData($request)
     {
-        switch ($type) {
-            case 'multibanco':
-                return new CallbackDataMultibanco();
-            case 'mbway':
-                return new CallbackDataMbway();
-            case 'payshop':
-                return new CallbackDataPayshop();
-            case 'ccard':
-                return new CallbackDataCCard();
-            case 'cofidispay':
-                return new CallbackDataCofidispay();
+        switch ($request['type']) {
+            case 'online':
+                return IfthenpayModelFactory::build('cofidispay')->getByOrderId($request['orderId']);
+            case 'offline':
+                return IfthenpayModelFactory::build('cofidispay')->getCofidispayByRequestId($request['id_pedido']);
             default:
-                throw new \Exception('Unknown Callback Data Class');
+                throw new \Exception('Invalid request type when obtaining callback data');
         }
     }
 }

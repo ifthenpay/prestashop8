@@ -1,5 +1,4 @@
-<?php
-/**
+{*
 * 2007-2023 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -22,13 +21,11 @@
 *  @copyright 2007-2023 PrestaShop SA
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
-*/
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+*}
 
-header('Cache-Control: no-store, no-cache, must-revalidate');
-header('Cache-Control: post-check=0, pre-check=0', false);
-header('Pragma: no-cache');
-
-header('Location: ../');
-exit;
+<div class="cofidispay_option">
+    <h5>{l s='With COFIDIS PAY you have up to 12 interest-free installments' mod='ifthenpay'}!</h5>
+    <p>{l s='You will be redirected to a secure page to make the payment' mod='ifthenpay'}.</p>
+    <p>{l s='Pay for your order in interest-free and fee-free installments using your debit or credit card' mod='ifthenpay'}.</p>
+    <p>{l s='Payment of installments will be made via the customer´s debit or credit card through a payment solution based on a factoring contract established between Cofidis and the Merchant. Check the information with Cofidis, registered with Banco de Portugal under number 921' mod='ifthenpay'}.</p>
+</div>

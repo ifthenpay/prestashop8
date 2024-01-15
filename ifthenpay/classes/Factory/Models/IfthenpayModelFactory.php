@@ -31,6 +31,7 @@ if (!defined('_PS_VERSION_')) {
 
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayLog;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayCCard;
+use PrestaShop\Module\Ifthenpay\Models\IfthenpayCofidispay;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayMbway;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayPayshop;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayMultibanco;
@@ -48,6 +49,8 @@ class IfthenpayModelFactory
                 return new IfthenpayPayshop($modelId);
             case 'ccard':
                 return new IfthenpayCCard($modelId);
+            case 'cofidispay':
+                return new IfthenpayCofidispay($modelId);
             case 'log':
                 return new IfthenpayLog($modelId);
             default:

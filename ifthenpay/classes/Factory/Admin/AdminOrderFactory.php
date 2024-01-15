@@ -33,6 +33,7 @@ use PrestaShop\Module\Ifthenpay\Admin\Payments\MbwayAdminOrder;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\PayshopAdminOrder;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MultibancoAdminOrder;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\CCardAdminOrder;
+use PrestaShop\Module\Ifthenpay\Admin\Payments\CofidispayAdminOrder;
 
 class AdminOrderFactory
 {
@@ -51,6 +52,8 @@ class AdminOrderFactory
                 return new PayshopAdminOrder($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
             case 'ccard':
                 return new CCardAdminOrder($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+            case 'cofidispay':
+                return new CofidispayAdminOrder($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
             default:
                 throw new \Exception('Unknown Admin Order class');
         }

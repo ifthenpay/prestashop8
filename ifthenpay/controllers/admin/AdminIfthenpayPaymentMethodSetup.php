@@ -155,6 +155,19 @@ class AdminIfthenpayPaymentMethodSetupController extends ModuleAdminController
         }
     }
 
+    public function ajaxProcessGetCofidisLimits()
+    {
+        try {
+            $limits = json_encode($this->ifthenpayGateway->getCofidisLimits(Tools::getValue('cofidisKey')));
+            // this log is unnecessary
+            // IfthenpayLogProcess::addLog("Cofidis amount limits request (".$limits.")", IfthenpayLogProcess::INFO, 0);
+            die($limits);
+        } catch (\Throwable $th) {
+            IfthenpayLogProcess::addLog('Error getting Cofidis amount Limits by ajax request - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, 0);
+            die($th->getMessage());
+        }
+    }
+
 
     public function ajaxProcessTestCallback()
     {
@@ -170,7 +183,7 @@ class AdminIfthenpayPaymentMethodSetupController extends ModuleAdminController
             $amount = Tools::getValue('amount');
             $mbwayTransactionId = Tools::getValue('mbway_transaction_id');
             $payshopTransactionId = Tools::getValue('payshop_transaction_id');
-            
+            $cofidispayTransactionId = Tools::getValue('cofidispay_transaction_id');
 
             if (!$callbackUrl) {
                 die(json_encode([
@@ -189,8 +202,6 @@ class AdminIfthenpayPaymentMethodSetupController extends ModuleAdminController
             $antiPhishingKey = Configuration::get('IFTHENPAY_' . strtoupper($method) . '_CHAVE_ANTI_PHISHING');
             $callbackUrl = str_replace('[CHAVE_ANTI_PHISHING]', $antiPhishingKey, $callbackUrl);
 
-
-            // set callback url for multibanco
             if ($method === 'multibanco') {
 
                 $entity = Configuration::get('IFTHENPAY_' . strtoupper($method) . '_ENTIDADE');
@@ -200,15 +211,11 @@ class AdminIfthenpayPaymentMethodSetupController extends ModuleAdminController
                 $callbackUrl = str_replace('[VALOR]', $amount, $callbackUrl);
             }
 
-            // set callback url for mbway
-
             if ($method === 'mbway') {
                 $callbackUrl = str_replace('[ID_TRANSACAO]', $mbwayTransactionId, $callbackUrl);
                 $callbackUrl = str_replace('[VALOR]', $amount, $callbackUrl);
                 $callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
             }
-
-            // set callback url for payshop
 
             if ($method === 'payshop') {
                 $callbackUrl = str_replace('[ID_TRANSACAO]', $payshopTransactionId, $callbackUrl);
@@ -216,6 +223,11 @@ class AdminIfthenpayPaymentMethodSetupController extends ModuleAdminController
                 $callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
             }
 
+            if ($method === 'cofidispay') {
+                $callbackUrl = str_replace('[ID_TRANSACAO]', $cofidispayTransactionId, $callbackUrl);
+                $callbackUrl = str_replace('[VALOR]', $amount, $callbackUrl);
+                $callbackUrl = str_replace('[ESTADO]', 'PAGO', $callbackUrl);
+            }
 
             $webservice = RequestFactory::buildWebservice();
             $request = $webservice->getRequest_callback($callbackUrl);

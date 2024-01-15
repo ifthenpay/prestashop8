@@ -16,7 +16,7 @@ if (!defined('_PS_VERSION_')) {
 /**
  *
  * @param [type] $module
- * @return void
+ * @return bool
  */
 function upgrade_module_8_0_3($module)
 {
@@ -45,20 +45,23 @@ function upgrade_module_8_0_3($module)
 
 function checkColumnsExistence($tableName, $oldColumnName)
 {
+    $db = \Db::getInstance();
+    $dbNameQuery = 'SELECT DATABASE()';
+    $dbName = $db->getValue($dbNameQuery);
+    
     $query = 'SELECT COUNT(*) AS column_exists
-              FROM information_schema.columns
-              WHERE table_name = \'' . pSQL($tableName) . '\'
-              AND column_name IN (\'' . pSQL($oldColumnName) . '\')';
-
-    $count = Db::getInstance()->getValue($query);
-
+    FROM information_schema.columns
+    WHERE table_name = \'' . pSQL($tableName) . '\'
+    AND table_schema = \'' . pSQL($dbName) . '\'
+    AND column_name = \'' . pSQL($oldColumnName) . '\'';
+    
+    $count = $db->getValue($query);
+    
     return $count > 0 ? 1 : 0;
 }
 
-function alterColumnName($tableName, $oldColumnName)
+function alterColumnName($tableName, $oldColumnName, $newColumnName = 'transaction_id')
 {
-    $newColumnName = 'transaction_id';
-
     $alterQuery = 'ALTER TABLE `' . pSQL($tableName) . '`
                    CHANGE `' . pSQL($oldColumnName) . '` `' . pSQL($newColumnName) . '` VARCHAR(20) NULL';
 

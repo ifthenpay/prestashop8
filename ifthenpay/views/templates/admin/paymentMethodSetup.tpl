@@ -40,81 +40,24 @@
     <div class="panel-body body-paymentMethod">
         {if $paymentMethod === 'mbway'}
             <p>{l s='This module allows secure payment by %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}.</p>
-            <p>{l s='If the customer chooses to pay by %s, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentMethod|capitalize, $paymentMethod|capitalize]}.
-            </p>
-        <p>{l s='When payment is made, the order status will change to "Payment confirmed by %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}."
-            </p>
-
-
-
-
-
-
+            <p>{l s='If the customer chooses to pay by %s, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentMethod|capitalize, $paymentMethod|capitalize]}.</p>
+            <p>{l s='When payment is made, the order status will change to "Payment confirmed by %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}."</p>
 
         {elseif $paymentMethod === 'ccard'}
-            <p>
+            <p>{l s='This module allows secure payment by credit card' mod='ifthenpay'}.</p>
+            <p>{l s='If the customer chooses to pay by credit card, the order status will be placed in "Wait for payment by credit card"' mod='ifthenpay'}.</p>
+            <p>{l s='When payment is made, the order status will change to "Payment confirmed by credit card' mod='ifthenpay'}."</p>
+            <p>{l s='This method does not make use of the callback function to change order state, this is handled internally. To test credit card payed orders you must use a test card which you can request from Ifthenpay' mod='ifthenpay'}.</p>
 
-
-
-
-
-            {l s='This module allows secure payment by credit card' mod='ifthenpay'}.</p>
-            <p>
-
-
-
-
-
-            {l s='If the customer chooses to pay by credit card, the order status will be placed in "Wait for payment by credit card"' mod='ifthenpay'}.
-            </p>
-            <p>
-
-
-
-
-
-            {l s='When payment is made, the order status will change to "Payment confirmed by credit card' mod='ifthenpay'}."
-            </p>
-            <p>
-
-
-
-
-
-            {l s='This method does not make use of the callback function to change order state, this is handled internally. To test credit card payed orders you must use a test card which you can request from Ifthenpay' mod='ifthenpay'}.
-            </p>
-
-
-
-
-
-
+        {elseif $paymentMethod === 'cofidispay'}
+            <p>{l s='This module allows secure payment by Cofidis Pay' mod='ifthenpay'}.</p>
+            <p>{l s='If the customer chooses to pay by Cofidis Pay, they will be redirected to a Cofidis form and the order status will be placed at "Awaiting payment by Cofidis Pay"' mod='ifthenpay'}.</p>
+            <p>{l s='If the customer fills out the form properly, the order status will change to "Payment confirmed by Cofidis Pay"' mod='ifthenpay'}.</p>
 
         {else}
-            <p>
-
-
-
-
-
-            {l s='This module allows secure payment by Reference %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}.
-            </p>
-            <p>
-
-
-
-
-
-            {l s='If the customer chooses to pay by %s reference, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentMethod|capitalize, $paymentMethod|capitalize]}.
-            </p>
-            <p>
-
-
-
-
-
-            {l s='When payment is made, the order status will change to "Payment confirmed by %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}."
-            </p>
+            <p>{l s='This module allows secure payment by Reference %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}.</p>
+            <p>{l s='If the customer chooses to pay by %s reference, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentMethod|capitalize, $paymentMethod|capitalize]}.</p>
+            <p>{l s='When payment is made, the order status will change to "Payment confirmed by %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}."</p>
         {/if}
     </div>
 </div>
@@ -199,6 +142,16 @@
                         <label class="control-label col-lg-4">{l s='Payshop Transaction ID' mod='ifthenpay'}</label>
                         <div class="col-lg-8">
                             <input type="text" id="payshop_transaction_id" name="payshop_transaction_id" class="form-control" />
+                            <p class="help-block">{l s='Can be found as "IdRequest" in the SELL/Orders/Orders by selecting the order you wish to test and scrolling down to order payment details' mod='ifthenpay'}</p>
+                        </div>
+                    </div>
+
+                {elseif $paymentMethod === 'cofidispay'}
+
+                    <div class="form-group" style="display: block;">
+                        <label class="control-label col-lg-4">{l s='Cofidispay Transaction ID' mod='ifthenpay'}</label>
+                        <div class="col-lg-8">
+                            <input type="text" id="cofidispay_transaction_id" name="cofidispay_transaction_id" class="form-control" />
                             <p class="help-block">{l s='Can be found as "IdRequest" in the SELL/Orders/Orders by selecting the order you wish to test and scrolling down to order payment details' mod='ifthenpay'}</p>
                         </div>
                     </div>

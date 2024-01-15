@@ -85,4 +85,5 @@ class ConfigFactory
     {
         return new MultibancoCancelOrder();
     }
+
 }

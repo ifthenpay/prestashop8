@@ -31,14 +31,14 @@ if (!defined('_PS_VERSION_')) {
 
 class Status {
     
-    private static $statusSucess = "6dfcbb0428e4f89c";
+    private static $statusSuccess = "6dfcbb0428e4f89c";
     private static $statusError = "101737ba0aa2e7c5";
     private static $statusCancel = "d4d26126c0f39bf2";
 
     public static function getTokenStatus($token)
     {
         switch ($token) {
-            case self::$statusSucess:
+            case self::$statusSuccess:
                 return 'success';
             case self::$statusCancel:
                 return 'cancel';
@@ -50,11 +50,11 @@ class Status {
     }
 
     /**
-     * Get the value of statusSucess
+     * Get the value of statusSuccess
      */ 
-    public static function getStatusSucess()
+    public static function getStatusSuccess()
     {
-        return self::$statusSucess;
+        return self::$statusSuccess;
     }
 
     /**

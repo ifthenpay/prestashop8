@@ -107,6 +107,9 @@ class IfthenpayConfiguration implements InstallerInterface
                         \Configuration::deleteByName('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT');
                         \Configuration::deleteByName('IFTHENPAY_CCARD_REFUND');
                         break;
+                    case 'cofidispay':
+                        \Configuration::deleteByName('IFTHENPAY_COFIDIS_KEY');
+                        break;
                     default:
                 }
             }

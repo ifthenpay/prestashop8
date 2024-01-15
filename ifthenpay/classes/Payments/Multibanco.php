@@ -132,7 +132,7 @@ class Multibanco extends MasterPayment implements PaymentMethodInterface
 
     public function buy()
     {
-        $this->checkValue($this->valor);
+        $this->checkValue();
         return $this->getReferencia();
     }
 }

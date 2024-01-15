@@ -185,7 +185,7 @@ class CCardConfigForm extends ConfigForm
         $ccardKey = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_KEY');
 
         if ($ccardKey == '') {
-            Utility::setPrestashopCookie('error', 'Selected Key is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Selected Key is not valid');
             return false;
         }
 

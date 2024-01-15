@@ -176,12 +176,12 @@ class PayshopConfigForm extends ConfigForm
         $deadline = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_VALIDADE');
 
         if ($payShopKey == '') {
-            Utility::setPrestashopCookie('error', 'Selected Key is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Selected Key is not valid');
             return false;
         }
 
         if (!preg_match("/^[0-9]{1,2}$/", $deadline) && $deadline != '') {
-            Utility::setPrestashopCookie('error', 'Inputted Expiration is not valid', pathinfo(__FILE__)['filename']);
+            Utility::setPrestashopCookie('error', 'Inputted Expiration is not valid');
             return false;
         }
 

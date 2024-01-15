@@ -38,6 +38,7 @@ class IfthenpayInstaller
     private $ifthenpayControllersTab;
     private $ifthenpaySql;
     private $ifthenpayModule;
+    private $ifthenpayConfiguration;
 
     public function __construct($userPaymentMethods, $ifthenpayModule)
     {

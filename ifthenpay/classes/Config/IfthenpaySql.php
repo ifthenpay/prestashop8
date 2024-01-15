@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2023 Ifthenpay Lda
  *
@@ -24,6 +25,7 @@
  */
 
 namespace PrestaShop\Module\Ifthenpay\Config;
+
 use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 
 if (!defined('_PS_VERSION_')) {
@@ -37,7 +39,7 @@ class IfthenpaySql implements InstallerInterface
 {
     private $ifthenpayModule;
     private $userPaymentMethods;
-
+    private $ifthenpayStatusKeys;
     private $ifthenpaySqlTables = [
         'multibanco' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_multibanco` (
             `id_ifthenpay_multibanco` int(10) unsigned NOT NULL auto_increment,
@@ -69,7 +71,7 @@ class IfthenpaySql implements InstallerInterface
             PRIMARY KEY  (`id_ifthenpay_payshop`),
             INDEX `transaction_id` (`transaction_id`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
-          'ccard' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ccard` (
+        'ccard' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ccard` (
             `id_ifthenpay_ccard` int(10) unsigned NOT NULL auto_increment,
             `transaction_id` varchar(50) NOT NULL,
             `order_id` int(11) NOT NULL,
@@ -77,6 +79,14 @@ class IfthenpaySql implements InstallerInterface
             PRIMARY KEY  (`id_ifthenpay_ccard`),
             INDEX `transaction_id` (`transaction_id`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
+        'cofidispay' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_cofidispay` (
+            `id_ifthenpay_cofidispay` int(10) unsigned NOT NULL auto_increment,
+            `transaction_id` varchar(50) NOT NULL,
+            `order_id` int(11) NOT NULL,
+            `status` varchar(50) NOT NULL,
+            PRIMARY KEY  (`id_ifthenpay_cofidispay`),
+            INDEX `transaction_id` (`transaction_id`)
+          ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',  
     ];
 
     private $storeSql = [
@@ -85,20 +95,25 @@ class IfthenpaySql implements InstallerInterface
             `id_shop` int(10) unsigned NOT NULL,
             PRIMARY KEY (`id_ifthenpay_multibanco`, `id_shop`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
-          'mbway' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_mbway_shop` (
+        'mbway' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_mbway_shop` (
             `id_ifthenpay_mbway` int(10) unsigned NOT NULL auto_increment,
             `id_shop` int(10) unsigned NOT NULL,
             PRIMARY KEY (`id_ifthenpay_mbway`, `id_shop`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
-          'payshop' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_payshop_shop` (
+        'payshop' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_payshop_shop` (
             `id_ifthenpay_payshop` int(10) unsigned NOT NULL auto_increment,
             `id_shop` int(10) unsigned NOT NULL,
             PRIMARY KEY (`id_ifthenpay_payshop`, `id_shop`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
-          'ccard' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ccard_shop` (
+        'ccard' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ccard_shop` (
             `id_ifthenpay_ccard` int(10) unsigned NOT NULL auto_increment,
             `id_shop` int(10) unsigned NOT NULL,
             PRIMARY KEY (`id_ifthenpay_ccard`, `id_shop`)
+          ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
+        'cofidispay' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_cofidispay_shop` (
+            `id_ifthenpay_cofidispay` int(10) unsigned NOT NULL auto_increment,
+            `id_shop` int(10) unsigned NOT NULL,
+            PRIMARY KEY (`id_ifthenpay_cofidispay`, `id_shop`)
           ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
     ];
 
@@ -125,33 +140,36 @@ class IfthenpaySql implements InstallerInterface
             array('name' => _DB_PREFIX_ . 'ifthenpay_ccard',        'oldColumnName' => 'requestId'),
             array('name' => _DB_PREFIX_ . 'ifthenpay_payshop',      'oldColumnName' => 'id_transacao')
         );
-    
+
         foreach ($tablesToCheck as $tableInfo) {
-            
+
             $columnCheckResult = $this->checkColumnsExistence($tableInfo['name'], $tableInfo['oldColumnName']);
-            
+
             if ($columnCheckResult == 1) {
                 $this->alterColumnName($tableInfo['name'], $tableInfo['oldColumnName']);
             }
         }
     }
 
-    private function checkColumnsExistence($tableName, $oldColumnName)
+    function checkColumnsExistence($tableName, $oldColumnName)
     {
+        $db = \Db::getInstance();
+        $dbNameQuery = 'SELECT DATABASE()';
+        $dbName = $db->getValue($dbNameQuery);
+        
         $query = 'SELECT COUNT(*) AS column_exists
-                FROM information_schema.columns
-                WHERE table_name = \'' . pSQL($tableName) . '\'
-                AND column_name IN (\'' . pSQL($oldColumnName) . '\')';
-
-        $count = \Db::getInstance()->getValue($query);
-
+        FROM information_schema.columns
+        WHERE table_name = \'' . pSQL($tableName) . '\'
+        AND table_schema = \'' . pSQL($dbName) . '\'
+        AND column_name = \'' . pSQL($oldColumnName) . '\'';
+        
+        $count = $db->getValue($query);
+        
         return $count > 0 ? 1 : 0;
     }
 
-    private function alterColumnName($tableName, $oldColumnName)
+    function alterColumnName($tableName, $oldColumnName, $newColumnName = 'transaction_id')
     {
-        $newColumnName = 'transaction_id';
-
         $alterQuery = 'ALTER TABLE `' . pSQL($tableName) . '`
                     CHANGE `' . pSQL($oldColumnName) . '` `' . pSQL($newColumnName) . '` VARCHAR(20) NULL';
 
@@ -173,7 +191,7 @@ class IfthenpaySql implements InstallerInterface
     private function createIfthenpaySql()
     {
         foreach ($this->userPaymentMethods as $paymentMethod) {
-                $sql = \Db::getInstance()->execute($this->ifthenpaySqlTables[$paymentMethod]);
+            $sql = \Db::getInstance()->execute($this->ifthenpaySqlTables[$paymentMethod]);
             if (!$sql) {
                 throw new \Exception($this->ifthenpayModule->l('Error creating ifthenpay payment table!', pathinfo(__FILE__)['filename']));
             }
@@ -191,7 +209,7 @@ class IfthenpaySql implements InstallerInterface
     private function deleteIfthenpaySql()
     {
         foreach ($this->userPaymentMethods as $paymentMethod) {
-                $sql = \Db::getInstance()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'ifthenpay_' . $paymentMethod);
+            $sql = \Db::getInstance()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'ifthenpay_' . $paymentMethod);
             if (!$sql) {
                 throw new \Exception($this->ifthenpayModule->l('Error deleting ifthenpay payment table!', pathinfo(__FILE__)['filename']));
             }
@@ -201,7 +219,7 @@ class IfthenpaySql implements InstallerInterface
     private function deleteShopSql()
     {
         foreach ($this->userPaymentMethods as $paymentMethod) {
-                $sql = \Db::getInstance()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'ifthenpay_' . $paymentMethod . '_shop');
+            $sql = \Db::getInstance()->execute('DROP TABLE IF EXISTS ' . _DB_PREFIX_ . 'ifthenpay_' . $paymentMethod . '_shop');
             if (!$sql) {
                 throw new \Exception($this->ifthenpayModule->l('Error deleting ifthenpay payment shop table!', pathinfo(__FILE__)['filename']));
             }
@@ -236,7 +254,7 @@ class IfthenpaySql implements InstallerInterface
      * Set the value of ifthenpayModule
      *
      * @return  self
-     */ 
+     */
     public function setIfthenpayModule($ifthenpayModule)
     {
         $this->ifthenpayModule = $ifthenpayModule;

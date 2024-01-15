@@ -34,7 +34,7 @@ use PrestaShop\Module\Ifthenpay\Utility\Token;
 use PrestaShop\Module\Ifthenpay\Utility\Status;
 use PrestaShop\Module\Ifthenpay\Base\PaymentBase;
 
-class CCardBase extends PaymentBase
+class CofidispayBase extends PaymentBase
 {
     
     private function getUrlCallback()
@@ -44,19 +44,11 @@ class CCardBase extends PaymentBase
 
     protected function setGatewayBuilderData()
     {
-        $this->gatewayBuilder->setCCardKey(\Configuration::get('IFTHENPAY_CCARD_KEY'));
-        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . '?type=online&payment=ccard&cartId=' . \Tools::getValue('id_cart') . '&qn=' . 
+        $this->gatewayBuilder->setCofidisKey(\Configuration::get('IFTHENPAY_COFIDIS_KEY'));
+        
+        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . '?type=online&payment=cofidispay&cartId=' . \Tools::getValue('id_cart') . '&qn=' . 
             Token::encrypt(Status::getStatusSuccess())
         );
-        
-        $this->gatewayBuilder->setErrorUrl($this->getUrlCallback() . '?type=online&payment=ccard&cartId=' . \Tools::getValue('id_cart') . '&qn=' . 
-            Token::encrypt(Status::getStatusError())
-        );
-    
-        $this->gatewayBuilder->setCancelUrl($this->getUrlCallback() . '?type=online&payment=ccard&cartId=' . \Tools::getValue('id_cart') . '&qn=' . 
-            Token::encrypt(Status::getStatusCancel())
-        );
-        
     }
 
     protected function saveToDatabase()
@@ -69,7 +61,7 @@ class CCardBase extends PaymentBase
 
     protected function updateDatabase()
     {
-        /*$this->setPaymentModel('ccard', $this->paymentDataFromDb['id_ifthenpay_ccard']);
+        /*$this->setPaymentModel('cofidispay', $this->paymentDataFromDb['id_ifthenpay_cofidispay']);
         $this->paymentModel->referencia = $this->paymentGatewayResultData->referencia;
         $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
         $this->paymentModel->update();*/

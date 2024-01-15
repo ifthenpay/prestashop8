@@ -30,6 +30,7 @@ if (!defined('_PS_VERSION_')) {
 }
 
 use PrestaShop\Module\Ifthenpay\Forms\CCardConfigForm;
+use PrestaShop\Module\Ifthenpay\Forms\CofidispayConfigForm;
 use PrestaShop\Module\Ifthenpay\Forms\MbwayConfigForm;
 use PrestaShop\Module\Ifthenpay\Forms\PayshopConfigForm;
 use PrestaShop\Module\Ifthenpay\Forms\MultibancoConfigForm;
@@ -50,6 +51,8 @@ class IfthenpayConfigFormFactory
                 return new PayshopConfigForm($ifthenpayModule, $ifthenpayController);
             case 'ccard':
                 return new CCardConfigForm($ifthenpayModule, $ifthenpayController);
+            case 'cofidispay':
+                return new CofidispayConfigForm($ifthenpayModule, $ifthenpayController);
             default:
                 throw new \Exception('Unknown Admin Config Form');
         }
