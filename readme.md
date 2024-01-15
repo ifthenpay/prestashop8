@@ -47,7 +47,7 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
 
 
 # Introduction
-![Ifthenpay](https://ifthenpay.com/images/all_payments_logo_final.png)
+![Ifthenpay](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/payment_methods_banner.png)
 
 **This is the Ifthenpay plugin for Prestashop e-commerce platform**
 
@@ -77,7 +77,7 @@ See more at [Ifthenpay](https://ifthenpay.com).
 Follow the table below to verify Ifthenpay's module compatibility with your online store.
 |                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.1]  |
 |----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 to v8.0.4 | Not compatible | Not compatible | Compatible                    |
+| Ifthenpay v8.0.0 -> v8.0.4 | Not compatible | Not compatible | Compatible                    |
 
 
 # Installation
