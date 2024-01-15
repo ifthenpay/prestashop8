@@ -15,6 +15,7 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [MB WAY](#MB-WAY)
   * [Cartão de Crédito](#Cartão-de-Crédito)
   * [Payshop](#Payshop)
+  * [Cofidis Pay](#Cofidis-Pay)
 
 [5. Editar Dados de Pagamento](#Editar-Dados-de-Pagamento)
   * [Atualizar Dados de Pagamento](#Atualizar-Dados-de-Pagamento)
@@ -39,8 +40,8 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Pagar encomenda com Multibanco](#Pagar-encomenda-com-Multibanco)
   * [Pagar encomenda com Payshop](#Pagar-encomenda-com-Payshop)
   * [Pagar encomenda com MB WAY](#Pagar-encomenda-com-MB-WAY)
-  * [Pagar encomenda com Credit Card](#Pagar-encomenda-com-Credit-Card)
-
+  * [Pagar encomenda com Cartão de Crédito](#Pagar-encomenda-com-Cartão-de-Crédito)
+  * [Pagar encomenda com Cofidis Pay](#Pagar-encomenda-com-Cofidis-Pay)
 
 
 # Introdução
@@ -59,6 +60,8 @@ Este módulo permite gerar uma referência de pagamento que o consumidor pode us
 
 **Cartão de Crédito** Este módulo permite gerar um pagamento por Visa ou Master card, que o consumidor pode usar para pagar a sua encomenda. Este plugin usa a Ifthenpay, uma das várias gateways disponíveis em Portugal.
 
+**Cofidis Pay** é uma solução de pagamento que facilita o pagamento de compras ao dividir o valor até 12 prestações sem juros. Este módulo utiliza uma das várias gateways/serviços disponíveis em Portugal, a IfthenPay.
+
 **É necessário contrato com a Ifthenpay**
 
 Mais informações em [Ifthenpay](https://ifthenpay.com). 
@@ -74,7 +77,7 @@ Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a 
 | Ifthenpay v8.0.1 | Não compatível | Não compatível | Compatível                     |
 | Ifthenpay v8.0.2 | Não compatível | Não compatível | Compatível                     |
 | Ifthenpay v8.0.3 | Não compatível | Não compatível | Compatível                     |
-
+| Ifthenpay v8.0.4 | Não compatível | Não compatível | Compatível                     |
 
 
 # Instalação
@@ -235,8 +238,30 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 
 
 
+## Cofidis Pay
+
+* Clicar no botão "GERIR" abaixo de Cofidis Pay;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/manage_cofidis.png)
+</br>
+
+* Configurar o método de pagamento Cofidis Pay:
+1. Ativar Callback. Ao selecionar esta opção, o estado da encomenda será atualizado quando o pagamento for recebido;
+2. Selecionar uma Chave Cofidis Pay. Apenas pode selecionar uma das Chaves Cofidis Pay associadas à Chave Backoffice;
+3. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido. **Aviso Importante:** Na seleção da chave Cofidis, este campo é atualizado com o valor configurado no backoffice da ifthenpay, e ao editar, este não pode ser inferior ao valor especificado no backoffice da ifthenpay;
+4. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido. **Aviso Importante:** Na seleção da chave Cofidis, este campo é atualizado com o valor configurado no backoffice da ifthenpay, e ao editar, este não pode ser superior ao valor especificado no backoffice da ifthenpay
+5. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+6. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+7. Clicar no botão "Salvar";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/config_cofidis.png)
+</br>
+
+* Se selecionou "Callback" ativado anteriormente, após salvar, o estado do Callback será mostrado abaixo com a Chave Anti-Phishing e Url de Callback criados;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_callback_activated.png)
+</br>
+
+
 # Editar Dados de Pagamento
-**Nota importante:** Não é possível mudar ou atualizar para o método de pagamento de Cartão de Crédito.
+**Nota importante:** Não é possível mudar ou atualizar para os métodos de pagamento de Cartão de Crédito e Cofidis Pay.
 Na página de detalhes de uma encomenda, é possível editar o método de pagamento e os dados de pagamento.
 Um caso de uso para isto seria o seguinte:
   - Um consumidor encomenda 2 unidades de um produto, mas decide que apenas quer um;
@@ -389,6 +414,16 @@ para preencher o formulário de Testar Callback e clicar no botão "Testar Callb
 para preencher o formulário de Testar Callback e clicar no botão "Testar Callback" (3):
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/payshop_callback_test.png)
 </br>
+</br>
+
+**Cofidis:** Use os dados seguintes (1) e (2) dos detalhes de pagamento de encomenda:
+
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_callback_data.png)
+</br>
+
+para preencher o formulário de Testar Callback e clicar no botão "Testar Callback" (3):
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_callback_test.png)
+</br>
 
 
 
@@ -454,7 +489,7 @@ As ações seguintes são descritas da perspetiva do cliente consumidor.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/mbway_payment_notification_resend.png)
 </br>
 
-## Pagar encomenda com Credit Card
+## Pagar encomenda com Cartão de Crédito
 
 * Selecionar Cartão de Crédito e confirmar encomenda:
 1. Selecionar "Pagamento por Cartão de Crédito";
@@ -474,4 +509,59 @@ As ações seguintes são descritas da perspetiva do cliente consumidor.
 
 * Após pagar, será redirecionado de volta para a loja,
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/ccard_payment_return.png)
+</br>
+
+
+## Pagar encomenda com Cofidis Pay
+
+* Selecionar Cartão de Crédito e confirmar encomenda:
+1. Selecionar "Pagamento por Cofidis Pay";
+2. Colocar o visto nos "termos do serviço" (Depende da sua configuração do Prestashop);
+3. Clicar no botão "PLACE ORDER";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/checkout_cofidis.png)
+</br>
+
+* Entre ou, se não tiver conta faça o registo com Cofidis Pay:
+1. Clique "Avançar" para registar em Cofidis Pay;
+2. Ou se tiver uma conta Cofidis Pay, preencha as suas credencias de acesso e clique entrar;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_1.png)
+</br>
+
+* Número de prestações, faturação e dados pessoais:
+1. Selecione o número de prestações que deseja;
+2. Verifique o sumário do plano de pagamento;
+3. Preencha os seus dados pessoais e de faturação;
+4. Clique em "Avançar" para continuar;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_2.png)
+</br>
+
+* Termos e condições:
+1. Selecione "Li e autorizo" para concordar com os termos e condições;
+2. Clique em "Avançar"
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_3.png)
+</br>
+
+* Formalização do acordo:
+1. Clique em "Enviar código";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_4.png)
+</br>
+
+* Código de autenticação da formalização do acordo:
+1. Preencha o com o código que recebeu no telemóvel;
+1. Clique em "Confirmar código";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_5.png)
+</br>
+
+* Resumo e Pagamento:
+1. Preencha com os detalhes do seu cartão de crédito(número, data de expiração e CW), e clique em "Validar";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_6.png)
+</br>
+
+* Sucesso e voltar à loja:
+1. Clique no icone para voltar à loja;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_7.png)
+</br>
+
+* Após o qual será redirecionado de volta para a loja;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_return.png)
 </br>
