@@ -154,6 +154,7 @@ Os seguintes passos usam o Multibanco como exemplo, mas o processo é o mesmo pa
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/multibanco_callback_activated.png)
 </br>
 
+
 ## Multibanco com Referências dinâmicas
 
 O método de pagamento Multibanco com Referências Dinâmicas, gera referências por pedido e é usado se desejar atribuir um tempo limite (em dias) para encomendas pagas com Multibanco.
