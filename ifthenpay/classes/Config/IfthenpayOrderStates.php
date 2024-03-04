@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2023 Ifthenpay Lda
+ * 2007-2024 Ifthenpay Lda
  *
  * NOTICE OF LICENSE
  *
@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @copyright 2007-2023 Ifthenpay Lda
+ * @copyright 2007-2024 Ifthenpay Lda
  * @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
@@ -35,12 +35,14 @@ use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopModelFactory;
 class IfthenpayOrderStates implements InstallerInterface
 {
     private $ifthenpayStatusKeys;
+    private $cofidisStatusKeys;
     private $userPaymentMethods;
 
     public function __construct($userPaymentMethods)
     {
         $this->userPaymentMethods = $userPaymentMethods;
         $this->ifthenpayStatusKeys = ['IFTHENPAY_{paymentMethod}_OS_WAITING', 'IFTHENPAY_{paymentMethod}_OS_CONFIRMED'];
+        $this->cofidisStatusKeys = ['IFTHENPAY_{paymentMethod}_OS_NOT_APPROVED'];
     }
 
     public function install()
@@ -89,7 +91,58 @@ class IfthenpayOrderStates implements InstallerInterface
                     }
                 }
             }
+
+                
+            if (strpos(strtolower($paymentMethod), 'cofidis') !== false) {
+
+                foreach ($this->cofidisStatusKeys as $status) {
+                    $status = str_replace('{paymentMethod}', \Tools::strtoupper($paymentMethod), $status);
+                    if (!\Configuration::get($status) || !\Validate::isLoadedObject(PrestashopModelFactory::buildOrderState(\Configuration::get($status)))) {
+                        $order_state = PrestashopModelFactory::buildOrderState();
+                        $order_state->name = array();
+                        foreach (\Language::getLanguages() as $language) {
+                            if (\Tools::strtolower($language['iso_code']) == 'en') {
+
+                                $order_state->name[$language['id_lang']] = \Tools::ucfirst($paymentMethod) . ' payment not approved';
+
+                            } else {
+                                $order_state->name[$language['id_lang']] ='Pagamento por ' . \Tools::ucfirst($paymentMethod) . ' não aprovado';
+                            }
+                        }
+
+                        $order_state->send_email = false;
+                        $order_state->template = '';
+                        $order_state->color = '#e74c3c';
+                        $order_state->hidden = false;
+                        $order_state->delivery = false;
+                        $order_state->logable = false;
+                        $order_state->invoice = false;
+                        $order_state->module_name = 'ifthenpay';
+                        $order_state->unremovable = true;
+                        $order_state->paid = false;
+
+
+                        if ($order_state->add()) {
+                            $source = _PS_MODULE_DIR_ . 'ifthenpay/views/img/os_' . $paymentMethod . '.png';
+                            $destination = _PS_ROOT_DIR_ . '/img/os/' . (int) $order_state->id . '.gif';
+                            copy($source, $destination);
+                        } else {
+                            throw new \Exception('Error saving order state.');
+                        }
+
+                        if (\Shop::isFeatureActive()) {
+                            $shops = \Shop::getShops();
+                            foreach ($shops as $shop) {
+                                \Configuration::updateValue($status, (int) $order_state->id, false, null, (int) $shop['id_shop']);
+                            }
+                        } else {
+                            \Configuration::updateValue($status, (int) $order_state->id);
+                        }
+                    }
+                }
+            }
         }
+
     }
 
     public function uninstall()

@@ -2,7 +2,7 @@
 /**
  * File: /upgrade/upgrade-8.0.3.php
  * Author: Ifthenpay Lda <ifthenpay@ifthenpay.com>
- * Copyright: 2007-2023 Ifthenpay Lda
+ * Copyright: 2007-2024 Ifthenpay Lda
  * License: http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */

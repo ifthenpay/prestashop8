@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2023 Ifthenpay Lda
+ * 2007-2024 Ifthenpay Lda
  *
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * needs please refer to http://www.prestashop.com for more information.
  *
  * @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
- * @copyright 2007-2023 Ifthenpay Lda
+ * @copyright 2007-2024 Ifthenpay Lda
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
@@ -49,7 +49,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.1.0';
+        $this->version = '8.1.1';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -1114,6 +1114,7 @@ class Ifthenpay extends PaymentModule
             ConfigFactory::buildCancelCcardOrder()->cancelOrder();
             ConfigFactory::buildCancelPayshopOrder()->cancelOrder();
             ConfigFactory::buildCancelMultibancoOrder()->cancelOrder();
+            ConfigFactory::buildCancelCofidisOrder()->cancelOrder();
         }
     }
 

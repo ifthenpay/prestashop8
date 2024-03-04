@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2023 Ifthenpay Lda
+ * 2007-2024 Ifthenpay Lda
  *
  * NOTICE OF LICENSE
  *
@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @copyright 2007-2023 Ifthenpay Lda
+ * @copyright 2007-2024 Ifthenpay Lda
  * @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
