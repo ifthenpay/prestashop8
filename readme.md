@@ -77,7 +77,7 @@ See more at [Ifthenpay](https://ifthenpay.com).
 Follow the table below to verify Ifthenpay's module compatibility with your online store.
 |                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.1]  |
 |----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 -> v8.1.0 | Not compatible | Not compatible | Compatible                    |
+| Ifthenpay v8.0.0 -> v8.1.1 | Not compatible | Not compatible | Compatible                    |
 
 
 # Installation
@@ -163,7 +163,7 @@ Multibanco with Dynamic References payment method generates references by reques
 1. Select "MB" from the Entity field, this entity will only be available for selection if you contracted an account for Multibanco with Dynamic References;
 2. Select a Sub Entity.
 3. (optional) Select number of days for deadline.
-4. (optional) Activate Cancel Multibanco Order, by selecting this option, Multibanco orders that are still unpaid after the deadline will have status changed to "Cancelled";
+4. (optional) Activate Cancel Multibanco Order, by selecting this option, Multibanco orders that are still unpaid after the deadline will have status changed to "Canceled";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_multibanco_dynamic.png)
 </br>
 
@@ -176,7 +176,7 @@ Multibanco with Dynamic References payment method generates references by reques
 
 * Configure MB WAY payment method:
 1. Activate Callback, by selecting this option the order state will update when a payment is received;
-2. (optional) Activate Cancel MB WAY Order, by selecting this option, MB WAY orders that are still unpaid 30 min after confirmation, will have status changed to "Cancelled";
+2. (optional) Activate Cancel MB WAY Order, by selecting this option, MB WAY orders that are still unpaid 30 min after confirmation, will have status changed to "Canceled";
 3. MB WAY Countdown, set to "Activate" by default, this option determines whether the MB WAY 5 minutes countdown is displayed or not after confirming order;
 4. Select a MB WAY key. Can only select from the MB WAY keys associated with your Backoffice key; 
 5. (optional) Input minimum order value to only display this payment method for orders above it;
@@ -200,7 +200,7 @@ Multibanco with Dynamic References payment method generates references by reques
 
 * Configure Credit Card (also referred to as Ccard) payment method:
 1. Select a CCard key. Can only select from the CCard keys associated with your Backoffice key; 
-2. (optional) Activate Cancel Credit Card Order, by selecting this option, Credit Card orders that are still unpaid 30 min after confirmation, will have status changed to "Cancelled";
+2. (optional) Activate Cancel Credit Card Order, by selecting this option, Credit Card orders that are still unpaid 30 min after confirmation, will have status changed to "Canceled";
 3. (optional) Input minimum order value to only display this payment method for orders above it;
 4. (optional) Input maximum order value to only display this payment method for orders below it;
 5. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
@@ -220,7 +220,7 @@ Multibanco with Dynamic References payment method generates references by reques
 1. Activate Callback, by selecting this option the order state will update when a payment is received;
 2. Select a Payshop key. Can only select from the Payshop keys associated with your Backoffice key;
 3. (optional) Input a Deadline for payment, from 1 to 99 days or leave empty if you do not want it to expire;
-4. (optional) Activate Cancel Payshop Order, by selecting this option, Payshop orders that are still unpaid after the deadline will have status changed to "Cancelled";
+4. (optional) Activate Cancel Payshop Order, by selecting this option, Payshop orders that are still unpaid after the deadline will have status changed to "Canceled";
 5. (optional) Input minimum order value to only display this payment method for order above it;
 6. (optional) Input maximum order value to only display this payment method for order below it;
 7. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
@@ -243,11 +243,12 @@ Multibanco with Dynamic References payment method generates references by reques
 * Configure Cofidis Pay payment method:
 1. Activate Callback, by selecting this option the order state will update when a payment is received;
 2. Select a Cofidis Pay key. Can only select from the Cofidis Pay keys associated with your Backoffice key;
-3. (optional) Input minimum order value to only display this payment method for order above it. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be less then the value specified in ifthenpay's backoffice.;
-4. (optional) Input maximum order value to only display this payment method for order below it. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be greater then the value specified in ifthenpay's backoffice.;
-5. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
-6. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
-7. Click "Save" button;
+3. (optional) Activate Cancel Cofidis Pay Order, by selecting this option, Cofidis Pay orders that are expired 60 minutes after confirmation will have status changed to "Canceled";
+4. (optional) Input minimum order value to only display this payment method for order above it. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be less then the value specified in ifthenpay's backoffice.;
+5. (optional) Input maximum order value to only display this payment method for order below it. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be greater then the value specified in ifthenpay's backoffice.;
+6. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
+7. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
+8. Click "Save" button;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_cofidis.png)
 </br>
 
