@@ -16,6 +16,8 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Cartão de Crédito](#Cartão-de-Crédito)
   * [Payshop](#Payshop)
   * [Cofidis Pay](#Cofidis-Pay)
+  * [Ifthenpay Gateway](#ifthenpay-gateway)
+
 
 [5. Editar Dados de Pagamento](#Editar-Dados-de-Pagamento)
   * [Atualizar Dados de Pagamento](#Atualizar-Dados-de-Pagamento)
@@ -42,6 +44,7 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Pagar encomenda com MB WAY](#Pagar-encomenda-com-MB-WAY)
   * [Pagar encomenda com Cartão de Crédito](#Pagar-encomenda-com-Cartão-de-Crédito)
   * [Pagar encomenda com Cofidis Pay](#Pagar-encomenda-com-Cofidis-Pay)
+  * [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
 
 
 # Introdução
@@ -71,9 +74,9 @@ Mais informações em [Ifthenpay](https://ifthenpay.com).
 # Compatibilidade
 
 Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a sua loja online.
-|                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.1]  |
+|                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.7]  |
 |----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 -> v8.1.1 | Não compatível | Não compatível | Compatível                    |
+| Ifthenpay v8.0.0 -> v8.2.0 | Não compatível | Não compatível | Compatível                    |
 
 
 # Instalação
@@ -258,6 +261,39 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 </br>
 
 
+## Ifthenpay Gateway
+
+* Clicar no botão "GERIR" abaixo de Ifthenpay Gateway;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/manage_ifthenpaygateway.png)
+</br>
+
+* Configurar o método de pagamento Ifthenpay Gateway:
+1. Ativar Callback. Ao selecionar esta opção, o estado da encomenda será atualizado quando o pagamento for recebido;
+2. Selecionar uma Chave Ifthenpay Gateway. Apenas pode selecionar uma das Chaves Ifthenpay Gateway associadas à Chave Backoffice;
+3. Selecionar uma conta por cada método de pagamento e colocar o visto na checkbox dos métodos que pretende exibir na página de gateway;
+4. Selecionar um método de pagamento que estará selecionado por defeito na página da gateway quando o consumidor aceder a esta;
+5. (opcional) Selecionar o número de dias de validade da referência Payshop. De 1 a 99 dias, deixe vazio se não pretender que expire;
+6. (opcional) Texto exíbido no botão de "Voltar para loja" na página da gateway;
+7. (optional) Ativar Cancelar Encomenda Ifthenpay Gateway. Ao selecionar esta opção, encomendas Ifthenpay Gateway que ainda não receberam pagamento após a Validade serão canceladas;
+8. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+9. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+10. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+11. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+12. (opcional) Exibe o logo deste método de pagamento no checkout, escolha uma de três opções:
+    - habilitado - imagem por defeito: Exibe o logo ifthenpay gateway;
+    - desabilitado: Exibe o Título do método de pagamento;
+    - habilitado - imagem composta: Exibe uma imagem composta por todos os logos dos métodos de pagamento selecionados;
+13. The title that appears to the consumer during checkout.
+14. Clicar no botão "Salvar";
+
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/config_ifthenpaygateway.png)
+</br>
+
+* Se selecionou "Callback" ativado anteriormente, após salvar, o estado do Callback será mostrado abaixo com a Chave Anti-Phishing e Url de Callback criados;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/ifthenpaygateway_callback_activated.png)
+</br>
+
+
 # Editar Dados de Pagamento
 **Nota importante:** Não é possível mudar ou atualizar para os métodos de pagamento de Cartão de Crédito e Cofidis Pay.
 Na página de detalhes de uma encomenda, é possível editar o método de pagamento e os dados de pagamento.
@@ -423,6 +459,11 @@ para preencher o formulário de Testar Callback e clicar no botão "Testar Callb
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_callback_test.png)
 </br>
 
+**Ifthenpay Gateway**: No backoffice, use o ID de encomenda e o valor e introduza este nos respetivos campos (1) e (2) do formulário de teste de callback e clique em Testar (3).
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/ifthenpaygateway_callback_test.png)
+
+</br>
+
 
 
 # Experiência do Utilizador Consumidor
@@ -563,3 +604,30 @@ As ações seguintes são descritas da perspetiva do cliente consumidor.
 * Após o qual será redirecionado de volta para a loja;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_return.png)
 </br>
+
+
+## Pagar encomenda com Ifthenpay Gateway
+
+* Selecionar Cartão de Crédito e confirmar encomenda:
+1. Selecionar "Pagamento por Cartão de Crédito";
+2. Colocar o visto nos "termos do serviço" (Depende da sua configuração do Prestashop);
+3. Clicar no botão "PLACE ORDER";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/checkout_ifthenpaygateway.png)
+</br>
+
+Selecionar um dos métodos de pagamento disponíveis na página da gateway (1).
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/ifthenpaygateway_payment_1.png)
+</br>
+
+No caso do método de pagamento Multibanco, a entidade, referência e valor serão exibidos.
+Aqui o consumidor pode fazer uma das duas ações:
+ - em caso de método de pagamento offline, guardar os dados de pagamento, clicar em fechar a gateway no botão (2) e pagar mais tarde;
+ - pagar no momento e clicar no botão de confirmar pagamento (3) para verificar o pagamento; 
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/ifthenpaygateway_payment_2.png)
+</br>
+
+Se o consumidor não pagou no momento e não guardou os dados de pagamento, ainda pode aceder mais tarde a estes através do link de acesso à gateway encontrado no histórico de encomenda na conta de utilizador ou email de confirmação de encomenda. 
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/ifthenpaygateway_payment_3.png)
+</br>
+
+Chegou ao fim do manual da extensão ifthenpay para Prestashop 8.
