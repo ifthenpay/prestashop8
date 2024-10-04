@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Callback;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataCCard;
@@ -34,25 +35,28 @@ use PrestaShop\Module\Ifthenpay\Callback\CallbackDataCofidispay;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataMbway;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataMultibanco;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataPayshop;
+use PrestaShop\Module\Ifthenpay\Callback\CallbackDataIfthenpaygateway;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackDataInterface;
 
 class CallbackDataFactory
 {
-    public static function build($type)
-    {
-        switch ($type) {
-            case 'multibanco':
-                return new CallbackDataMultibanco();
-            case 'mbway':
-                return new CallbackDataMbway();
-            case 'payshop':
-                return new CallbackDataPayshop();
-            case 'ccard':
-                return new CallbackDataCCard();
-            case 'cofidispay':
-                return new CallbackDataCofidispay();
-            default:
-                throw new \Exception('Unknown Callback Data Class');
-        }
-    }
+	public static function build($type)
+	{
+		switch ($type) {
+			case 'multibanco':
+				return new CallbackDataMultibanco();
+			case 'mbway':
+				return new CallbackDataMbway();
+			case 'payshop':
+				return new CallbackDataPayshop();
+			case 'ccard':
+				return new CallbackDataCCard();
+			case 'cofidispay':
+				return new CallbackDataCofidispay();
+			case 'ifthenpaygateway':
+				return new CallbackDataIfthenpaygateway();
+			default:
+				throw new \Exception('Unknown Callback Data Class');
+		}
+	}
 }

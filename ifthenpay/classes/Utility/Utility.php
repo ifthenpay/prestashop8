@@ -209,4 +209,24 @@ class Utility
         $code = strval($rnd);
         return $code;
     }
+
+
+	/**
+	 * masks a string by replacing the characters according to the binary mask given in $mask
+	 * if mask string is smaller then the string to mask ($text), then it replaces the remainder with the mask character
+	 */
+	public static function maskString(string $text, string $mask, string $maskCharacter = 'X')
+	{
+		$maskedText = '';
+
+		for ($i = 0; $i < strlen($text); $i++) {
+			if(!isset($mask[$i])){
+				$maskedText .= $maskCharacter;
+			}else{
+				$maskedText .= ($mask[$i] == '0') ? $maskCharacter : $text[$i];
+			}
+		}
+
+		return $maskedText;
+	}
 }

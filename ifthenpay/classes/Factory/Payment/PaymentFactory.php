@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Payment;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Payments\CCard;
@@ -34,24 +35,27 @@ use PrestaShop\Module\Ifthenpay\Payments\CofidisPay;
 use PrestaShop\Module\Ifthenpay\Payments\MbWay;
 use PrestaShop\Module\Ifthenpay\Payments\Payshop;
 use PrestaShop\Module\Ifthenpay\Payments\Multibanco;
+use PrestaShop\Module\Ifthenpay\Payments\Ifthenpaygateway;
 
 class PaymentFactory
 {
-    public static function build($paymentMethod, $data, $orderId, $valor)
-    {
-        switch ($paymentMethod) {
-            case 'multibanco':
-                return new Multibanco($data, $orderId, $valor);
-            case 'mbway':
-                return new MbWay($data, $orderId, $valor);
-            case 'payshop':
-                return new Payshop($data, $orderId, $valor);
-            case 'ccard':
-                return new CCard($data, $orderId, $valor);
-            case 'cofidispay':
-                return new CofidisPay($data, $orderId, $valor);
-            default:
-                throw new \Exception("Unknown Payment Class");
-        }
-    }
+	public static function build($paymentMethod, $data, $orderId, $valor)
+	{
+		switch ($paymentMethod) {
+			case 'multibanco':
+				return new Multibanco($data, $orderId, $valor);
+			case 'mbway':
+				return new MbWay($data, $orderId, $valor);
+			case 'payshop':
+				return new Payshop($data, $orderId, $valor);
+			case 'ccard':
+				return new CCard($data, $orderId, $valor);
+			case 'cofidispay':
+				return new CofidisPay($data, $orderId, $valor);
+			case 'ifthenpaygateway':
+				return new Ifthenpaygateway($data, $orderId, $valor);
+			default:
+				throw new \Exception("Unknown Payment Class");
+		}
+	}
 }

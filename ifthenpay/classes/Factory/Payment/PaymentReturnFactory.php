@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Payment;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Payments\Data\CCardPaymentReturn;
@@ -34,54 +35,62 @@ use PrestaShop\Module\Ifthenpay\Payments\Data\CofidispayPaymentReturn;
 use PrestaShop\Module\Ifthenpay\Payments\Data\MbwayPaymentReturn;
 use PrestaShop\Module\Ifthenpay\Payments\Data\PayshopPaymentReturn;
 use PrestaShop\Module\Ifthenpay\Payments\Data\MultibancoPaymentReturn;
+use PrestaShop\Module\Ifthenpay\Payments\Data\IfthenpaygatewayPaymentReturn;
 
 class PaymentReturnFactory
 {
-    public static function build(
-        $type,
-        $paymentDefaultData,
-        $smartyDefaultData,
-        $emailDefaultData,
-        $ifthenpayModule
-    ) {
-        switch ($type) {
-            case 'multibanco':
-                return new MultibancoPaymentReturn(
-                    $ifthenpayModule,
-                    $paymentDefaultData,
-                    $smartyDefaultData,
-                    $emailDefaultData
-                );
-            case 'mbway':
-                return new MbwayPaymentReturn(
-                    $ifthenpayModule,
-                    $paymentDefaultData,
-                    $smartyDefaultData,
-                    $emailDefaultData
-                );
-            case 'payshop':
-                return new PayshopPaymentReturn(
-                    $ifthenpayModule,
-                    $paymentDefaultData,
-                    $smartyDefaultData,
-                    $emailDefaultData
-                );
-            case 'ccard':
-                return new CCardPaymentReturn(
-                    $ifthenpayModule,
-                    $paymentDefaultData,
-                    $smartyDefaultData,
-                    $emailDefaultData
-                );
-            case 'cofidispay':
-                return new CofidispayPaymentReturn(
-                    $ifthenpayModule,
-                    $paymentDefaultData,
-                    $smartyDefaultData,
-                    $emailDefaultData
-                );
-            default:
-                throw new \Exception('Unknown Payment Return Class');
-        }
-    }
+	public static function build(
+		$type,
+		$paymentDefaultData,
+		$smartyDefaultData,
+		$emailDefaultData,
+		$ifthenpayModule
+	) {
+		switch ($type) {
+			case 'multibanco':
+				return new MultibancoPaymentReturn(
+					$ifthenpayModule,
+					$paymentDefaultData,
+					$smartyDefaultData,
+					$emailDefaultData
+				);
+			case 'mbway':
+				return new MbwayPaymentReturn(
+					$ifthenpayModule,
+					$paymentDefaultData,
+					$smartyDefaultData,
+					$emailDefaultData
+				);
+			case 'payshop':
+				return new PayshopPaymentReturn(
+					$ifthenpayModule,
+					$paymentDefaultData,
+					$smartyDefaultData,
+					$emailDefaultData
+				);
+			case 'ccard':
+				return new CCardPaymentReturn(
+					$ifthenpayModule,
+					$paymentDefaultData,
+					$smartyDefaultData,
+					$emailDefaultData
+				);
+			case 'cofidispay':
+				return new CofidispayPaymentReturn(
+					$ifthenpayModule,
+					$paymentDefaultData,
+					$smartyDefaultData,
+					$emailDefaultData
+				);
+			case 'ifthenpaygateway':
+				return new IfthenpaygatewayPaymentReturn(
+					$ifthenpayModule,
+					$paymentDefaultData,
+					$smartyDefaultData,
+					$emailDefaultData
+				);
+			default:
+				throw new \Exception('Unknown Payment Return Class');
+		}
+	}
 }

@@ -29,6 +29,7 @@ namespace PrestaShop\Module\Ifthenpay\Callback;
 use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 use PrestaShop\Module\Ifthenpay\Factory\Callback\CallbackFactory;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackProcessInterface;
+use PrestaShop\Module\Ifthenpay\Callback\CallbackVars as Cb;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -38,21 +39,62 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
 {
     public function process()
     {
-        $this->request['payment'] = $this->paymentMethod;
+		$this->request[Cb::PAYMENT] = $this->paymentMethod;
 
-        $this->setPaymentData();
+		// get the callback payment method to use the correct phish key
+		$originalPaymentMethod = $this->paymentMethod;
+
+		$this->setPaymentData();
+
+		// if no payment data is set, search other payment methods
+		if (empty($this->paymentData)) {
+			if ($this->paymentMethod === 'ifthenpaygateway') {
+
+				$methodsWithCallback = ['multibanco', 'mbway', 'payshop', 'ccard', 'cofidispay', 'ifthenpaygateway'];
+
+				// search every active payment method tables
+
+
+				foreach ($methodsWithCallback as $paymentMethod) {
+					$isActive = \Configuration::get('IFTHENPAY_' . strtoupper($this->paymentMethod));
+
+					if ($isActive == '1') {
+						$this->request[Cb::PAYMENT] = $paymentMethod;
+						$this->setPaymentData();
+						if (!empty($this->paymentData)) {
+							// set the correct payment method
+							$this->paymentMethod = $paymentMethod;
+							break;
+						}
+					}
+				}
+			} else {
+
+				$isActive = \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY');
+
+				if ($isActive == '1') {
+					// search the ifthenpaygateway table
+					$this->request[Cb::PAYMENT] = 'ifthenpaygateway';
+					$this->setPaymentData();
+					if (!empty($this->paymentData)) {
+						// set the correct payment method
+						$this->paymentMethod = 'ifthenpaygateway';
+					}
+				}
+			}
+		}
 
         if (empty($this->paymentData)) {
             $this->executePaymentNotFound();
         } else {
             try {
                 $this->setOrder();
-                CallbackFactory::buildCalllbackValidate($_GET, $this->order, \Configuration::get('IFTHENPAY_' . \Tools::strtoupper($this->paymentMethod) . '_CHAVE_ANTI_PHISHING'), $this->paymentData)
+                CallbackFactory::buildCalllbackValidate($_GET, $this->order, \Configuration::get('IFTHENPAY_' . \Tools::strtoupper($originalPaymentMethod) . '_CHAVE_ANTI_PHISHING'), $this->paymentData)
                     ->validate();
 
                 $this->changeIfthenpayPaymentStatus('paid');
                 IfthenpayLogProcess::addLog('Callback received and validated with success for payment method ' . $this->paymentMethod, IfthenpayLogProcess::INFO, $this->order->id);
-                
+
                 $this->changePrestashopOrderStatus(\Configuration::get('IFTHENPAY_' . \Tools::strtoupper($this->paymentMethod) . '_OS_CONFIRMED'));
                 IfthenpayLogProcess::addLog('Order status change with success to paid (after receiving callback)', IfthenpayLogProcess::INFO, $this->order->id);
 

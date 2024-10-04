@@ -33,18 +33,29 @@ if (!defined('_PS_VERSION_')) {
 
 use PrestaShop\Module\Ifthenpay\Factory\Models\IfthenpayModelFactory;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackDataInterface;
+use PrestaShop\Module\Ifthenpay\Callback\CallbackVars as Cb;
 
 class CallbackDataCofidispay implements CallbackDataInterface
 {
-    public function getData($request)
-    {
-        switch ($request['type']) {
-            case 'online':
-                return IfthenpayModelFactory::build('cofidispay')->getByOrderId($request['orderId']);
-            case 'offline':
-                return IfthenpayModelFactory::build('cofidispay')->getCofidispayByRequestId($request['id_pedido']);
-            default:
-                throw new \Exception('Invalid request type when obtaining callback data');
-        }
-    }
+	public function getData($request)
+	{
+		$model = IfthenpayModelFactory::build('cofidispay');
+
+		switch ($request['type']) {
+			case 'online':
+				return $model->getByOrderId($request['orderId']);
+			case 'offline':
+
+				$data = $model->getCofidispayByRequestId($request[Cb::TRANSACTION_ID]);
+
+				if (!empty($data)) {
+					return $data;
+				}
+
+				return $model->getByOrderId($request[Cb::ORDER_ID]);
+
+			default:
+				throw new \Exception('Invalid request type when obtaining callback data');
+		}
+	}
 }

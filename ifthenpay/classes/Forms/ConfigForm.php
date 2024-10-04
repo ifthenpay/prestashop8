@@ -46,7 +46,7 @@ abstract class ConfigForm
     protected $ifthenpayGateway;
     protected $options;
     protected $formFactory;
-    protected $subEntityOptions = []; 
+    protected $subEntityOptions = [];
 
     public function __construct($ifthenpayModule, $ifthenpayController = null)
     {
@@ -123,13 +123,16 @@ abstract class ConfigForm
      *
      * @return void
      */
-    protected function setFormParent()
-    {
-        $this->form = [
-            'form' => [
-                'legend' => [
-                    'title' => \Tools::ucfirst($this->paymentMethod) . ' ' . $this->ifthenpayModule->l('Settings', pathinfo(__FILE__)['filename']),
-                    'icon' => 'icon-cogs',
+	protected function setFormParent(string $title = '')
+	{
+
+		$title = $title != '' ? $title : $this->paymentMethod;
+
+		$this->form = [
+			'form' => [
+				'legend' => [
+					'title' => \Tools::ucfirst($title) . ' ' . $this->ifthenpayModule->l('Settings', pathinfo(__FILE__)['filename']),
+					'icon' => 'icon-cogs',
                 ],
                 'input' => [
                     [
@@ -458,12 +461,12 @@ abstract class ConfigForm
         if (!preg_match( "/^[0-9]+([.][0-9]{3})*$/" , $minimum) && $minimum != '') {
             Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is not valid');
             return false;
-        } 
-        
+        }
+
         if (!preg_match( "/^[0-9]+([.][0-9]{3})*$/" , $maximum) && $maximum != '') {
             Utility::setPrestashopCookie('error', 'Inputted Maximum Order Value is not valid');
             return false;
-        } 
+        }
 
         if ($minimum > $maximum  && $minimum != '' && $maximum != '') {
             Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is larger than Maximum Order Value');
@@ -478,7 +481,7 @@ abstract class ConfigForm
         if (!preg_match( "/^[0-9]+([.][0-9])*$/" , $order) && $order != '') {
             Utility::setPrestashopCookie('error', 'Inputted Order Value is not valid');
             return false;
-        } 
+        }
 
         return true;
     }

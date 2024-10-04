@@ -40,8 +40,8 @@ class MbwayAdminRefund extends MbwayBase implements AdminRefundInterface
     {
         $this->setPaymentModel('mbway');
         $this->getFromDatabaseById();
-        $this->setEmailVariables(); 
-        $this->sendEmailToAdmin('refund', Utility::getMailTranslationString('mbway', 'refund'));
+        $this->setEmailVariables();
+        $this->sendEmailToAdmin('refund_token', Utility::getMailTranslationString('mbway', 'refund'));
         return $this->securityCode;
     }
 }

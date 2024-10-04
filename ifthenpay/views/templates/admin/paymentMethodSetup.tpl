@@ -28,10 +28,17 @@
 
 <!-- Panel -->
 {* info panel start *}
+
+{if $paymentMethod === 'ifthenpaygateway'}
+    {assign var="paymentName" value="Ifthenpay Gateway"}
+{else}
+    {assign var="paymentName" value="{$paymenMethod}"}
+{/if}
+
 <div class="panel">
     <div class="panel-heading">
         <i class="icon-info"></i>
-        {l s='%s payment method' mod='ifthenpay' sprintf=[$paymentMethod|ucfirst]}
+		{l s='%s payment method' mod='ifthenpay' sprintf=[$paymentName|ucfirst]}
     </div>
 
     <div class="panel-header header-paymentMethod">
@@ -156,7 +163,15 @@
                         </div>
                     </div>
 
-                {/if}
+				{elseif $paymentMethod === 'ifthenpaygateway'}
+
+					<div class="form-group" style="display: block;">
+						<label class="control-label col-lg-4">{l s='Order ID' mod='ifthenpay'}</label>
+						<div class="col-lg-8">
+							<input type="text" id="order_id" name="order_id" class="form-control" />
+						</div>
+					</div>
+				{/if}
 
 
                 <div class="form-group" style="display: block;">

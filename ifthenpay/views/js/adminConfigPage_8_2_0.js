@@ -270,7 +270,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       value: true
     });
     /**
-     * 2007-2024 Ifthenpay Lda
+     * 2007-2022 Ifthenpay Lda
      *
      * NOTICE OF LICENSE
      *
@@ -288,7 +288,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
      * versions in the future. If you wish to customize PrestaShop for your
      * needs please refer to http://www.prestashop.com for more information.
      *
-     *  @copyright 2007-2024 Ifthenpay Lda
+     *  @copyright 2007-2022 Ifthenpay Lda
      *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
      *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
      */
@@ -309,6 +309,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       if (isMultbanco()) {
         dom_toggleDeadline();
         dom_alignSpinnerWithInput();
+      }
+
+      if (isCofidis()) {
+        dom_alignSpinnerWithInput();
+      }
+
+      if (isIfthenpaygateway()) {
+        dom_alignSpinnerWithInput();
+        dom_disableUncheckedDefaultPaymentMethods();
       }
 
       var app = inversify_adminConfigPage_1["default"].get(AdminConfigPageCreateApp_1.AdminConfigPageCreateApp);
@@ -362,12 +371,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
       if (domSpinner.closest(".col-lg-8")) {
         var domMbSubEnt = document.getElementById("ifthenpayMultibancoSubentidade");
-        domMbSubEnt.style["float"] = "left";
+        var domIfthenpaygatewayKey = document.getElementById("ifthenpayIfthenpaygatewayKey");
+        var domElement = void 0;
+
+        if (domMbSubEnt) {
+          domElement = domMbSubEnt;
+        } else if (domIfthenpaygatewayKey) {
+          domElement = domIfthenpaygatewayKey;
+        } else {
+          return;
+        }
+
+        domElement.style["float"] = "left";
         domSpinner.style["float"] = "left";
         domSpinner.style.margin = "0";
         domSpinner.style.paddingLeft = "10px";
         domSpinner.closest(".col-lg-8").classList.remove("col-lg-8", "col-lg-offset-3");
-        var domHelpBlockParent = domMbSubEnt.closest(".form-group");
+        var domHelpBlockParent = domElement.closest(".form-group");
         var domHelpBlock = domHelpBlockParent.querySelector(".col-lg-8 .help-block");
 
         if (domHelpBlock != null) {
@@ -386,6 +406,30 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     function isMultbanco() {
       return document.getElementById("ifthenpayMultibancoEntidade") ? true : false;
     }
+
+    function isCofidis() {
+      return document.getElementById("ifthenpayCofidisKey") ? true : false;
+    }
+
+    function isIfthenpaygateway() {
+      return document.getElementById("ifthenpayIfthenpaygatewayKey") ? true : false;
+    }
+
+    function dom_disableUncheckedDefaultPaymentMethods() {
+      var methods = $("#methods_container .method_checkbox_input");
+      methods.each(function (i, obj) {
+        var method = $(obj).data("method");
+        var isSwitchOn = $(obj).prop("checked");
+        var defaultPaymentSelect = $("#payment_ifthenpaygateway_default");
+        var target = defaultPaymentSelect.find('option[data-method="' + method + '"]');
+        target.prop("disabled", !isSwitchOn);
+
+        if (target.prop("selected")) {
+          target.prop("selected", false);
+          defaultPaymentSelect.find("option").first().prop("selected", true);
+        }
+      });
+    }
     /***/
 
   },
@@ -402,7 +446,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsClassesShowFormGroupTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -420,7 +464,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -479,7 +523,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsContainerInversifyAdminConfigPageTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -497,7 +541,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -617,7 +661,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     });
     exports.AppComponent = void 0;
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -635,7 +679,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -687,7 +731,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsDecoratorsEventTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -705,7 +749,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -748,7 +792,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsEventsAdminConfigPageTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-     * 2007-2024 Ifthenpay Lda
+     * 2007-2022 Ifthenpay Lda
      *
      * NOTICE OF LICENSE
      *
@@ -766,7 +810,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
      * versions in the future. If you wish to customize PrestaShop for your
      * needs please refer to http://www.prestashop.com for more information.
      *
-     *  @copyright 2007-2024 Ifthenpay Lda
+     *  @copyright 2007-2022 Ifthenpay Lda
      *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
      *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
      */
@@ -897,21 +941,57 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         });
       };
 
-      
+      AdminConfigPage.prototype.changeIfthenpayGatewayKey = function (event) {
+        var spinner = $("#appSpinner");
+        spinner.parent().insertAfter($(event.target));
+        spinner.show();
+        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
+        this.httpService.setUrl(controllerUrl);
+        this.httpService.post({
+          ajax: 1,
+          controller: "AdminIfthenpayPaymentMethodSetup",
+          action: "getIfthenpayGatewayMethods",
+          gatewayKey: $(event.target).val()
+        }).then(function (response) {
+          var containerGatewayAccounts = $("#methods_container"); // clean methods and accounts
+
+          containerGatewayAccounts.html("");
+
+          if ("payment_methods_html" in response) {
+            containerGatewayAccounts.html(response["payment_methods_html"]);
+          }
+
+          var containerDefaultMethod = $("#default_method_container"); // clean default method
+
+          containerDefaultMethod.html("");
+
+          if ("default_selected_html" in response) {
+            containerDefaultMethod.html(response["default_selected_html"]);
+          }
+
+          spinner.hide();
+        });
+      };
+
+      AdminConfigPage.prototype.updateSelectedDefault = function (event) {
+        var method = $(event.target).data("method");
+        var isSwitchOn = $(event.target).prop("checked");
+        var defaultPaymentSelect = $("#payment_ifthenpaygateway_default");
+        var target = defaultPaymentSelect.find('option[data-method="' + method + '"]');
+        target.prop("disabled", !isSwitchOn);
+
+        if (target.prop("selected")) {
+          target.prop("selected", false);
+          defaultPaymentSelect.find("option").first().prop("selected", true);
+        }
+      };
+
       AdminConfigPage.prototype.changeCofidisKey = function (event) {
-        var _this = this;
         var spinner = $("#appSpinner");
         var containerCofidisMax = $("#ifthenpayMaxAmount");
         var containerCofidisMin = $("#ifthenpayMinAmount");
-    
-        spinner.parent().insertAfter(containerCofidisMin);
+        spinner.parent().insertAfter($(event.target));
         spinner.show();
-    
-        var cofidisKey = $(event.target).val();
-        if (cofidisKey === null || cofidisKey === "") {
-            spinner.hide();
-            return;
-        }
         this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
         this.httpService.setUrl(controllerUrl);
         this.httpService.post({
@@ -919,10 +999,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           controller: "AdminIfthenpayPaymentMethodSetup",
           action: "getCofidisLimits",
           cofidisKey: $(event.target).val()
-        }).then(function (limits) {
-          containerCofidisMax.val(limits.maxAmount);
-          containerCofidisMin.val(limits.minAmount);
-          
+        }).then(function (response) {
+          var _a, _b;
+
+          containerCofidisMax.val((_a = response["maxAmount"]) !== null && _a !== void 0 ? _a : "");
+          containerCofidisMin.val((_b = response["minAmount"]) !== null && _b !== void 0 ? _b : "");
           spinner.hide();
         });
       };
@@ -935,17 +1016,20 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var referenceDom = $("#reference");
         var amountDom = $("#amount");
         var mbwayTransactionIdDom = $("#mbway_transaction_id");
-        var payshopTransactionIdDom = $("#payshop_transaction_id"); // message template
-        var cofidispayTransactionIdDom = $("#cofidispay_transaction_id");
+        var payshopTransactionIdDom = $("#payshop_transaction_id");
+        var cofidisTransactionIdDom = $("#cofidispay_transaction_id");
+        var orderIdDom = $("#order_id"); // message template
+
         var msgHtml = "\n        <div class=\"alert alert-{{type}}\">\n            <button type=\"button\" class=\"close\" data-dismiss=\"alert\">\xD7</button>\n            <ul class=\"list-unstyled\">\n                <li>{{message}}</li>\n            </ul>\n        </div>\n";
         var method = methodDom.length ? methodDom.val() : "";
         var reference = referenceDom.length ? referenceDom.val() : "";
         var amount = amountDom.length ? amountDom.val() : "";
         var mbwayTransactionId = mbwayTransactionIdDom.length ? mbwayTransactionIdDom.val() : "";
-        var payshopTransactionId = payshopTransactionIdDom.length ? payshopTransactionIdDom.val() : ""; // verify if multibanco or mbway or payshop have arguments
-        var cofidispayTransactionId = cofidispayTransactionIdDom.length ? cofidispayTransactionIdDom.val() : "";
+        var payshopTransactionId = payshopTransactionIdDom.length ? payshopTransactionIdDom.val() : "";
+        var cofidisTransactionId = cofidisTransactionIdDom.length ? cofidisTransactionIdDom.val() : "";
+        var orderId = orderIdDom.length ? orderIdDom.val() : ""; // verify if multibanco or mbway or payshop have arguments
 
-        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "payshop" && (amount === "" || payshopTransactionId === "") || method === "cofidispay" && (amount === "" || cofidispayTransactionId === "")) {
+        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "payshop" && (amount === "" || payshopTransactionId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "")) {
           bootstrapMsgContainer.html(msgHtml.replace("{{type}}", "danger").replace("{{message}}", msgFillAllFields));
           return;
         }
@@ -960,7 +1044,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           amount: amount,
           mbway_transaction_id: mbwayTransactionId,
           payshop_transaction_id: payshopTransactionId,
-          cofidispay_transaction_id: cofidispayTransactionId,
+          cofidis_transaction_id: cofidisTransactionId,
+          order_id: orderId,
           method: method
         }).then(function (response) {
           var msgType = "";
@@ -978,7 +1063,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       };
 
       __decorate([(0, Event_1.Event)("change", "#ifthenpayMultibancoEntidade"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeEntidade", null);
+
+      __decorate([(0, Event_1.Event)("change", "#ifthenpayIfthenpaygatewayKey"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeIfthenpayGatewayKey", null);
+
+      __decorate([(0, Event_1.Event)("change", "#methods_container", ".method_checkbox_input"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "updateSelectedDefault", null);
+
       __decorate([(0, Event_1.Event)("change", "#ifthenpayCofidisKey"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeCofidisKey", null);
+
       __decorate([(0, Event_1.Event)("click", "#testCallback"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "testCallback", null);
 
       return AdminConfigPage;
@@ -1000,7 +1091,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsEventsPageTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -1018,7 +1109,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -1082,7 +1173,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsFacadesAdminConfigPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -1100,7 +1191,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -1213,7 +1304,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsFacadesMainAppTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -1231,7 +1322,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -1311,7 +1402,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsServicesHttpServiceTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -1329,7 +1420,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -1385,6 +1476,90 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     }();
 
     exports.HttpService = HttpService;
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayAdminOrder.scss":
+  /*!********************************************!*\
+    !*** ./_dev/scss/ifthenpayAdminOrder.scss ***!
+    \********************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayAdminOrderScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayConfig.scss":
+  /*!****************************************!*\
+    !*** ./_dev/scss/ifthenpayConfig.scss ***!
+    \****************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayConfigScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayConfirmPage.scss":
+  /*!*********************************************!*\
+    !*** ./_dev/scss/ifthenpayConfirmPage.scss ***!
+    \*********************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayConfirmPageScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayOrderDetail.scss":
+  /*!*********************************************!*\
+    !*** ./_dev/scss/ifthenpayOrderDetail.scss ***!
+    \*********************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayOrderDetailScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/ifthenpayPaymentMethodSetup.scss":
+  /*!****************************************************!*\
+    !*** ./_dev/scss/ifthenpayPaymentMethodSetup.scss ***!
+    \****************************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssIfthenpayPaymentMethodSetupScss(module, exports) {// removed by extract-text-webpack-plugin
+
+    /***/
+  },
+
+  /***/
+  "./_dev/scss/paymentOptions.scss":
+  /*!***************************************!*\
+    !*** ./_dev/scss/paymentOptions.scss ***!
+    \***************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function _devScssPaymentOptionsScss(module, exports) {// removed by extract-text-webpack-plugin
+
     /***/
   },
 
@@ -6837,17 +7012,41 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
   /***/
   0:
-  /*!******************************************!*\
-    !*** multi ./_dev/js/adminConfigPage.ts ***!
-    \******************************************/
+  /*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+    !*** multi ./_dev/js/adminConfigPage.ts ./_dev/scss/ifthenpayConfig.scss ./_dev/scss/ifthenpayPaymentMethodSetup.scss ./_dev/scss/ifthenpayConfirmPage.scss ./_dev/scss/ifthenpayAdminOrder.scss ./_dev/scss/ifthenpayOrderDetail.scss ./_dev/scss/paymentOptions.scss ***!
+    \*************************************************************************************************************************************************************************************************************************************************************************/
 
   /*! no static exports found */
 
   /***/
   function _(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(
-    /*! /var/www/html/prestashop/1787/modules/ifthenpay/_dev/js/adminConfigPage.ts */
+    __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/js/adminConfigPage.ts */
     "./_dev/js/adminConfigPage.ts");
+
+    __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayConfig.scss */
+    "./_dev/scss/ifthenpayConfig.scss");
+
+    __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayPaymentMethodSetup.scss */
+    "./_dev/scss/ifthenpayPaymentMethodSetup.scss");
+
+    __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayConfirmPage.scss */
+    "./_dev/scss/ifthenpayConfirmPage.scss");
+
+    __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayAdminOrder.scss */
+    "./_dev/scss/ifthenpayAdminOrder.scss");
+
+    __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayOrderDetail.scss */
+    "./_dev/scss/ifthenpayOrderDetail.scss");
+
+    module.exports = __webpack_require__(
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/paymentOptions.scss */
+    "./_dev/scss/paymentOptions.scss");
     /***/
   }
   /******/

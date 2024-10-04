@@ -25,7 +25,7 @@
 <div class="card mt-2" id="view_order_payments_block">
 	<div class="card-header">
 		<h3 class="card-header-title">
-		Ifthenpay
+			Ifthenpay
 		</h3>
 	</div>
 
@@ -101,6 +101,23 @@
 											<span class="badge">{$totalToPay}</span>
 										</li>
 									</ul>
+								{elseif $paymentMethod == 'ifthenpaygateway'}
+									<ul class="list-group">
+										<li class="list-group-item">
+											{l s='Payment Gateway Link:' mod='ifthenpay'}
+											<span class="badge">{$paymentUrl}</span>
+										</li>
+										{if $deadline != ''}
+											<li class="list-group-item">
+												{l s='Deadline:' mod='ifthenpay'}
+												<span class="badge">{$deadline}</span>
+											</li>
+										{/if}
+										<li class="list-group-item">
+											{l s='Total to Pay:' mod='ifthenpay'}
+											<span class="badge">{$totalToPay}</span>
+										</li>
+									</ul>
 								{else}
 									<ul class="list-group">
 										<li class="list-group-item">
@@ -156,94 +173,80 @@
 
 	</div>
 </div>
-  <script>
-    {
-      * PARTIAL REFUND METHOD *
-    }
-    $(document).ready(function() {
-          {
-            if $swtichRefund
-          }
-          const refundBtn = document.getElementsByClassName('partial-refund-display');
-          let paymentsList = []; {
-            foreach $paymentMethods as $key => $value
-          }
-          paymentsList.push('{$value}'); {
-            /foreach} {
-              /if}
-              if (refundBtn.length === 1) {
-                refundBtn[0].addEventListener("click", function(event) {
-                    if (paymentsList.includes('{$paymentMethod}')) {
-                      document.getElementById("cancel_product_save").disabled = true;
-                      const msgbox = document.getElementById("content-message-box"); {
-                        if $paymentMethod == 'mbway' || $paymentMethod == 'ccard'
-                      }
-                      let confirmRefund = confirm('{$confirmRefund}');
-                      if (confirmRefund) {
-                        $.ajax({
-                          url: '{$refundControllerUrl}',
-                          type: 'GET',
-                          headers: {
-                            "cache-control": "no-cache"
-                          },
-                          success: function(data) {
-                            const initialDate = Date.now();
-                            const timeLimit = 10 * 60 * 1000;
-                            let msg = document.createElement("div");
-                            msg.innerHTML = " < div class = 'alert alert-success' > {
-                              $refundNotification
-                            } < /div>";
-                            msgbox.appendChild(msg);
-                            setTimeout(function() {
-                              let securityCode = prompt("{$promptCode}");
-                              if (securityCode == JSON.parse(data).code) {
-                                if (Date.now() - initialDate > timeLimit) {
-                                  let msg = document.createElement("div");
-                                  msg.innerHTML = " < div class = 'alert alert-danger' > " + " {
-                                    $invalidCode
-                                  }
-                                  " + " {
-                                    $timeExceeded
-                                  }
-                                  " + " < /div>";
-                                  msgbox.appendChild(msg);
-                                } else {
-                                  document.getElementById("cancel_product_save").disabled = false;
-                                  let msg = document.createElement("div");
-                                  msg.innerHTML = " < div class = 'alert alert-success' > {
-                                    $validationSuccessful
-                                  } < /div>";
-                                  msgbox.appendChild(msg);
-                                }
-                              } else {
-                                let msg = document.createElement("div");
-                                msg.innerHTML = " < div class = 'alert alert-danger' > " + " {
-                                  $invalidCode
-                                }
-                                " + "!" + " < /div>";
-                                msgbox.appendChild(msg);
-                              }
-                            }, 500)
-                          },
-                          error: function(jqXHR, textStatus, errorThrown) {
-                            alert('Ocorreu um erro: ' + textStatus + ', ' + errorThrown);
-                          }
-                        });
-                      } {
-                        else
-                      }
-                      let msg = document.createElement("div");
-                      msg.innerHTML = " < div class = 'alert alert-warning' > " + " {
-                        $refundNotAvailable
-                      }
-                      " + " {
-                        $paymentMethod
-                      }
-                      " + " < /div>";
-                      msgbox.appendChild(msg); {
-                        /if}
-                      }
-                    });
-                }
-              });
-  </script>
+<script>
+{* PARTIAL REFUND METHOD *}
+$(document).ready(function(){
+
+	let paymentsList = [];
+	{foreach $paymentMethods as $key => $value}
+		paymentsList.push('{$value}');
+	{/foreach}
+
+	const refundBtn = document.getElementsByClassName('partial-refund-display');
+	if (refundBtn.length === 1) {
+
+		refundBtn[0].addEventListener("click", function(event) {
+
+			if (paymentsList.includes('{$paymentMethod}')) {
+
+				document.getElementById("cancel_product_save").disabled = true;
+				const msgbox = document.getElementById("content-message-box");
+
+				{if $paymentMethod == 'mbway' || $paymentMethod == 'ccard'}
+
+					let confirmRefund = confirm("Are you sure you want to make a refund? If so, you will receive a security code via email.");
+					if (confirmRefund) {
+
+						$.ajax({
+							url: '{$refundControllerUrl}',
+							type: 'GET',
+							headers: { "cache-control": "no-cache" },
+							success: function(data) {
+								const initialDate = Date.now();
+								const timeLimit = 5 * 60 * 1000;
+
+
+								let msg = document.createElement("div");
+								msg.innerHTML = "<div class='alert alert-success'>Refund notification sent with success!</div>";
+								msgbox.appendChild(msg);
+
+								setTimeout(function() {
+
+									let securityCode = prompt("Please enter the security code from the email sent:");
+
+									if (securityCode != '') {
+
+										let timeExceeded = (Date.now() - initialDate > timeLimit) ? ": the validation time has been exceeded!" : "";
+
+										if ((securityCode != JSON.parse(data).code) || (Date.now() - initialDate > timeLimit)) {
+
+											let msg = document.createElement("div");
+											msg.innerHTML = "<div class='alert alert-danger'>" + "Invalid security code" + timeExceeded + "</div>";
+											msgbox.appendChild(msg);
+
+										} else {
+
+											document.getElementById("cancel_product_save").disabled = false;
+											let msg = document.createElement("div");
+											msg.innerHTML = "<div class='alert alert-success'>Security code was inserted successfully! You can now proceed with the refund.</div>";
+											msgbox.appendChild(msg);
+
+										}
+									}
+								}, 500)
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								alert('Ocorreu um erro: ' + textStatus + ', ' + errorThrown);
+							}
+						});
+					}
+				{else}
+					let msg = document.createElement("div");
+					msg.innerHTML = "<div class='alert alert-warning'>" + "It is not possible to proceed with the refund through " + "{$paymentMethod}" + "</div>";
+					msgbox.appendChild(msg);
+				{/if}
+			}
+		});
+	}
+});
+</script>

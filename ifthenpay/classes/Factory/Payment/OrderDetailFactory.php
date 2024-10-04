@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Payment;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Payments\Data\CCardOrderDetail;
@@ -34,28 +35,31 @@ use PrestaShop\Module\Ifthenpay\Payments\Data\CofidispayOrderDetail;
 use PrestaShop\Module\Ifthenpay\Payments\Data\MbwayOrderDetail;
 use PrestaShop\Module\Ifthenpay\Payments\Data\PayshopOrderDetail;
 use PrestaShop\Module\Ifthenpay\Payments\Data\MultibancoOrderDetail;
+use PrestaShop\Module\Ifthenpay\Payments\Data\IfthenpaygatewayOrderDetail;
 
 class OrderDetailFactory
 {
-    public static function build(
-        $type,
-        $paymentDefaultData,
-        $smartyDefaultData,
-        $ifthenpayModule
-    ) {
-        switch ($type) {
-            case 'multibanco':
-                return new MultibancoOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
-            case 'mbway':
-                return new MbwayOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
-            case 'payshop':
-                return new PayshopOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
-            case 'ccard':
-                return new CCardOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
-            case 'cofidispay':
-                return new CofidispayOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
-            default:
-                throw new \Exception('Unknown Order Detail Class');
-        }
-    }
+	public static function build(
+		$type,
+		$paymentDefaultData,
+		$smartyDefaultData,
+		$ifthenpayModule
+	) {
+		switch ($type) {
+			case 'multibanco':
+				return new MultibancoOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+			case 'mbway':
+				return new MbwayOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+			case 'payshop':
+				return new PayshopOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+			case 'ccard':
+				return new CCardOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+			case 'cofidispay':
+				return new CofidispayOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+			case 'ifthenpaygateway':
+				return new IfthenpaygatewayOrderDetail($ifthenpayModule, $paymentDefaultData, $smartyDefaultData);
+			default:
+				throw new \Exception('Unknown Order Detail Class');
+		}
+	}
 }

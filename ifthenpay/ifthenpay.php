@@ -39,6 +39,7 @@ use PrestaShop\Module\Ifthenpay\Factory\Models\IfthenpayModelFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Config\IfthenpayInstallerFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopModelFactory;
+use PrestaShop\Module\Ifthenpay\Utility\CountryCodes;
 
 class Ifthenpay extends PaymentModule
 {
@@ -49,7 +50,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.1.1';
+        $this->version = '8.2.0';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -103,7 +104,7 @@ class Ifthenpay extends PaymentModule
         if (
             !parent::install() || !$this->registerHook('paymentOptions') || !$this->registerHook('paymentReturn') ||
             !$this->registerHook('displayAdminOrder') || !$this->registerHook('displayOrderDetail') || !$this->registerHook('displayHeader') ||
-            !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') || 
+            !$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') ||
             !$this->registerHook('displayBackOfficeHeader') || !$this->registerHook('actionProductCancel')
         ) {
             return false;
@@ -216,7 +217,7 @@ class Ifthenpay extends PaymentModule
 
         return $helper->generateForm(array($this->getConfigForm()));
     }
-    
+
     /**
      * Create the structure of your form.
      * This is the first configuration page, where it shows all payment methods and update status.
@@ -226,7 +227,7 @@ class Ifthenpay extends PaymentModule
         $form = [];
 
         /**
-         * If there is no backofficeKey stored in the DB, 
+         * If there is no backofficeKey stored in the DB,
          * the user will be asked to enter one.
          */
         if (!$this->ifthenpayConfig['IFTHENPAY_BACKOFFICE_KEY']) {
@@ -345,9 +346,9 @@ class Ifthenpay extends PaymentModule
         }
 
 
-        /** 
-         * Check MB Dynamic References. 
-         * Otherwise, a "request" button must be created. 
+        /**
+         * Check MB Dynamic References.
+         * Otherwise, a "request" button must be created.
          */
         $accounts = unserialize(Configuration::get('IFTHENPAY_USER_ACCOUNT'));
 
@@ -401,7 +402,7 @@ class Ifthenpay extends PaymentModule
         return $form;
     }
 
-    /** 
+    /**
     * Set values for the inputs.
     */
     protected function getConfigFormValues()
@@ -525,7 +526,7 @@ class Ifthenpay extends PaymentModule
                 )
             );
             ConfigFactory::buildIfthenpayControllersTabs($this)->dynamicInstall('AdminIfthenpayActivateNewAccount');
-     
+			ConfigFactory::buildIfthenpayControllersTabs($this)->dynamicInstall('AdminIfthenpayActivateNewGatewayMethod');
 
             IfthenpayInstallerFactory::build(
                 'ifthenpayInstaller',
@@ -534,7 +535,7 @@ class Ifthenpay extends PaymentModule
             )->execute('install');
 
             Utility::setPrestashopCookie('success', $this->l('Backoffice key was saved with success!'));
-            IfthenpayLogProcess::addLog('Backoffice key saved with success. - ' . $backofficeKey, IfthenpayLogProcess::INFO, 0);
+			IfthenpayLogProcess::addLog('Backoffice key saved with success. - ' . Utility::maskString($backofficeKey, '1000101001001010001'), IfthenpayLogProcess::INFO, 0);
             Utility::redirectIfthenpayConfigPage();
         } catch (\Throwable $th) {
             IfthenpayLogProcess::addLog(
@@ -631,10 +632,6 @@ class Ifthenpay extends PaymentModule
                     $option = PrestashopFactory::buildPaymentOption();
                     if ($paymentMethod === 'mbway') {
                         $this->context->smarty->assign(
-                            'mbwaySvg',
-                            $this->_path . 'views/img/mbway.svg'
-                        );
-                        $this->context->smarty->assign(
                             [
                                 'action' => $this->context->link->getModuleLink(
                                     $this->name,
@@ -646,6 +643,17 @@ class Ifthenpay extends PaymentModule
                                 ),
                             ]
                         );
+
+
+						$lang = $this->context->language->iso_code ?? '';
+						$countryCodeOptions = CountryCodes::getCountryCodesAsValueNameArray($lang);
+						$this->context->smarty->assign(
+							[
+								"countryCodeOptions" => $countryCodeOptions
+							]
+                        );
+
+
                         $option->setForm(
                             $this->context->smarty->fetch(
                                 $this->local_path .
@@ -661,6 +669,42 @@ class Ifthenpay extends PaymentModule
                             )
                         );
                     }
+					if ($paymentMethod === 'ifthenpaygateway') {
+						$option->setCallToActionText(
+							$this->l('Pay by ') . $ifthenpayGateway->getAliasPaymentMethods(
+								$paymentMethod,
+								$this->context->language->iso_code
+							)
+						)
+							->setAction(
+								$this->context->link->getModuleLink(
+									$this->name,
+									'validation',
+									[
+										'paymentOption' => $paymentMethod,
+									],
+									true
+								)
+							)
+							->setModuleName($this->name);
+
+						$logoTypeToShow = Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO');
+						$paymentMethodTitle = Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_TITLE');
+						// if show logo
+						if ($logoTypeToShow === '0') //show regular logo
+						{
+							$option->setCallToActionText($this->l('Pay by ') . $paymentMethodTitle);
+						} else { //show regular logo
+							$option->setLogo(
+								Media::getMediaPath(
+									_PS_MODULE_DIR_ . $this->name . '/views/img/' . $paymentMethod . '_option.png'
+								)
+							);
+						}
+
+						$payments_options[] = $option;
+						continue;
+					}
                     $option->setCallToActionText(
                         $this->l('Pay by ') . $ifthenpayGateway->getAliasPaymentMethods(
                             $paymentMethod,
@@ -729,6 +773,13 @@ class Ifthenpay extends PaymentModule
     private function isPayMethodConfigured($paymentMethod)
     {
         switch ($paymentMethod) {
+			case 'ifthenpaygateway':
+				if (
+					\Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_KEY')
+				) {
+					return true;
+				}
+				break;
             case 'multibanco':
                 if (
                     \Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_ENTIDADE') &&
@@ -949,7 +1000,7 @@ class Ifthenpay extends PaymentModule
                     default:
                         $switchRefund = false;
                 }
-                
+
                 $this->smarty->assign($ifthenpayAdminOrder->getSmartyVariables()->toArray());
                 $this->smarty->assign('paymentMethods', (array) unserialize($this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']));
                 $this->smarty->assign('swtichRefund', $switchRefund);
@@ -960,7 +1011,7 @@ class Ifthenpay extends PaymentModule
                 $this->smarty->assign('timeExceeded', $this->l(': the validation time has been exceeded!'));
                 $this->smarty->assign('invalidCode', $this->l('Invalid security code'));
                 $this->smarty->assign('validationSuccessful', $this->l('Security code was inserted successfully! You can now proceed with the refund.'));
-                
+
                 return $this->display(__FILE__, 'admin.tpl');
 
             } catch (\Throwable $th) {
@@ -1115,6 +1166,7 @@ class Ifthenpay extends PaymentModule
             ConfigFactory::buildCancelPayshopOrder()->cancelOrder();
             ConfigFactory::buildCancelMultibancoOrder()->cancelOrder();
             ConfigFactory::buildCancelCofidisOrder()->cancelOrder();
+			ConfigFactory::buildCancelIfthenpaygatewayOrder()->cancelOrder();
         }
     }
 
@@ -1130,7 +1182,7 @@ class Ifthenpay extends PaymentModule
         $paymentData = IfthenpayModelFactory::build($payment)->getByOrderId((string) $orderID);
 
         if ($payment == 'multibanco' || $payment == 'payshop') {
-            
+
             $type = 'warning';
             $msg = $this->l('The partial refund feature is not available for ').$payment;
 
@@ -1144,7 +1196,7 @@ class Ifthenpay extends PaymentModule
             'requestId' => $paymentData['transaction_id'],
             'amount' => $params['cancel_amount']
         ];
-        
+
         $ifthenpayGateway = GatewayFactory::build('gateway');
         $response = $ifthenpayGateway->refund($body);
 

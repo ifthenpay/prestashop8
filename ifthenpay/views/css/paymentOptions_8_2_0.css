@@ -1,5 +1,5 @@
 /**
-* 2007-2024 Ifthenpay Lda
+* 2007-2022 Ifthenpay Lda
 *
 * NOTICE OF LICENSE
 *
@@ -17,12 +17,12 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @copyright 2007-2024 Ifthenpay Lda
+*  @copyright 2007-2022 Ifthenpay Lda
 *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
 *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
 */
 /**
-* 2007-2024 Ifthenpay Lda
+* 2007-2022 Ifthenpay Lda
 *
 * NOTICE OF LICENSE
 *
@@ -40,7 +40,7 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @copyright 2007-2024 Ifthenpay Lda
+*  @copyright 2007-2022 Ifthenpay Lda
 *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
 *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
 */
@@ -118,13 +118,13 @@
 }
 
 .cofidispay_option {
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f5f5f5; 
-    max-width: 500px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  max-width: 500px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .cofidispay_option h5 {
@@ -132,10 +132,27 @@
 }
 
 .cofidispay_option p {
-    font-size: 11px;
-    text-align: justify;
+  font-size: 11px;
+  text-align: justify;
 }
 
 .cofidispay_option p b {
   font-weight: 600;
+}
+
+#ifthenpayPhoneWrapper {
+  display: flex;
+}
+
+#ifthenpayMbwayPhoneCode, .ifthenpay_mbway_phone {
+  height: 40px; /* Adjust as per your requirement */
+  padding: 8px;
+}
+
+#ifthenpayMbwayPhoneCode {
+  margin-right: 10px;
+}
+
+.ifthenpay_mbway_phone {
+  flex-grow: 1; /* Makes the input take the remaining space */
 }

@@ -270,7 +270,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       value: true
     });
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -288,7 +288,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -355,7 +355,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsContainerInversifyContainerAdminAccountSettingsPageTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -373,7 +373,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -488,7 +488,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     });
     exports.AppComponent = void 0;
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -506,7 +506,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -558,7 +558,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsDecoratorsEventTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -576,7 +576,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -619,7 +619,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsEventsAdminAccountSettingsPageTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-     * 2007-2024 Ifthenpay Lda
+     * 2007-2022 Ifthenpay Lda
      *
      * NOTICE OF LICENSE
      *
@@ -637,7 +637,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
      * versions in the future. If you wish to customize PrestaShop for your
      * needs please refer to http://www.prestashop.com for more information.
      *
-     *  @copyright 2007-2024 Ifthenpay Lda
+     *  @copyright 2007-2022 Ifthenpay Lda
      *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
      *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
      */
@@ -753,7 +753,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsEventsPageTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -771,7 +771,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -835,7 +835,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsFacadesAdminAccountSettingsPageCreateAppTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -853,7 +853,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -962,7 +962,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsFacadesMainAppTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -980,7 +980,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -1060,7 +1060,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   function _devJsServicesHttpServiceTs(module, exports, __webpack_require__) {
     "use strict";
     /**
-    * 2007-2024 Ifthenpay Lda
+    * 2007-2022 Ifthenpay Lda
     *
     * NOTICE OF LICENSE
     *
@@ -1078,7 +1078,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     * versions in the future. If you wish to customize PrestaShop for your
     * needs please refer to http://www.prestashop.com for more information.
     *
-    *  @copyright 2007-2024 Ifthenpay Lda
+    *  @copyright 2007-2022 Ifthenpay Lda
     *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
     *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
     */
@@ -6595,7 +6595,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /var/www/html/prestashop/1787/modules/ifthenpay/_dev/js/adminAccountSettingsPage.ts */
+    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/js/adminAccountSettingsPage.ts */
     "./_dev/js/adminAccountSettingsPage.ts");
     /***/
   }

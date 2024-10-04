@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -27,141 +28,185 @@
 namespace PrestaShop\Module\Ifthenpay\Builders;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Contracts\Builders\DataBuilderInterface;
 
 class DataBuilder implements DataBuilderInterface
 {
-    protected $data;
+	protected $data;
 
-    public function __construct()
-    {
-        $this->data = new \stdClass;
-    }
+	public function __construct()
+	{
+		$this->data = new \stdClass;
+	}
 
-    public function setTotalToPay($value)
+	public function setTotalToPay($value)
+	{
+		$this->data->totalToPay = $value;
+		return $this;
+	}
+
+	public function setPaymentMethod($value)
+	{
+		$this->data->paymentMethod = $value;
+		return $this;
+	}
+
+	public function setEntidade($value)
+	{
+		$this->data->entidade = $value;
+		return $this;
+	}
+
+	public function setSubEntidade($value)
+	{
+		$this->data->entidade = $value;
+		return $this;
+	}
+
+	public function setKey($value)
     {
-        $this->data->totalToPay = $value;
+        $this->data->key = $value;
         return $this;
     }
 
-    public function setPaymentMethod($value)
-    {
-        $this->data->paymentMethod = $value;
-        return $this;
-    }
+	public function setReferencia($value)
+	{
+		$this->data->referencia = $value;
+		return $this;
+	}
 
-    public function setEntidade($value)
-    {
-        $this->data->entidade = $value;
-        return $this;
-    }
+	public function setTelemovel($value = null)
+	{
+		$this->data->telemovel = $value;
+		return $this;
+	}
 
-    public function setSubEntidade($value)
-    {
-        $this->data->entidade = $value;
-        return $this;
-    }
+	public function setValidade($value)
+	{
+		$this->data->validade = $value;
+		return $this;
+	}
 
-    public function setReferencia($value)
-    {
-        $this->data->referencia = $value;
-        return $this;
-    }
+	public function setIdPedido($value = null)
+	{
+		$this->data->idPedido = $value;
+		return $this;
+	}
 
-    public function setTelemovel($value = null)
-    {
-        $this->data->telemovel = $value;
-        return $this;
-    }
+	public function setBackofficeKey($value)
+	{
+		$this->data->backofficeKey = $value;
+		return $this;
+	}
 
-    public function setValidade($value)
-    {
-        $this->data->validade = $value;
-        return $this;
-    }
+	public function setSuccessUrl($value)
+	{
+		$this->data->successUrl = $value;
+		return $this;
+	}
 
-    public function setIdPedido($value = null)
-    {
-        $this->data->idPedido = $value;
-        return $this;
-    }
+	public function setErrorUrl($value)
+	{
+		$this->data->errorUrl = $value;
+		return $this;
+	}
 
-    public function setBackofficeKey($value)
-    {
-        $this->data->backofficeKey = $value;
-        return $this;
-    }
+	public function setCancelUrl($value)
+	{
+		$this->data->cancelUrl = $value;
+		return $this;
+	}
 
-    public function setSuccessUrl($value)
-    {
-        $this->data->successUrl = $value;
-        return $this;
-    }
+	public function setPaymentMessage($value)
+	{
+		$this->data->message = $value;
+		return $this;
+	}
 
-    public function setErrorUrl($value)
-    {
-        $this->data->errorUrl = $value;
-        return $this;
-    }
+	public function setPaymentUrl($value)
+	{
+		$this->data->paymentUrl = $value;
+		return $this;
+	}
 
-    public function setCancelUrl($value)
-    {
-        $this->data->cancelUrl = $value;
-        return $this;
-    }
+	public function setPaymentStatus($value)
+	{
+		$this->data->status = $value;
+		return $this;
+	}
 
-    public function setPaymentMessage($value)
-    {
-        $this->data->message = $value;
-        return $this;
-    }
+	public function setMin($value)
+	{
+		$this->data->min = $value;
+		return $this;
+	}
 
-    public function setPaymentUrl($value)
-    {
-        $this->data->paymentUrl = $value;
-        return $this;
-    }
+	public function setMax($value)
+	{
+		$this->data->max = $value;
+		return $this;
+	}
 
-    public function setPaymentStatus($value)
-    {
-        $this->data->status = $value;
-        return $this;
-    }
+	public function setCountries($value)
+	{
+		$this->data->countries = $value;
+		return $this;
+	}
 
-    public function setMin($value)
-    {
-        $this->data->min = $value;
-        return $this;
-    }
-    
-    public function setMax($value)
-    {
-        $this->data->max = $value;
-        return $this;
-    }
+	public function setOrder($value)
+	{
+		$this->data->order = $value;
+		return $this;
+	}
 
-    public function setCountries($value)
-    {
-        $this->data->countries = $value;
-        return $this;
-    }
+	public function toArray()
+	{
+		return json_decode(json_encode($this->data), true);
+	}
 
-    public function setOrder($value)
-    {
-        $this->data->order = $value;
-        return $this;
-    }
+	public function getData()
+	{
+		return $this->data;
+	}
 
-    public function toArray()
-    {
-        return json_decode(json_encode($this->data), true);
-    }
+	// ifthenpaygateway related
 
-    public function getData()
-    {
-        return $this->data;
-    }
+	public function setSelectableMethods($value)
+	{
+		$this->data->selectableMethods = $value;
+		return $this;
+	}
+
+	public function setDefaultMethod($value)
+	{
+		$this->data->defaultMethod = $value;
+		return $this;
+	}
+
+	public function setDeadline($value)
+	{
+		$this->data->deadline = $value;
+		return $this;
+	}
+
+	public function setCloseBtn($value)
+	{
+		$this->data->closeBtn = $value;
+		return $this;
+	}
+
+	public function setTitle($value)
+	{
+		$this->data->title = $value;
+		return $this;
+	}
+
+	public function setShowLogo($value)
+	{
+		$this->data->showLogo = $value;
+		return $this;
+	}
 }

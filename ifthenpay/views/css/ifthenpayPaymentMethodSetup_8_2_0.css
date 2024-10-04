@@ -1,5 +1,5 @@
 /**
-* 2007-2024 Ifthenpay Lda
+* 2007-2022 Ifthenpay Lda
 *
 * NOTICE OF LICENSE
 *
@@ -17,7 +17,7 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @copyright 2007-2024 Ifthenpay Lda
+*  @copyright 2007-2022 Ifthenpay Lda
 *  @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
 *  @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
 */
@@ -57,4 +57,61 @@
 
 .clearboth {
   clear: both;
+}
+
+.method_line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.method_checkbox {
+  display: flex;
+  align-items: center;
+  min-width: 160px;
+}
+
+.method_checkbox input {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.method_checkbox img {
+  max-height: 30px;
+}
+
+.method_select {
+  width: 400px;
+  margin-left: 10px;
+}
+
+.method_select select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.request_ifthenpaygateway_method {
+  width: 400px;
+}
+
+@media (max-width: 992px) {
+  .method_line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .method_checkbox {
+    margin-bottom: 8px;
+  }
+  .method_select {
+    width: 100%;
+    margin-left: 0px;
+  }
+}
+.method_line .method_checkbox img {
+  margin-left: 8px;
+}
+
+.width_100 {
+  width: 100%;
 }

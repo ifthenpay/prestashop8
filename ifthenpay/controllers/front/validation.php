@@ -114,9 +114,15 @@ class IfthenpayValidationModuleFrontController extends ModuleFrontController
             if (!$mbwayPhone) {
                 return $this->module->l('MB WAY phone is required.', pathinfo(__FILE__)['filename']);
             }
-            if (strlen($mbwayPhone) < 9) {
+            if (strlen($mbwayPhone) < 9 || !ctype_digit($mbwayPhone)) {
                 return $this->module->l('MB WAY phone is not valid.', pathinfo(__FILE__)['filename']);
             }
+
+            $mbwayPhoneCode = Tools::getValue("ifthenpayMbwayPhoneCode") ?? '';
+			if ($mbwayPhoneCode != ''){
+        	    $mbwayPhone = $mbwayPhoneCode . '#' . $mbwayPhone;
+			}
+
             Configuration::updateValue('IFTHENPAY_MBWAY_PHONE_' . $this->context->cart->id, $mbwayPhone);
         }
         return true;

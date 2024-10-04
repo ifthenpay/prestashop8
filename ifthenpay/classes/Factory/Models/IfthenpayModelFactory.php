@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Models;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayLog;
@@ -35,26 +36,29 @@ use PrestaShop\Module\Ifthenpay\Models\IfthenpayCofidispay;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayMbway;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayPayshop;
 use PrestaShop\Module\Ifthenpay\Models\IfthenpayMultibanco;
+use PrestaShop\Module\Ifthenpay\Models\IfthenpayIfthenpaygateway;
 
 class IfthenpayModelFactory
 {
-    public static function build($type, $modelId = null)
-    {
-        switch ($type) {
-            case 'multibanco':
-                return new IfthenpayMultibanco($modelId);
-            case 'mbway':
-                return new IfthenpayMbway($modelId);
-            case 'payshop':
-                return new IfthenpayPayshop($modelId);
-            case 'ccard':
-                return new IfthenpayCCard($modelId);
-            case 'cofidispay':
-                return new IfthenpayCofidispay($modelId);
-            case 'log':
-                return new IfthenpayLog($modelId);
-            default:
-                throw new \Exception("Unknown Payment Model Class");
-        }
-    }
+	public static function build($type, $modelId = null)
+	{
+		switch ($type) {
+			case 'multibanco':
+				return new IfthenpayMultibanco($modelId);
+			case 'mbway':
+				return new IfthenpayMbway($modelId);
+			case 'payshop':
+				return new IfthenpayPayshop($modelId);
+			case 'ccard':
+				return new IfthenpayCCard($modelId);
+			case 'cofidispay':
+				return new IfthenpayCofidispay($modelId);
+			case 'ifthenpaygateway':
+				return new IfthenpayIfthenpaygateway($modelId);
+			case 'log':
+				return new IfthenpayLog($modelId);
+			default:
+				throw new \Exception("Unknown Payment Model Class");
+		}
+	}
 }

@@ -42,12 +42,12 @@ class CallbackProcess
     protected $order;
     protected $request;
 
-	    
+
     /**
      * Set the value of paymentMethod
      *
      * @return  self
-     */ 
+     */
     public function setPaymentMethod($paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
@@ -59,18 +59,17 @@ class CallbackProcess
      * Set the value of paymentData
      *
      * @return  self
-     */ 
+     */
     protected function setPaymentData()
     {
-        $this->paymentData = CallbackFactory::buildCalllbackData($_GET)->execute();
-
+		$this->paymentData = CallbackFactory::buildCalllbackData($this->request)->execute();
     }
 
     /**
      * Set the value of order
      *
      * @return  self
-     */ 
+     */
     protected function setOrder()
     {
         $this->order = PrestashopModelFactory::buildOrder($this->paymentData['order_id']);
@@ -89,10 +88,10 @@ class CallbackProcess
 
         //WORKAROUND: odd behaviour from prestashop model object, it loses the transaction_id of the order for Ccard, so there is a need to set it in the next two lines
         if($this->paymentMethod == 'ccard' && isset($this->paymentData['transaction_id'])){
-            $ifthenpayModel->transaction_id = $this->paymentData['transaction_id'];		
+            $ifthenpayModel->transaction_id = $this->paymentData['transaction_id'];
         }
         if($this->paymentMethod == 'cofidispay' && isset($this->paymentData['transaction_id'])){
-            $ifthenpayModel->transaction_id = $this->paymentData['transaction_id'];		
+            $ifthenpayModel->transaction_id = $this->paymentData['transaction_id'];
         }
         $ifthenpayModel->status = $status;
         $ifthenpayModel->update();
@@ -110,11 +109,11 @@ class CallbackProcess
      * Set the value of request
      *
      * @return  self
-     */ 
+     */
     public function setRequest($request)
     {
         $this->request = $request;
 
         return $this;
-    }   
+    }
 }
