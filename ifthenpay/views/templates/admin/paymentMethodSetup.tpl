@@ -32,7 +32,7 @@
 {if $paymentMethod === 'ifthenpaygateway'}
     {assign var="paymentName" value="Ifthenpay Gateway"}
 {else}
-    {assign var="paymentName" value="{$paymenMethod}"}
+    {assign var="paymentName" value="{$paymentMethod}"}
 {/if}
 
 <div class="panel">
