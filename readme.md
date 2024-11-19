@@ -422,16 +422,16 @@ At Module/Ifthenpay/Configure click the "Reset" button. **Warning, this action w
 </br>
 
 * If a new version is available you may proceed with the upgrade by clicking (1) to download the module installer;
-![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/upgrade_available.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/upgrade_available.png)
 </br>
 
 * And uploading it to your Prestashop store like you did when installing it in the first place;
 Click "Upload a module";
-![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/click_upload_module.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/click_upload_module.png)
 </br>
 
 * Drag the installer zip on to "Upload a module" box;
-![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/drag_upload_module.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/drag_upload_module.png)
 </br>
 
 ## Sandbox Mode
