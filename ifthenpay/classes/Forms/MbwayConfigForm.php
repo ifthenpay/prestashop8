@@ -51,7 +51,7 @@ class MbwayConfigForm extends ConfigForm
 
         // sets the $this->options
         $this->setEntityOptions();
-        
+
         // select mbway key
         $this->form['form']['input'][] = [
             'type' => 'select',
@@ -65,9 +65,11 @@ class MbwayConfigForm extends ConfigForm
                 'name' => 'name'
             ]
         ];
-        
+
         // activate auto callback
         $this->addActivateCallbackToForm();
+
+		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
 
         // cancel after timer of 30 minutes
         $this->form['form']['input'][] = [
@@ -141,7 +143,7 @@ class MbwayConfigForm extends ConfigForm
         $this->generateHelperForm();
     }
 
-    
+
     protected function getConfigFormValues()
     {
         $mbWayCountdown = \Configuration::get('IFTHENPAY_MBWAY_SHOW_COUNTDOWN') !== false ? \Configuration::get('IFTHENPAY_MBWAY_SHOW_COUNTDOWN') : '1';
@@ -181,7 +183,7 @@ class MbwayConfigForm extends ConfigForm
         if ($this->isValid()) {
 
             $this->setGatewayBuilderData();
-     
+
             // save specific values
             \Configuration::updateValue('IFTHENPAY_MBWAY_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
             \Configuration::updateValue('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_MBWAY_CANCEL_ORDER_AFTER_TIMEOUT'));
@@ -190,8 +192,9 @@ class MbwayConfigForm extends ConfigForm
 
             $this->setIfthenpayCallback();
             $this->updatePayMethodCommonValues();
+			$this->updatePaymentMethodConfirmedOrderStatus();
 
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l(ucfirst($this->paymentMethod) . ' payment method successfully updated.', pathinfo(__FILE__)['filename']));
+            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('MB WAY payment method successfully updated.', pathinfo(__FILE__)['filename']));
             return true;
 
         } else {
@@ -199,7 +202,7 @@ class MbwayConfigForm extends ConfigForm
         }
     }
 
-    
+
     /**
      * verifies if form inputs are valid
      * makes use of parent function that verifies common inputs such as min and max

@@ -117,9 +117,11 @@ class MultibancoConfigForm extends ConfigForm
                 ]
             ]
         ];
-    
+
         // activate auto callback
         $this->addActivateCallbackToForm();
+
+		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
 
         // add min max and country form elements
         $this->addMinMaxFieldsToForm();
@@ -193,9 +195,10 @@ class MultibancoConfigForm extends ConfigForm
 
             $this->setIfthenpayCallback();
             $this->updatePayMethodCommonValues();
+			$this->updatePaymentMethodConfirmedOrderStatus();
 
             // response msg after submiting form
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l(ucfirst($this->paymentMethod) . ' payment method successfully updated.', pathinfo(__FILE__)['filename']));
+            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Multibanco payment method successfully updated.', pathinfo(__FILE__)['filename']));
             return true;
 
         } else {

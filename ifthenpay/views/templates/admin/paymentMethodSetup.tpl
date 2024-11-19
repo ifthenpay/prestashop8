@@ -32,7 +32,7 @@
 {if $paymentMethod === 'ifthenpaygateway'}
     {assign var="paymentName" value="Ifthenpay Gateway"}
 {else}
-    {assign var="paymentName" value="{$paymenMethod}"}
+    {assign var="paymentName" value="{$paymentMethod}"}
 {/if}
 
 <div class="panel">
@@ -50,6 +50,12 @@
             <p>{l s='If the customer chooses to pay by %s, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentMethod|capitalize, $paymentMethod|capitalize]}.</p>
             <p>{l s='When payment is made, the order status will change to "Payment confirmed by %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}."</p>
 
+		{elseif $paymentMethod === 'pix'}
+			<p>{l s='This module allows secure payment by %s' mod='ifthenpay' sprintf=[$paymentName|capitalize]}.</p>
+			<p>{l s='If the customer chooses to pay by %s, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentName|capitalize, $paymentName|capitalize]}.
+			</p>
+			<p>{l s='When payment is made, the order status will change to "Payment confirmed by %s' mod='ifthenpay' sprintf=[$paymentName|capitalize]}."
+			</p>
         {elseif $paymentMethod === 'ccard'}
             <p>{l s='This module allows secure payment by credit card' mod='ifthenpay'}.</p>
             <p>{l s='If the customer chooses to pay by credit card, the order status will be placed in "Wait for payment by credit card"' mod='ifthenpay'}.</p>
@@ -60,7 +66,12 @@
             <p>{l s='This module allows secure payment by Cofidis Pay' mod='ifthenpay'}.</p>
             <p>{l s='If the customer chooses to pay by Cofidis Pay, they will be redirected to a Cofidis form and the order status will be placed at "Awaiting payment by Cofidis Pay"' mod='ifthenpay'}.</p>
             <p>{l s='If the customer fills out the form properly, the order status will change to "Payment confirmed by Cofidis Pay"' mod='ifthenpay'}.</p>
-
+		{elseif $paymentMethod === 'ifthenpaygateway'}
+			<p>{l s='This module allows secure payment by Ifthenpay Gateway' mod='ifthenpay'}.</p>
+			<p>{l s='If the customer chooses to pay by Ifthenpay Gateway, they will be redirected to the Ifthenpay Gateway page to choose a payment method, and the order status will be placed at "Wait for payment by Ifthenpay Gateway"' mod='ifthenpay'}.
+			</p>
+			<p>{l s='When payment is made, the order status will change to "Payment confirmed by Ifthenpay Gateway"' mod='ifthenpay'}."
+			</p>
         {else}
             <p>{l s='This module allows secure payment by Reference %s' mod='ifthenpay' sprintf=[$paymentMethod|capitalize]}.</p>
             <p>{l s='If the customer chooses to pay by %s reference, the order status will be placed in "Wait for payment by %s"' mod='ifthenpay' sprintf=[$paymentMethod|capitalize, $paymentMethod|capitalize]}.</p>
@@ -169,6 +180,18 @@
 						<label class="control-label col-lg-4">{l s='Order ID' mod='ifthenpay'}</label>
 						<div class="col-lg-8">
 							<input type="text" id="order_id" name="order_id" class="form-control" />
+						</div>
+					</div>
+				{elseif $paymentMethod === 'pix'}
+
+					<div class="form-group" style="display: block;">
+						<label class="control-label col-lg-4">{l s='Pix Transaction ID' mod='ifthenpay'}</label>
+						<div class="col-lg-8">
+							<input type="text" id="pix_transaction_id" name="pix_transaction_id"
+								class="form-control" />
+							<p class="help-block">
+								{l s='Can be found as "IdRequest" in the SELL/Orders/Orders by selecting the order you wish to test and scrolling down to order payment details' mod='ifthenpay'}
+							</p>
 						</div>
 					</div>
 				{/if}

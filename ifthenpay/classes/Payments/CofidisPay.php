@@ -70,7 +70,7 @@ class CofidisPay extends Payment implements PaymentMethodInterface
     {
         $context = \Context::getContext();
         $customer = $context->customer;
- 
+
         $addressDelivery = new \Address($context->cart->id_address_delivery);
         $addressInvoice = new \Address($context->cart->id_address_invoice);
 
@@ -78,7 +78,7 @@ class CofidisPay extends Payment implements PaymentMethodInterface
             'https://ifthenpay.com/api/cofidis/init/' . $this->cofidisKey,
             [
                 "orderId" => $this->orderId,
-                "amount" => $this->valor,
+                "amount" => (string)$this->valor,
                 "returnUrl" => $this->successUrl.'&orderId='.$this->orderId,
                 "description" => "Order $this->orderId",
                 "customerName" => $addressInvoice->firstname.' '.$addressInvoice->lastname,

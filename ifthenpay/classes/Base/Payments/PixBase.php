@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2024 Ifthenpay Lda
+ * 2007-2022 Ifthenpay Lda
  *
  * NOTICE OF LICENSE
  *
@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @copyright 2007-2024 Ifthenpay Lda
+ * @copyright 2007-2022 Ifthenpay Lda
  * @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
@@ -34,7 +34,7 @@ use PrestaShop\Module\Ifthenpay\Utility\Token;
 use PrestaShop\Module\Ifthenpay\Utility\Status;
 use PrestaShop\Module\Ifthenpay\Base\PaymentBase;
 
-class CofidispayBase extends PaymentBase
+class PixBase extends PaymentBase
 {
 
     private function getUrlCallback()
@@ -44,13 +44,12 @@ class CofidispayBase extends PaymentBase
 
     protected function setGatewayBuilderData()
     {
-        $this->gatewayBuilder->setCofidisKey(\Configuration::get('IFTHENPAY_COFIDISPAY_KEY'));
-
-        $this->gatewayBuilder->setSuccessUrl(
-			$this->getUrlCallback() . '?type=online&p=cofidispay&cartId=' . \Tools::getValue('id_cart') . '&qn=' .
-			Token::encrypt(Status::getStatusSuccess())
-		);
+        $this->gatewayBuilder->setPixKey(\Configuration::get('IFTHENPAY_PIX_KEY'));
+        $this->gatewayBuilder->setSuccessUrl($this->getUrlCallback() . '?type=online&p=pix&cartId=' . \Tools::getValue('id_cart') . '&qn=' .
+            Token::encrypt(Status::getStatusSuccess())
+        );
     }
+
 
     protected function saveToDatabase()
     {
@@ -62,14 +61,9 @@ class CofidispayBase extends PaymentBase
 
     protected function updateDatabase()
     {
-        /*$this->setPaymentModel('cofidispay', $this->paymentDataFromDb['id_ifthenpay_cofidispay']);
-        $this->paymentModel->referencia = $this->paymentGatewayResultData->referencia;
-        $this->paymentModel->transaction_id = $this->paymentGatewayResultData->idPedido;
-        $this->paymentModel->update();*/
     }
 
     protected function setEmailVariables()
     {
-        $this->emailDefaultData['{securityCode}'] = $this->securityCode;
     }
 }

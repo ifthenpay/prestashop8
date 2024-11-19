@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 2007-2024 Ifthenpay Lda
+ * 2007-2022 Ifthenpay Lda
  *
  * NOTICE OF LICENSE
  *
@@ -19,7 +19,7 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @copyright 2007-2024 Ifthenpay Lda
+ * @copyright 2007-2022 Ifthenpay Lda
  * @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
@@ -33,18 +33,18 @@ if (!defined('_PS_VERSION_')) {
 use PrestaShop\Module\Ifthenpay\Contracts\Models\PaymentModelInterface;
 use PrestaShop\Module\Ifthenpay\Factory\Database\DatabaseFactory;
 
-class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
+class IfthenpayPix extends \ObjectModel implements PaymentModelInterface
 {
 	public $id;
-	public $id_ifthenpay_payshop;
-	public $transaction_id;
+	public $id_ifthenpay_pix;
+	public $id_transacao;
 	public $referencia;
 	public $validade;
 	public $order_id;
 
 	public static $definition = [
-		'table' => "ifthenpay_payshop",
-		'primary' => 'id_ifthenpay_payshop',
+		'table' => "ifthenpay_pix",
+		'primary' => 'id_ifthenpay_pix',
 		'multilang' => false,
 		'multishop' => true,
 		'fields' => [
@@ -52,18 +52,7 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
 				'type' => self::TYPE_STRING,
 				'required' => true,
 				'validate' => 'isString',
-				'size' => 20,
-			],
-			'referencia' => [
-				'type' => self::TYPE_STRING,
-				'required' => true,
-				'validate' => 'isString',
-				'size' => 13,
-			],
-			'validade' => [
-				'type' => self::TYPE_STRING,
-				'validate' => 'isString',
-				'size' => 8,
+				'size' => 50,
 			],
 			'order_id' => [
 				'type' => self::TYPE_INT,
@@ -99,10 +88,10 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
 		}
 	}
 
-	public static function getPayshopByIdTransacao($transaction_id)
+	public static function getPixByTransactionId($transactionId)
 	{
 		$rowOrder = \Db::getInstance()
-			->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transaction_id) .  '\') ');
+			->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transactionId) .  '\') ');
 		if (is_array($rowOrder)) {
 			return $rowOrder[0];
 		} else {
@@ -110,12 +99,11 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
 		}
 	}
 
-	public static function getAllPendingOrdersWithDeadline()
+	public static function getAllPendingOrders()
 	{
+
 		$rowOrder = \Db::getInstance()
-			->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'orders`'
-				. ' INNER JOIN `' . _DB_PREFIX_ . 'ifthenpay_payshop` ON `' . _DB_PREFIX_ . 'orders`.`id_order` = `' . _DB_PREFIX_ . 'ifthenpay_payshop`.`order_id`'
-				. ' WHERE `current_state` = ' . \Configuration::get('IFTHENPAY_PAYSHOP_OS_WAITING') . ' AND `payment` = "payshop"');
+			->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'orders`' . ' WHERE `current_state` = ' . \Configuration::get('IFTHENPAY_PIX_OS_WAITING') . ' AND `payment` = "pix"');
 
 		if (is_array($rowOrder)) {
 			return $rowOrder;

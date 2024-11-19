@@ -130,4 +130,20 @@ class IfthenpayMultibanco extends \ObjectModel implements PaymentModelInterface
 			return array();
 		}
 	}
+
+
+
+	/**
+	 * updates the invoice column of a given order status
+	 * used to enable or disable invoice behaviour of an ifthenpay method confirmed status
+	 */
+	public static function updateOrderStatusInvoice($statusId, $hasInvoice)
+	{
+		$db = \Db::getInstance();
+		$query = 'UPDATE `' . _DB_PREFIX_ . 'order_state`
+              SET `invoice` = ' . $hasInvoice . '
+              WHERE `id_order_state` = ' . $statusId;
+
+		return $db->execute($query);
+	}
 }

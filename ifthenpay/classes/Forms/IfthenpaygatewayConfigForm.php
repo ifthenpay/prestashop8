@@ -56,9 +56,6 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 		$this->setGatewayKeyOptions();
 
 
-		$this->addActivateCallbackToForm();
-
-
 		// GATEWAY KEY
 		$this->form['form']['input'][] = [
 
@@ -104,15 +101,6 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 		];
 
 
-		// Gateway Close Button Text
-		$this->form['form']['input'][] = [
-			'type' => 'text',
-			'label' => $this->ifthenpayModule->l('Gateway Close Button Text', pathinfo(__FILE__)['filename']),
-			'name' => 'IFTHENPAY_IFTHENPAYGATEWAY_CLOSE_BTN',
-			'desc' => $this->ifthenpayModule->l('Replaces the return button text in the gateway page. Leave empty to use default.', pathinfo(__FILE__)['filename'])
-		];
-
-
 		// CANCEL AFTER DEADLINE
 		$this->form['form']['input'][] = [
 			'type' => 'switch',
@@ -135,9 +123,13 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 		];
 
 
-		// add min max and country form elements
-		$this->addMinMaxFieldsToForm();
-		$this->addCountriesFieldToForm();
+		// Gateway Close Button Text
+		$this->form['form']['input'][] = [
+			'type' => 'text',
+			'label' => $this->ifthenpayModule->l('Gateway Close Button Text', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_IFTHENPAYGATEWAY_CLOSE_BTN',
+			'desc' => $this->ifthenpayModule->l('Replaces the return button text in the gateway page. Leave empty to use default.', pathinfo(__FILE__)['filename'])
+		];
 
 
 		$this->form['form']['input'][] = [
@@ -155,11 +147,23 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 			]
 		];
 
+
 		$this->form['form']['input'][] = [
 			'type' => 'text',
 			'label' => $this->ifthenpayModule->l('Payment Method Title', pathinfo(__FILE__)['filename']),
 			'name' => 'IFTHENPAY_IFTHENPAYGATEWAY_TITLE',
 		];
+
+
+		$this->addActivateCallbackToForm();
+
+
+		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
+
+
+		// add min max and country form elements
+		$this->addMinMaxFieldsToForm();
+		$this->addCountriesFieldToForm();
 
 
 		$this->addOrderByNumberFieldsToForm();
@@ -176,7 +180,7 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 			'IFTHENPAY_IFTHENPAYGATEWAY_KEY' => \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_KEY'),
 			'IFTHENPAY_IFTHENPAYGATEWAY_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_CANCEL_ORDER_AFTER_TIMEOUT'),
 			'IFTHENPAY_IFTHENPAYGATEWAY_TITLE' => \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_TITLE') == '' ? 'Ifthenpay Gateway' : \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_TITLE'),
-			'IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO' => \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO') != false ? \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO') : '1',
+			'IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO' => \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO') === false ? '1' : \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO'),
 		]);
 	}
 
@@ -240,12 +244,11 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 			\Configuration::updateValue('IFTHENPAY_IFTHENPAYGATEWAY_METHODS', $this->gatewayDataBuilder->getData()->selectableMethods);
 
 
-
-
 			$this->updatePayMethodCommonValues();
+			$this->updatePaymentMethodConfirmedOrderStatus();
 
 			// response msg after submiting form
-			Utility::setPrestashopCookie('success', $this->ifthenpayModule->l(ucfirst($this->paymentMethod) . ' payment method successfully updated.', pathinfo(__FILE__)['filename']));
+			Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Ifthenpay Gateway payment method successfully updated.', pathinfo(__FILE__)['filename']));
 		}
 	}
 
@@ -380,7 +383,7 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 		if (
 			empty($storedPaymentMethods) ||
 			(!\Configuration::get('IFTHENPAY_CALLBACK_ACTIVATE_FOR_IFTHENPAYGATEWAY', false) &&
-			\Tools::getValue('IFTHENPAY_CALLBACK_ACTIVATE_FOR_IFTHENPAYGATEWAY'))
+				\Tools::getValue('IFTHENPAY_CALLBACK_ACTIVATE_FOR_IFTHENPAYGATEWAY'))
 		) {
 			$paymentMethodsToActivate = array_filter($paymentMethods, fn($item) => $item['is_active'] === '1');
 		} else {
@@ -622,7 +625,7 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 		$hiddenInputs = '';
 		foreach ($paymentMethodGroupArray as $paymentMethodGroup) {
 
-			if (isset($paymentMethodGroup['IsVisible']) && $paymentMethodGroup['IsVisible'] == false ) {
+			if (isset($paymentMethodGroup['IsVisible']) && $paymentMethodGroup['IsVisible'] == false) {
 				continue;
 			}
 

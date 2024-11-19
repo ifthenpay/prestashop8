@@ -41,12 +41,12 @@ class PayshopConfigForm extends ConfigForm
     public function getForm()
     {
         // assign template variables
-        $this->setSmartyVariables();    
+        $this->setSmartyVariables();
         $this->setFormParent();
 
         // sets the $this->options
         $this->setEntityOptions();
-                
+
         $this->form['form']['input'][] = [
             'type' => 'select',
             'label' => $this->ifthenpayModule->l('Payshop key', pathinfo(__FILE__)['filename']),
@@ -62,6 +62,8 @@ class PayshopConfigForm extends ConfigForm
 
         // activate auto callback
         $this->addActivateCallbackToForm();
+
+		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
 
         // cancel after deadline
         $this->form['form']['input'][] = [
@@ -149,9 +151,10 @@ class PayshopConfigForm extends ConfigForm
 
             $this->setIfthenpayCallback();
             $this->updatePayMethodCommonValues();
+			$this->updatePaymentMethodConfirmedOrderStatus();
 
             // response msg after submiting form
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l(ucfirst($this->paymentMethod) . ' payment method successfully updated.', pathinfo(__FILE__)['filename']));
+            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Payshop payment method successfully updated.', pathinfo(__FILE__)['filename']));
             return true;
 
         } else {

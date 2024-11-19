@@ -32,13 +32,13 @@ use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackProcessInterface;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackVars as Cb;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 class CallbackOffline extends CallbackProcess implements CallbackProcessInterface
 {
-    public function process()
-    {
+	public function process()
+	{
 		$this->request[Cb::PAYMENT] = $this->paymentMethod;
 
 		// get the callback payment method to use the correct phish key
@@ -50,11 +50,8 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
 		if (empty($this->paymentData)) {
 			if ($this->paymentMethod === 'ifthenpaygateway') {
 
-				$methodsWithCallback = ['multibanco', 'mbway', 'payshop', 'ccard', 'cofidispay', 'ifthenpaygateway'];
-
+				$methodsWithCallback = ['multibanco', 'mbway', 'payshop', 'ccard', 'cofidispay', 'ifthenpaygateway', 'pix'];
 				// search every active payment method tables
-
-
 				foreach ($methodsWithCallback as $paymentMethod) {
 					$isActive = \Configuration::get('IFTHENPAY_' . strtoupper($this->paymentMethod));
 
@@ -84,54 +81,56 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
 			}
 		}
 
-        if (empty($this->paymentData)) {
-            $this->executePaymentNotFound();
-        } else {
-            try {
-                $this->setOrder();
-                CallbackFactory::buildCalllbackValidate($_GET, $this->order, \Configuration::get('IFTHENPAY_' . \Tools::strtoupper($originalPaymentMethod) . '_CHAVE_ANTI_PHISHING'), $this->paymentData)
-                    ->validate();
+		if (empty($this->paymentData)) {
+			$this->executePaymentNotFound();
+		} else {
+			try {
+				$this->setOrder();
+				CallbackFactory::buildCalllbackValidate($_GET, $this->order, \Configuration::get('IFTHENPAY_' . \Tools::strtoupper($originalPaymentMethod) . '_CHAVE_ANTI_PHISHING'), $this->paymentData)
+					->validate();
 
-                $this->changeIfthenpayPaymentStatus('paid');
-                IfthenpayLogProcess::addLog('Callback received and validated with success for payment method ' . $this->paymentMethod, IfthenpayLogProcess::INFO, $this->order->id);
-
-                $this->changePrestashopOrderStatus(\Configuration::get('IFTHENPAY_' . \Tools::strtoupper($this->paymentMethod) . '_OS_CONFIRMED'));
-                IfthenpayLogProcess::addLog('Order status change with success to paid (after receiving callback)', IfthenpayLogProcess::INFO, $this->order->id);
-
-                if (isset($_GET['test']) && $_GET['test'] === 'true') {
-                    http_response_code(200);
-
-                    $ifthenpayModule = \Module::getInstanceByName('ifthenpay');
-
-                    $response = [
-                        'status' => 'success',
-                        'message' => $ifthenpayModule->l('Callback received and validated with success for payment method ', pathinfo(__FILE__)['filename']) . $this->paymentMethod
-                    ];
+				$this->changeIfthenpayPaymentStatus('paid');
+				IfthenpayLogProcess::addLog('Callback received and validated with success for payment method ' . $this->paymentMethod, IfthenpayLogProcess::INFO, $this->order->id);
 
 
-                    die(json_encode($response));
-                }
-
-                http_response_code(200);
-                die('ok');
-            } catch (\Throwable $th) {
-
-                if (isset($_GET['test']) && $_GET['test'] === 'true') {
-                    http_response_code(200);
-
-                    $response = [
-                        'status' => 'warning',
-                        'message' => $th->getMessage(),
-                    ];
+				$this->changePrestashopOrderStatus(\Configuration::get('IFTHENPAY_' . \Tools::strtoupper($this->paymentMethod) . '_OS_CONFIRMED'));
+				$this->updateOrderPayment();
 
 
-                    die(json_encode($response));
-                }
+				if (isset($_GET['test']) && $_GET['test'] === 'true') {
+					http_response_code(200);
 
-                IfthenpayLogProcess::addLog('Error processing callback - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, $this->order->id);
-                http_response_code(400);
-                die($th->getMessage());
-            }
-        }
-    }
+					$ifthenpayModule = \Module::getInstanceByName('ifthenpay');
+
+					$response = [
+						'status' => 'success',
+						'message' => $ifthenpayModule->l('Callback received and validated with success for payment method ', pathinfo(__FILE__)['filename']) . $this->paymentMethod
+					];
+
+
+					die(json_encode($response));
+				}
+
+				http_response_code(200);
+				die('ok');
+			} catch (\Throwable $th) {
+
+				if (isset($_GET['test']) && $_GET['test'] === 'true') {
+					http_response_code(200);
+
+					$response = [
+						'status' => 'warning',
+						'message' => $th->getMessage(),
+					];
+
+
+					die(json_encode($response));
+				}
+
+				IfthenpayLogProcess::addLog('Error processing callback - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, $this->order->id);
+				http_response_code(400);
+				die($th->getMessage());
+			}
+		}
+	}
 }

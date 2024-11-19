@@ -1018,6 +1018,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var mbwayTransactionIdDom = $("#mbway_transaction_id");
         var payshopTransactionIdDom = $("#payshop_transaction_id");
         var cofidisTransactionIdDom = $("#cofidispay_transaction_id");
+        var pixTransactionIdDom = $("#pix_transaction_id");
         var orderIdDom = $("#order_id"); // message template
 
         var msgHtml = "\n        <div class=\"alert alert-{{type}}\">\n            <button type=\"button\" class=\"close\" data-dismiss=\"alert\">\xD7</button>\n            <ul class=\"list-unstyled\">\n                <li>{{message}}</li>\n            </ul>\n        </div>\n";
@@ -1027,9 +1028,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var mbwayTransactionId = mbwayTransactionIdDom.length ? mbwayTransactionIdDom.val() : "";
         var payshopTransactionId = payshopTransactionIdDom.length ? payshopTransactionIdDom.val() : "";
         var cofidisTransactionId = cofidisTransactionIdDom.length ? cofidisTransactionIdDom.val() : "";
+        var pixTransactionId = pixTransactionIdDom.length ? pixTransactionIdDom.val() : "";
         var orderId = orderIdDom.length ? orderIdDom.val() : ""; // verify if multibanco or mbway or payshop have arguments
 
-        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "payshop" && (amount === "" || payshopTransactionId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "")) {
+        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "payshop" && (amount === "" || payshopTransactionId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "") || method === "pix" && (amount === "" || pixTransactionId === "")) {
           bootstrapMsgContainer.html(msgHtml.replace("{{type}}", "danger").replace("{{message}}", msgFillAllFields));
           return;
         }
@@ -1045,6 +1047,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           mbway_transaction_id: mbwayTransactionId,
           payshop_transaction_id: payshopTransactionId,
           cofidis_transaction_id: cofidisTransactionId,
+          pix_transaction_id: pixTransactionId,
           order_id: orderId,
           method: method
         }).then(function (response) {
@@ -7021,31 +7024,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   /***/
   function _(module, exports, __webpack_require__) {
     __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/js/adminConfigPage.ts */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\js\adminConfigPage.ts */
     "./_dev/js/adminConfigPage.ts");
 
     __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayConfig.scss */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\scss\ifthenpayConfig.scss */
     "./_dev/scss/ifthenpayConfig.scss");
 
     __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayPaymentMethodSetup.scss */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\scss\ifthenpayPaymentMethodSetup.scss */
     "./_dev/scss/ifthenpayPaymentMethodSetup.scss");
 
     __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayConfirmPage.scss */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\scss\ifthenpayConfirmPage.scss */
     "./_dev/scss/ifthenpayConfirmPage.scss");
 
     __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayAdminOrder.scss */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\scss\ifthenpayAdminOrder.scss */
     "./_dev/scss/ifthenpayAdminOrder.scss");
 
     __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/ifthenpayOrderDetail.scss */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\scss\ifthenpayOrderDetail.scss */
     "./_dev/scss/ifthenpayOrderDetail.scss");
 
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/scss/paymentOptions.scss */
+    /*! C:\Users\José Carlos\Desktop\prestashop 8 new\repo\_dev\scss\paymentOptions.scss */
     "./_dev/scss/paymentOptions.scss");
     /***/
   }

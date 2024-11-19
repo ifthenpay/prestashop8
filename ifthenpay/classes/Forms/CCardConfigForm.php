@@ -65,6 +65,8 @@ class CCardConfigForm extends ConfigForm
             ]
         ];
 
+		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
+
         // cancel after timer of 30 minutes
         $this->form['form']['input'][] = [
             'type' => 'switch',
@@ -156,10 +158,11 @@ class CCardConfigForm extends ConfigForm
             \Configuration::updateValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'));
             \Configuration::updateValue('IFTHENPAY_CCARD_REFUND', \Tools::getValue('IFTHENPAY_CCARD_REFUND'));
             $this->updatePayMethodCommonValues();
+			$this->updatePaymentMethodConfirmedOrderStatus();
 
             // response msg after submiting form
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l(ucfirst($this->paymentMethod) . ' payment method successfully updated.', pathinfo(__FILE__)['filename']));
-            
+            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Credit card payment method successfully updated.', pathinfo(__FILE__)['filename']));
+
             return true;
 
         } else {

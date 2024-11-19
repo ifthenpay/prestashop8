@@ -1,6 +1,6 @@
 <?php
 /**
- * 2007-2024 Ifthenpay Lda
+ * 2007-2022 Ifthenpay Lda
  *
  * NOTICE OF LICENSE
  *
@@ -18,54 +18,35 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @copyright 2007-2024 Ifthenpay Lda
+ * @copyright 2007-2022 Ifthenpay Lda
  * @author    Ifthenpay Lda <ifthenpay@ifthenpay.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-namespace PrestaShop\Module\Ifthenpay\Builders;
+namespace PrestaShop\Module\Ifthenpay\Payments\Data;
 
 if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-use PrestaShop\Module\Ifthenpay\Contracts\Builders\GatewayDataBuilderInterface;
+use PrestaShop\Module\Ifthenpay\Base\Payments\PixBase;
+use PrestaShop\Module\Ifthenpay\Contracts\Order\OrderDetailInterface;
 
-class GatewayDataBuilder extends DataBuilder implements GatewayDataBuilderInterface
+class PixOrderDetail extends PixBase implements OrderDetailInterface
 {
-    public function setSubEntidade($value)
+    public function setSmartyVariables()
     {
-        $this->data->subEntidade = $value;
-        return $this;
+        $this->smartyDefaultData->setPaymentMethod($this->ifthenpayGateway->getAliasPaymentMethods(
+            $this->paymentDefaultData->order->payment, \Context::getContext()->language->iso_code));
+        $this->smartyDefaultData->setIdPedido($this->paymentDataFromDb['transaction_id']);
     }
 
-    public function setMbwayKey($value)
+
+    public function getOrderDetail()
     {
-        $this->data->mbwayKey = $value;
+        $this->setPaymentModel('pix');
+        $this->getFromDatabaseById();
+        $this->setSmartyVariables();
         return $this;
     }
-
-    public function setPayshopKey($value)
-    {
-        $this->data->payshopKey = $value;
-        return $this;
-    }
-
-    public function setCCardKey($value)
-    {
-        $this->data->ccardKey = $value;
-        return $this;
-    }
-
-    public function setCofidisKey($value)
-    {
-        $this->data->cofidisKey = $value;
-        return $this;
-    }
-
-	public function setPixKey($value)
-	{
-		$this->data->pixKey = $value;
-		return $this;
-	}
 }

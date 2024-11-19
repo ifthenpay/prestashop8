@@ -65,17 +65,19 @@ class IfthenpayConfiguration implements InstallerInterface
 
 		foreach ($this->userPaymentMethods as $paymentMethod) {
 			if ($paymentMethod) {
+				$methodName = \Tools::strtoupper($paymentMethod);
 
-				\Configuration::deleteByName('IFTHENPAY_' . \Tools::strtoupper($paymentMethod) . '_OS_WAITING');
-				\Configuration::deleteByName('IFTHENPAY_' . \Tools::strtoupper($paymentMethod) . '_OS_CONFIRMED');
-				\Configuration::deleteByName('IFTHENPAY_' . \Tools::strtoupper($paymentMethod));
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName);
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_OS_WAITING');
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_OS_CONFIRMED');
 
-				\Configuration::deleteByName('IFTHENPAY_CALLBACK_ACTIVATED_FOR_' . strtoupper($paymentMethod));
-				\Configuration::deleteByName('IFTHENPAY_' . strtoupper($paymentMethod . '_MINIMUM'));
-				\Configuration::deleteByName('IFTHENPAY_' . strtoupper($paymentMethod . '_MAXIMUM'));
-				\Configuration::deleteByName('IFTHENPAY_' . strtoupper($paymentMethod . '_COUNTRIES'));
-				\Configuration::deleteByName('IFTHENPAY_' . strtoupper($paymentMethod . '_ORDER'));
-				\Configuration::deleteByName('IFTHENPAY_' . strtoupper($paymentMethod));
+				\Configuration::deleteByName('IFTHENPAY_CALLBACK_ACTIVATED_FOR_' . $methodName);
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_MINIMUM');
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_MAXIMUM');
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_COUNTRIES');
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_ORDER');
+				\Configuration::deleteByName('IFTHENPAY_ACTIVATE_NEW_' . $methodName . '_ACCOUNT');
+				\Configuration::deleteByName('IFTHENPAY_' . $methodName . '_INVOICE');
 
 				switch ($paymentMethod) {
 					case 'multibanco':
@@ -110,6 +112,11 @@ class IfthenpayConfiguration implements InstallerInterface
 					case 'cofidispay':
 						\Configuration::deleteByName('IFTHENPAY_COFIDIS_KEY');
 						\Configuration::deleteByName('IFTHENPAY_COFIDIS_CANCEL_ORDER_AFTER_TIMEOUT');
+						\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_KEY');
+						\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT');
+						\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_OS_NOT_APPROVED');
+						\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_URL_CALLBACK');
+						\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_CHAVE_ANTI_PHISHING');
 						break;
 					case 'ifthenpaygateway':
 						\Configuration::deleteByName('IFTHENPAY_IFTHENPAYGATEWAY_KEY');
@@ -120,6 +127,14 @@ class IfthenpayConfiguration implements InstallerInterface
 						\Configuration::deleteByName('IFTHENPAY_IFTHENPAYGATEWAY_CANCEL_ORDER_AFTER_TIMEOUT');
 						\Configuration::deleteByName('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO');
 						\Configuration::deleteByName('IFTHENPAY_IFTHENPAYGATEWAY_TITLE');
+						\Configuration::deleteByName('IFTHENPAY_IFTHENPAYGATEWAY_URL_CALLBACK');
+						\Configuration::deleteByName('IFTHENPAY_IFTHENPAYGATEWAY_CHAVE_ANTI_PHISHING');
+						break;
+					case 'pix':
+						\Configuration::deleteByName('IFTHENPAY_PIX_KEY');
+						\Configuration::deleteByName('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT');
+						\Configuration::deleteByName('IFTHENPAY_PIX_URL_CALLBACK');
+						\Configuration::deleteByName('IFTHENPAY_PIX_CHAVE_ANTI_PHISHING');
 						break;
 					default:
 				}

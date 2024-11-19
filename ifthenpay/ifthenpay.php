@@ -39,6 +39,7 @@ use PrestaShop\Module\Ifthenpay\Factory\Models\IfthenpayModelFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Config\IfthenpayInstallerFactory;
 use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopModelFactory;
+use PrestaShop\Module\Ifthenpay\Models\IfthenpayTempPix;
 use PrestaShop\Module\Ifthenpay\Utility\CountryCodes;
 
 class Ifthenpay extends PaymentModule
@@ -50,7 +51,7 @@ class Ifthenpay extends PaymentModule
     {
         $this->name = 'ifthenpay';
         $this->tab = 'payments_gateways';
-        $this->version = '8.2.0';
+        $this->version = '8.3.0';
         $this->author = 'Ifthenpay';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -295,6 +296,20 @@ class Ifthenpay extends PaymentModule
             $this->ifthenpayConfig['IFTHENPAY_USER_PAYMENT_METHODS']
         );
 
+		$lang = $this->context->language->iso_code;
+
+		// get payment methods sorted by language
+
+		$paymentMethodNameArray = [
+			'multibanco' => $this->l('multibanco', 'ifthenpay'),
+			'mbway' => $this->l('mbway', 'ifthenpay'),
+			'payshop' => $this->l('payshop', 'ifthenpay'),
+			'cofidis' => $this->l('cofidis', 'ifthenpay'),
+			'ccard' => $this->l('ccard', 'ifthenpay'),
+			'pix' => $this->l('pix', 'ifthenpay'),
+			'ifthenpaygateway' => $this->l('ifthenpaygateway', 'ifthenpay')
+		];
+
         // TODO: one may set the displayed order of the payment methods in the admin config page, but currently there does not seem to be necessary
         foreach ($ifthenpayUserPaymentMethods as $paymentMethod) {
             $this->context->smarty->assign(
@@ -307,10 +322,13 @@ class Ifthenpay extends PaymentModule
                     . "&paymentMethod=$paymentMethod"
             );
 
+			// fallback in case the paymentMethod is not correct
+			$title = $paymentMethodNameArray[$paymentMethod] ?? $paymentMethod;
+
             $form['form']['input'][] = [
                 'type' => 'html',
                 'name' => '',
-                'html_content' => '<img style="margin-top: 20px;" src="' . $this->_path . 'views/img/' . $paymentMethod . '.png' . '" title="' . $paymentMethod . '">'
+           		'html_content' => '<img style="margin-top: 20px;" src="' . \Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/' . $paymentMethod . '.png') . '" title="' . $title . '">'
             ];
 
 
@@ -653,7 +671,13 @@ class Ifthenpay extends PaymentModule
 							]
                         );
 
-
+						$lang = $this->context->language->iso_code ?? '';
+						$countryCodeOptions = CountryCodes::getCountryCodesAsValueNameArray($lang);
+						$this->context->smarty->assign(
+							[
+								"countryCodeOptions" => $countryCodeOptions
+							]
+						);
                         $option->setForm(
                             $this->context->smarty->fetch(
                                 $this->local_path .
@@ -691,10 +715,10 @@ class Ifthenpay extends PaymentModule
 						$logoTypeToShow = Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO');
 						$paymentMethodTitle = Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_TITLE');
 						// if show logo
-						if ($logoTypeToShow === '0') //show regular logo
+						if ($logoTypeToShow === '1') //show regular logo
 						{
 							$option->setCallToActionText($this->l('Pay by ') . $paymentMethodTitle);
-						} else { //show regular logo
+						} else { //show payment title
 							$option->setLogo(
 								Media::getMediaPath(
 									_PS_MODULE_DIR_ . $this->name . '/views/img/' . $paymentMethod . '_option.png'
@@ -705,6 +729,21 @@ class Ifthenpay extends PaymentModule
 						$payments_options[] = $option;
 						continue;
 					}
+
+					if ($paymentMethod === 'pix') {
+
+						$this->context->smarty->assign($this->getPaymentFormVarsForPix());
+
+
+						$option->setForm(
+							$this->context->smarty->fetch(
+								$this->local_path .
+									'views/templates/front/pixForm.tpl'
+							)
+						);
+					}
+
+
                     $option->setCallToActionText(
                         $this->l('Pay by ') . $ifthenpayGateway->getAliasPaymentMethods(
                             $paymentMethod,
@@ -731,6 +770,83 @@ class Ifthenpay extends PaymentModule
         }
         return $payments_options;
     }
+
+
+
+	private function getPaymentFormVarsForPix()
+	{
+
+		// if cart id is the same as the current one get it from there
+		$cartId = $this->context->cart->id;
+
+		$storedTempPix = IfthenpayTempPix::dataArrayFromDbByCartId($cartId);
+		if (!empty($storedTempPix)) {
+			$storedTempPix['action'] = $this->context->link->getModuleLink(
+				$this->name,
+				'validation',
+				[
+					'paymentOption' => 'pix',
+				],
+				true
+			);
+
+			return $storedTempPix;
+		}
+
+
+		$vars = [];
+		try {
+
+			$customer = $this->context->customer;
+			$addressInvoice = new \Address($this->context->cart->id_address_invoice);
+
+
+			$vars['customerName'] = $customer->firstname . ' ' . $customer->lastname;
+			$var['customerCpf'] = ''; // always blank when first loading
+			$vars['customerEmail'] = $customer->email;
+
+			$phone = isset($addressInvoice->phone) && $addressInvoice->phone != '' ? $addressInvoice->phone : '';
+			$mobilePhone = isset($addressInvoice->phone_mobile) && $addressInvoice->phone_mobile != '' ? $addressInvoice->phone_mobile : '';
+			$vars['customerPhone'] = $mobilePhone != '' ? $mobilePhone : $phone;
+
+			$billingAddress1 = isset($addressInvoice->address1) ? $addressInvoice->address1 : '';
+			$billingAddress2 = isset($addressInvoice->address2) ? $addressInvoice->address2 : '';
+			if ($billingAddress1 . $billingAddress2 != '') {
+				$vars['customerAddress'] = trim($billingAddress1 . " " . $billingAddress2);
+			}
+
+			$var['customerStreetNumber'] = ''; // always blank when first loading
+
+
+			if (isset($addressInvoice->city) && $addressInvoice->city) {
+				$vars['customerCity'] = $addressInvoice->city;
+			}
+
+			if (isset($addressInvoice->postcode) && $addressInvoice->postcode) {
+				$vars['customerZipCode'] = $addressInvoice->postcode;
+			}
+
+			$var['customerState'] = ''; // always blank when first loading
+
+
+			$vars['action'] = $this->context->link->getModuleLink(
+				$this->name,
+				'validation',
+				[
+					'paymentOption' => 'pix',
+				],
+				true
+			);
+
+			return $vars;
+		} catch (\Throwable $th) {
+			$customer = $customer->id ?? 'unkown customer';
+			IfthenpayLogProcess::addLog('error gathering PIX details for customer id: ' . $customer . ' | message: ' . $th->getMessage(), IfthenpayLogProcess::INFO, $this->order->id);
+			return $vars;
+		}
+	}
+
+
 
     /**
      * verifies if payment method can be displayed for this order
@@ -789,12 +905,13 @@ class Ifthenpay extends PaymentModule
                 }
                 break;
             case 'cofidispay':
-                if (\Configuration::get('IFTHENPAY_COFIDIS_KEY')) {
+                if (\Configuration::get('IFTHENPAY_COFIDISPAY_KEY')) {
                     return true;
                 }
                 break;
             case 'mbway':
             case 'ccard':
+			case 'pix':
             case 'payshop':
                 if (\Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_KEY')) {
                     return true;
@@ -1134,6 +1251,10 @@ class Ifthenpay extends PaymentModule
                 'module-ifthenpay-orderPaymentOption',
                 'modules/' . $this->name . '/views/css/paymentOptions' . $versioning . '.css'
             );
+			$this->context->controller->registerJavascript(
+				'module-ifthenpay-pixCheckoutForm',
+				'modules/' . $this->name . '/views/js/pixCheckoutFormPage' . $versioning . '.js'
+			);
         }
     }
 
@@ -1167,6 +1288,7 @@ class Ifthenpay extends PaymentModule
             ConfigFactory::buildCancelMultibancoOrder()->cancelOrder();
             ConfigFactory::buildCancelCofidisOrder()->cancelOrder();
 			ConfigFactory::buildCancelIfthenpaygatewayOrder()->cancelOrder();
+			ConfigFactory::buildCancelPixOrder()->cancelOrder();
         }
     }
 

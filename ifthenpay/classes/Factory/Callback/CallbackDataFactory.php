@@ -36,6 +36,7 @@ use PrestaShop\Module\Ifthenpay\Callback\CallbackDataMbway;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataMultibanco;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataPayshop;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackDataIfthenpaygateway;
+use PrestaShop\Module\Ifthenpay\Callback\CallbackDataPix;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackDataInterface;
 
 class CallbackDataFactory
@@ -55,6 +56,8 @@ class CallbackDataFactory
 				return new CallbackDataCofidispay();
 			case 'ifthenpaygateway':
 				return new CallbackDataIfthenpaygateway();
+			case 'pix':
+				return new CallbackDataPix();
 			default:
 				throw new \Exception('Unknown Callback Data Class');
 		}

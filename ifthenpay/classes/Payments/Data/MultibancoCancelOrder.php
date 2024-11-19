@@ -37,39 +37,51 @@ if (!defined('_PS_VERSION_')) {
 class MultibancoCancelOrder
 {
     /**
-     * cancels multibanco order if no payment has been received 30 minutes after order confirmation "date_add"
+     * cancels multibanco order if no payment has been received within the payment deadline
      *
      * @return void
      */
     public function cancelOrder()
     {
-        if (
-            \Configuration::get('IFTHENPAY_MULTIBANCO_CANCEL_ORDER_AFTER_TIMEOUT')
-            && (\Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') && \Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') != '' && \Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') != null && \Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') != '999999')
-        ) {
-            $multibancoOrders = IfthenpayModelFactory::build('multibanco')->getAllPendingOrdersWithDeadline();
+		if (
+			\Configuration::get('IFTHENPAY_MULTIBANCO_CANCEL_ORDER_AFTER_TIMEOUT') &&
+			(
+				(
+					\Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') &&
+					\Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') != '' &&
+					\Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') != null &&
+					\Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') != '999999'
+				) ||
+				\Configuration::get('IFTHENPAY_MULTIBANCO_VALIDADE') == '0'
+			)
+		) {
+			$multibancoOrders = IfthenpayModelFactory::build('multibanco')->getAllPendingOrdersWithDeadline();
 
-            $timezone = \Configuration::get('PS_TIMEZONE');
-            if (!$timezone) {
-                $timezone = 'Europe/Lisbon';
-            }
-            date_default_timezone_set($timezone);
+			$timezone = \Configuration::get('PS_TIMEZONE');
+			if (!$timezone) {
+				$timezone = 'Europe/Lisbon';
+			}
+			date_default_timezone_set($timezone);
 
-            foreach ($multibancoOrders as $multibancoOrder) {
+			foreach ($multibancoOrders as $multibancoOrder) {
 
-                if (isset($multibancoOrder['validade']) && $multibancoOrder['validade'] != '' && $multibancoOrder['validade'] != null) {
+				if (isset($multibancoOrder['validade']) && $multibancoOrder['validade'] != '' && $multibancoOrder['validade'] != null) {
 
-                    $deadlineDate = (\DateTime::createFromFormat('d-m-Y', $multibancoOrder['validade']))->format('d-m-Y');
-                    $today = (new \DateTime(date("d-m-Y")))->format('d-m-Y');
+					$deadlineDate = \DateTime::createFromFormat('d-m-Y', $multibancoOrder['validade']);
+					$deadlineDate->setTime(23, 59); //set time to 23h:59m
+					$deadlineStr = strtotime($deadlineDate->format('Y-m-d H:i:s'));
 
-                    if ($deadlineDate < $today) {
-                        $new_history = PrestashopModelFactory::buildOrderHistory();
-                        $new_history->id_order = (int) $multibancoOrder['id_order'];
-                        $new_history->changeIdOrderState((int) \Configuration::get('PS_OS_CANCELED'), (int) $multibancoOrder['id_order']);
-                        $new_history->addWithemail(true);
-                    }
-                }
-            }
-        }
+					$currentDateStr = strtotime(date('Y-m-d H:i:s'));
+
+
+					if ($deadlineStr < $currentDateStr) {
+						$new_history = PrestashopModelFactory::buildOrderHistory();
+						$new_history->id_order = (int) $multibancoOrder['id_order'];
+						$new_history->changeIdOrderState((int) \Configuration::get('PS_OS_CANCELED'), (int) $multibancoOrder['id_order']);
+						$new_history->addWithemail(true);
+					}
+				}
+			}
+		}
     }
 }

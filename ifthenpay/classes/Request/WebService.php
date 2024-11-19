@@ -74,8 +74,7 @@ class WebService
             throw $th;
         }
     }
-    
-    // TODO: Verify if this method is deprecated
+
     public function getRequest($url, $data = [])
     {
         try {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2022 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Models;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Contracts\Models\PaymentModelInterface;
@@ -35,83 +36,99 @@ use PrestaShop\Module\Ifthenpay\Factory\Database\DatabaseFactory;
 class IfthenpayIfthenpaygateway extends \ObjectModel implements PaymentModelInterface
 {
 
-    public $id;
-    public $id_ifthenpay_ifthenpaygateway;
-    public $payment_url;
-    public $deadline;
-    public $order_id;
-    public $status;
+	public $id;
+	public $id_ifthenpay_ifthenpaygateway;
+	public $payment_url;
+	public $deadline;
+	public $order_id;
+	public $status;
 
 
 	public static $definition = [
-        'table' => "ifthenpay_ifthenpaygateway",
-        'primary' => 'id_ifthenpay_ifthenpaygateway',
-        'multilang' => false,
-        'multishop' => true,
-        'fields' => [
+		'table' => "ifthenpay_ifthenpaygateway",
+		'primary' => 'id_ifthenpay_ifthenpaygateway',
+		'multilang' => false,
+		'multishop' => true,
+		'fields' => [
 			'payment_url' => [
-                'type' => self::TYPE_STRING,
-                'required' => false,
-                'validate' => 'isString',
-                'size' => 255
-            ],
-            'deadline' => [
-                'type' => self::TYPE_STRING,
-                'required' => false,
-                'validate' => 'isString',
-                'size' => 10
-            ],
-            'order_id' => [
-                'type' => self::TYPE_INT,
-                'required' => true,
-                'validate' => 'isUnsignedInt'
-            ],
-            'status' => [
-                'type' => self::TYPE_STRING,
-                'required' => true,
-                'validate' => 'isString',
-                'size' => 50
-            ],
-        ]
-    ];
+				'type' => self::TYPE_STRING,
+				'required' => false,
+				'validate' => 'isString',
+				'size' => 255
+			],
+			'deadline' => [
+				'type' => self::TYPE_STRING,
+				'required' => false,
+				'validate' => 'isString',
+				'size' => 10
+			],
+			'order_id' => [
+				'type' => self::TYPE_INT,
+				'required' => true,
+				'validate' => 'isUnsignedInt'
+			],
+			'status' => [
+				'type' => self::TYPE_STRING,
+				'required' => true,
+				'validate' => 'isString',
+				'size' => 50
+			],
+		]
+	];
 
 
 
-    public function __construct($id_name_table = null, $id_lang = null, $id_shop = null)
-    {
-        parent::__construct($id_name_table, $id_lang, $id_shop);
-        \Shop::addTableAssociation(self::$definition['table'], array('type' => 'shop'));
-    }
+	public function __construct($id_name_table = null, $id_lang = null, $id_shop = null)
+	{
+		parent::__construct($id_name_table, $id_lang, $id_shop);
+		\Shop::addTableAssociation(self::$definition['table'], array('type' => 'shop'));
+	}
 
 
 
-    public static function getByOrderId($orderId)
-    {
-        $query = DatabaseFactory::buildDbQuery();
-        $query->from(self::$definition['table']);
-        $query->where('order_id = ' . (int) $orderId);
-        $rowOrder = \Db::getInstance()->getRow($query);
+	public static function getByOrderId($orderId)
+	{
+		$query = DatabaseFactory::buildDbQuery();
+		$query->from(self::$definition['table']);
+		$query->where('order_id = ' . (int) $orderId);
+		$rowOrder = \Db::getInstance()->getRow($query);
 
-        if (is_array($rowOrder)) {
-            return $rowOrder;
-        } else {
-            return array();
-        }
-    }
+		if (is_array($rowOrder)) {
+			return $rowOrder;
+		} else {
+			return array();
+		}
+	}
 
 
 
-    public static function getAllPendingOrdersWithDeadline()
-    {
-        $rowOrder = \Db::getInstance()
-            ->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'orders`'
-            . ' INNER JOIN `' . _DB_PREFIX_ . 'ifthenpay_ifthenpaygateway` ON `' . _DB_PREFIX_ . 'orders`.`id_order` = `' . _DB_PREFIX_ . 'ifthenpay_ifthenpaygateway`.`order_id`'
-            . ' WHERE `current_state` = ' . \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_OS_WAITING') . ' AND `payment` = "ifthenpaygateway"');
+	public static function getAllPendingOrdersWithDeadline()
+	{
+		$rowOrder = \Db::getInstance()
+			->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'orders`'
+				. ' INNER JOIN `' . _DB_PREFIX_ . 'ifthenpay_ifthenpaygateway` ON `' . _DB_PREFIX_ . 'orders`.`id_order` = `' . _DB_PREFIX_ . 'ifthenpay_ifthenpaygateway`.`order_id`'
+				. ' WHERE `current_state` = ' . \Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_OS_WAITING') . ' AND `payment` = "ifthenpaygateway"');
 
-        if (is_array($rowOrder)) {
-            return $rowOrder;
-        } else {
-            return array();
-        }
-    }
+		if (is_array($rowOrder)) {
+			return $rowOrder;
+		} else {
+			return array();
+		}
+	}
+
+
+
+	/**
+	 * updates the invoice column of a given order status
+	 * used to enable or disable invoice behaviour of an ifthenpay method confirmed status
+	 */
+	public static function updateOrderStatusInvoice($statusId, $hasInvoice)
+	{
+		$db = \Db::getInstance();
+		$query = 'UPDATE `' . _DB_PREFIX_ . 'order_state`
+              SET `invoice` = ' . $hasInvoice . '
+              WHERE `id_order_state` = ' . $statusId;
+
+		return $db->execute($query);
+	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Models;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Contracts\Models\PaymentModelInterface;
@@ -34,80 +35,96 @@ use PrestaShop\Module\Ifthenpay\Factory\Database\DatabaseFactory;
 
 class IfthenpayCCard extends \ObjectModel implements PaymentModelInterface
 {
-    public $id;
-    public $id_ifthenpay_ccard;
-    public $transaction_id;
-    public $referencia;
-    public $validade;
-    public $order_id;
+	public $id;
+	public $id_ifthenpay_ccard;
+	public $transaction_id;
+	public $referencia;
+	public $validade;
+	public $order_id;
 
-    public static $definition = [
-        'table' => "ifthenpay_ccard",
-        'primary' => 'id_ifthenpay_ccard',
-        'multilang' => false,
-        'multishop' => true,
-        'fields' => [
-            'transaction_id' => [
-                'type' => self::TYPE_STRING,
-                'required' => true,
-                'validate' => 'isString',
-                'size' => 50,
-            ],
-            'order_id' => [
-                'type' => self::TYPE_INT,
-                'required' => true,
-                'validate' => 'isUnsignedInt',
-            ],
-            'status' => [
-                'type' => self::TYPE_STRING,
-                'required' => true,
-                'validate' => 'isString',
-                'size' => 50,
-            ],
-        ]
-    ];
+	public static $definition = [
+		'table' => "ifthenpay_ccard",
+		'primary' => 'id_ifthenpay_ccard',
+		'multilang' => false,
+		'multishop' => true,
+		'fields' => [
+			'transaction_id' => [
+				'type' => self::TYPE_STRING,
+				'required' => true,
+				'validate' => 'isString',
+				'size' => 50,
+			],
+			'order_id' => [
+				'type' => self::TYPE_INT,
+				'required' => true,
+				'validate' => 'isUnsignedInt',
+			],
+			'status' => [
+				'type' => self::TYPE_STRING,
+				'required' => true,
+				'validate' => 'isString',
+				'size' => 50,
+			],
+		]
+	];
 
-    public function __construct($id_name_table = null, $id_lang = null, $id_shop = null)
-    {
-        parent::__construct($id_name_table, $id_lang, $id_shop);
-        \Shop::addTableAssociation(self::$definition['table'], array('type' => 'shop'));
-    }
+	public function __construct($id_name_table = null, $id_lang = null, $id_shop = null)
+	{
+		parent::__construct($id_name_table, $id_lang, $id_shop);
+		\Shop::addTableAssociation(self::$definition['table'], array('type' => 'shop'));
+	}
 
-    public static function getByOrderId($orderId)
-    {
-        $query = DatabaseFactory::buildDbQuery();
-        $query->from(self::$definition['table']);
-        $query->where('order_id = ' . (int) $orderId);
-        $rowOrder = \Db::getInstance()->getRow($query);
+	public static function getByOrderId($orderId)
+	{
+		$query = DatabaseFactory::buildDbQuery();
+		$query->from(self::$definition['table']);
+		$query->where('order_id = ' . (int) $orderId);
+		$rowOrder = \Db::getInstance()->getRow($query);
 
-        if (is_array($rowOrder)) {
-            return $rowOrder;
-        } else {
-            return array();
-        }
-    }
+		if (is_array($rowOrder)) {
+			return $rowOrder;
+		} else {
+			return array();
+		}
+	}
 
-    public static function getCCardByRequestId($transaction_id)
-    {
-        $rowOrder = \Db::getInstance()
-            ->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transaction_id) .  '\') ');
-            if (is_array($rowOrder)) {
-            return $rowOrder[0];
-        } else {
-            return array();
-        }
-    }
+	public static function getCCardByRequestId($transaction_id)
+	{
+		$rowOrder = \Db::getInstance()
+			->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transaction_id) .  '\') ');
+		if (is_array($rowOrder)) {
+			return $rowOrder[0];
+		} else {
+			return array();
+		}
+	}
 
-    public static function getAllPendingOrders()
-    {
-        
-        $rowOrder = \Db::getInstance()
-            ->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'orders`' . ' WHERE `current_state` = ' . \Configuration::get('IFTHENPAY_CCARD_OS_WAITING') . ' AND `payment` = "ccard"');
+	public static function getAllPendingOrders()
+	{
 
-        if (is_array($rowOrder)) {
-            return $rowOrder;
-        } else {
-            return array();
-        }
-    }
+		$rowOrder = \Db::getInstance()
+			->executeS('SELECT * FROM `' . _DB_PREFIX_ . 'orders`' . ' WHERE `current_state` = ' . \Configuration::get('IFTHENPAY_CCARD_OS_WAITING') . ' AND `payment` = "ccard"');
+
+		if (is_array($rowOrder)) {
+			return $rowOrder;
+		} else {
+			return array();
+		}
+	}
+
+
+
+	/**
+	 * updates the invoice column of a given order status
+	 * used to enable or disable invoice behaviour of an ifthenpay method confirmed status
+	 */
+	public static function updateOrderStatusInvoice($statusId, $hasInvoice)
+	{
+		$db = \Db::getInstance();
+		$query = 'UPDATE `' . _DB_PREFIX_ . 'order_state`
+              SET `invoice` = ' . $hasInvoice . '
+              WHERE `id_order_state` = ' . $statusId;
+
+		return $db->execute($query);
+	}
 }
