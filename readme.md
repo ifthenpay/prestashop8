@@ -17,6 +17,7 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Credit Card](#Credit-Card)
   * [Payshop](#Payshop)
   * [Cofidis Pay](#Cofidis-Pay)
+  * [Pix](#Pix)
   * [Ifthenpay Gateway](#ifthenpay-gateway)
 
 [5. Edit payment details](#Edit-payment-details)
@@ -34,6 +35,7 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Reset Configuration](#Reset-Configuration)
   * [Updates](#Updates)
   * [Sandbox Mode](#Sandbox-Mode)
+  * [Invoice Option](#Invoice-Option)
   * [Callback](#Callback)
   * [Test Callback](#Test-Callback)
 
@@ -44,6 +46,7 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Paying order with MB WAY](#Paying-order-with-MB-WAY)
   * [Paying order with Credit Card](#Paying-order-with-Credit-Card)
   * [Paying order with Cofidis Pay](#Paying-order-with-Cofidis-Pay)
+  * [Paying order with Pix](#Paying-order-with-Pix)
   * [Paying order with Ifthenpay Gateway](#paying-order-with-ifthenpay-gateway)
 
 
@@ -67,6 +70,8 @@ This module will allow you to generate a payment by Visa or Master card, that th
 
 **Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
+**Pix** is an instant payment solution widely used in the Brazilian financial market. It enables quick and secure transactions for purchases, using details such as CPF, email, and phone number to complete the payment.
+
 **Contract with Ifthenpay is required.**
 
 See more at [Ifthenpay](https://ifthenpay.com). 
@@ -78,7 +83,7 @@ See more at [Ifthenpay](https://ifthenpay.com).
 Follow the table below to verify Ifthenpay's module compatibility with your online store.
 |                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.7]  |
 |----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 -> v8.2.0 | Not compatible | Not compatible | Compatible                    |
+| Ifthenpay v8.0.0 -> v8.3.0 | Not compatible | Not compatible | Compatible                    |
 
 
 # Installation
@@ -258,6 +263,33 @@ Multibanco with Dynamic References payment method generates references by reques
 </br>
 
 
+## Pix
+
+* In Modules/Ifthenpay/Configure, click the "MANAGE" button for Pix;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/manage_pix.png)
+
+</br>
+
+* Configure Pix payment method:
+1. Select a Pix key. Can only select from the Pix keys associated with your Backoffice key;
+2. Activate Callback, by selecting this option the order state will update when a payment is received;
+3. Enable Invoice, by selecting this option, when an order is updated with it's respective payment method confirmed status, it will trigger Prestashop invoice logic.
+4. (optional) Activate Cancel Pix Order, by selecting this option, Pix orders that are expired 30 minutes after confirmation will have status changed to "Cancelled";
+5. (optional) Input minimum order value to only display this payment method for order above it;
+6. (optional) Input maximum order value to only display this payment method for order below it;
+7. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
+8. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
+9. Click "Save" button;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_pix.png)
+
+</br>
+
+* If you set the "Callback" to activate, it's state will be updated below with the generated Anti-Phishing key and Callback Url;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_callback_activated.png)
+
+</br>
+
+
 ## Ifthenpay Gateway
 
 * In Modules/Ifthenpay/Configure, click the "MANAGE" button for Ifthenpay Gateway;
@@ -389,12 +421,39 @@ At Module/Ifthenpay/Configure click the "Reset" button. **Warning, this action w
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/update.png)
 </br>
 
+* If a new version is available you may proceed with the upgrade by clicking (1) to download the module installer;
+![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/upgrade_available.png)
+</br>
+
+* And uploading it to your Prestashop store like you did when installing it in the first place;
+Click "Upload a module";
+![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/click_upload_module.png)
+</br>
+
+* Drag the installer zip on to "Upload a module" box;
+![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/drag_upload_module.png)
+</br>
 
 ## Sandbox Mode
 
 * You may want to run tests before going into production. To do so, you must turn "Sandbox Mode" to Enabled and click the "Save" button, before activating any payment method Callback.
 The Sandbox Mode is used in order to prevent the Callback activation and the communication between our server and your store.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/sandbox_mode.png)
+</br>
+
+
+## Invoice Option
+
+* You may want to automatically generate the invoice for an order when it is confirmed as paid. To enable this functionality you can enable the Invoice option (1) in any of the available methods.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/enable_invoice_status.png)
+</br>
+
+* This action will update the confirmed order status for the respective payment method, which you may check in Prestashop backoffice at Shop Parameters/Order Settings/Statuses.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/order_status.png)
+</br>
+
+* With this, when your order is confirmed, Prestashop will add an invoice line to the Payment tab in order details.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payment_invoice.png)
 </br>
 
 
@@ -455,6 +514,15 @@ to fill the Test Callback form and click the "Test Callback" button (3):
 
 to fill the Test Callback form and click the "Test Callback" button (3):
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_callback_test.png)
+</br>
+
+**Pix:** Use the following data (1) and (2) from order payment details:
+
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_callback_data.png)
+</br>
+
+to fill the Test Callback form and click the "Test Callback" button (3):
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_callback_test.png)
 </br>
 
 **Ifthenpay Gateway**: In the backoffice, use the order ID and the order amount, and enter them in the respective fields (1) and (2) of the Callback test form, then click on Test (3).
@@ -534,7 +602,7 @@ The following action are described from the perspective of the consumer.
 1. Select "Pay by Credit Card";
 2. Check the box of "terms of service" (this will depend on your Prestashop configuration);
 3. Click "PLACE ORDER" button;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_payshop.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_ccard.png)
 </br>
 
 * Fill Credit Card data:
@@ -602,6 +670,28 @@ The following action are described from the perspective of the consumer.
 
 * After which you will be redirected back to the store;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_return.png)
+</br>
+
+## Paying order with Pix
+
+* Select Pix at checkout and place order:
+1. Select "Pay by Pix";
+2. Fill the name, CPF, and Email, these are required;
+3. Address related fields are optional
+4. Check the box of "terms of service" (this will depend on your Prestashop configuration);
+5. Click "PLACE ORDER" button;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_pix.png)
+</br>
+
+* Proceed with payment with one of two options:
+1. Reading QR code with mobile phone;
+2. Copy the Pix code and pay with online banking;
+**Important Note:** In order to be redirected back to the store after paying, this page must be left open. If closed the consumer will still be able to pay, as long as he has already read the Pix code, he will only not be redirected back to the store.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_payment.png)
+</br>
+
+* After paying you will be redirected back to the store;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_payment_return.png)
 </br>
 
 
