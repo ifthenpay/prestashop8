@@ -424,16 +424,16 @@ Se já tem uma conta Ifthenpay, mas não tem contratou um método de pagamento q
 </br>
 
 * Se uma nova versão estiver disponível, pode prosseguir com a atualização clicando em (1) para descarregar o instalador do módulo.
-![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/upgrade_available.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/upgrade_available.png)
 </br>
 
 * E fazendo o upload deste na sua loja Prestashop, da mesma forma que fez na instalação inicial;
 Clicar em "Enviar um módulo";
-![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/click_upload_module.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/click_upload_module.png)
 </br>
 
 * Arrastar o instalador zip para a caixa "Enviar um módulo";
-![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/drag_upload_module.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/drag_upload_module.png)
 </br>
 
 ## Modo Sandbox
