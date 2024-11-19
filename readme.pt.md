@@ -16,6 +16,7 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Cartão de Crédito](#Cartão-de-Crédito)
   * [Payshop](#Payshop)
   * [Cofidis Pay](#Cofidis-Pay)
+  * [Pix](#pix)
   * [Ifthenpay Gateway](#ifthenpay-gateway)
 
 
@@ -34,6 +35,7 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Reset de Configuração](#Reset-de-Configuração)
   * [Atualizações](#Atualizações)
   * [Modo Sandbox](#Modo-Sandbox)
+  * [Opção de Faturação](#Opção-de-Faturação)
   * [Callback](#Callback)
   * [Testar Callback](#Testar-Callback)
 
@@ -44,6 +46,7 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Pagar encomenda com MB WAY](#Pagar-encomenda-com-MB-WAY)
   * [Pagar encomenda com Cartão de Crédito](#Pagar-encomenda-com-Cartão-de-Crédito)
   * [Pagar encomenda com Cofidis Pay](#Pagar-encomenda-com-Cofidis-Pay)
+  * [Pagar encomenda com Pix](#Pagar-encomenda-com-Pix)
   * [Pagar encomenda com Ifthenpay Gateway](#pagar-encomenda-com-ifthenpay-gateway)
 
 
@@ -64,6 +67,8 @@ Este módulo permite gerar uma referência de pagamento que o consumidor pode us
 **Cartão de Crédito** Este módulo permite gerar um pagamento por Visa ou Master card, que o consumidor pode usar para pagar a sua encomenda. Este plugin usa a Ifthenpay, uma das várias gateways disponíveis em Portugal.
 
 **Cofidis Pay** é uma solução de pagamento que facilita o pagamento de compras ao dividir o valor até 12 prestações sem juros. Este módulo utiliza uma das várias gateways/serviços disponíveis em Portugal, a IfthenPay.
+
+**Pix** é uma solução de pagamento instantâneo amplamente usada no mercado financeiro brasileiro. Permite realizar compras de forma rápida e segura, utilizando dados como CPF, e-mail e número de telemóvel para efetuar o pagamento.
 
 **É necessário contrato com a Ifthenpay**
 
@@ -261,6 +266,30 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 </br>
 
 
+## Pix
+
+* Clicar no botão "GERIR" abaixo de Pix;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/manage_pix.png)
+</br>
+
+* Configurar método de pagamento Pix:
+1. Selecionar uma Chave Pix. Apenas pode selecionar uma das Chaves Pix associadas à Chave Backoffice;
+2. Ativar Callback. Ao selecionar esta opção, o estado da encomenda será atualizado quando o pagamento for recebido;
+3. habilitar Fatura: ao selecionar esta opção, quando um pedido for atualizado com o status de confirmação do método de pagamento correspondente, este acionará a lógica de emissão de faturas do Prestashop.
+4. (opcional) Ativar Cancelar Encomenda Ccard. Ao selecionar esta opção, encomendas Ccard que ainda não receberam pagamento serão canceladas 30 minutos após a confirmação no checkout;
+5. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+6. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+7. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+8. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+9. Clicar no botão "Salvar";
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/config_pix.png)
+</br>
+
+* Se selecionou "Callback" ativado anteriormente, após salvar, o estado do Callback será mostrado abaixo com a Chave Anti-Phishing e Url de Callback criados;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/pix_callback_activated.png)
+</br>
+
+
 ## Ifthenpay Gateway
 
 * Clicar no botão "GERIR" abaixo de Ifthenpay Gateway;
@@ -394,12 +423,41 @@ Se já tem uma conta Ifthenpay, mas não tem contratou um método de pagamento q
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/update.png)
 </br>
 
+* Se uma nova versão estiver disponível, pode prosseguir com a atualização clicando em (1) para descarregar o instalador do módulo.
+![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/upgrade_available.png)
+</br>
+
+* E fazendo o upload deste na sua loja Prestashop, da mesma forma que fez na instalação inicial;
+Clicar em "Enviar um módulo";
+![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/click_upload_module.png)
+</br>
+
+* Arrastar o instalador zip para a caixa "Enviar um módulo";
+![img](ttps://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/drag_upload_module.png)
+</br>
+
 ## Modo Sandbox
 
 * Para fazer testes antes de colocar a sua loja em produção, deve mudar o "Modo Sandbox" para Ativado e clicar no botão "Salvar", antes de ativar o Callback dos métodos de pagamento.
 O Modo Sandbox é usado para impedir a ativação do Callback e a comunicação entre o servidor da Ifthenpay e a sua loja.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/sandbox_mode.png)
 </br>
+
+
+## Opção de Faturação
+
+* Pode querer gerar automaticamente a fatura de uma encomenda quando esta for confirmado como paga. Para habilitar essa funcionalidade, ative a opção Fatura (1) em qualquer um dos métodos disponíveis.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/enable_invoice_status.png)
+</br>
+
+* Essa ação atualizará o status de encomenda confirmado para o respectivo método de pagamento, o qual pode verificar no backoffice do Prestashop em Parâmetros da Loja/Configurações de Pedidos/Status.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/order_status.png)
+</br>
+
+* Com isto, quando uma encomenda for confirmado, o Prestashop adicionará uma linha de fatura na tab de Pagamento nos detalhes do pedido.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/payment_invoice.png)
+</br>
+
 
 ## Callback
 
@@ -457,6 +515,15 @@ para preencher o formulário de Testar Callback e clicar no botão "Testar Callb
 
 para preencher o formulário de Testar Callback e clicar no botão "Testar Callback" (3):
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_callback_test.png)
+</br>
+
+**Pix:** Use os dados seguintes (1) e (2) dos detalhes de pagamento de encomenda:
+
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/pix_callback_data.png)
+</br>
+
+para preencher o formulário de Testar Callback e clicar no botão "Testar Callback" (3):
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/pix_callback_test.png)
 </br>
 
 **Ifthenpay Gateway**: No backoffice, use o ID de encomenda e o valor e introduza este nos respetivos campos (1) e (2) do formulário de teste de callback e clique em Testar (3).
@@ -603,6 +670,29 @@ As ações seguintes são descritas da perspetiva do cliente consumidor.
 
 * Após o qual será redirecionado de volta para a loja;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/cofidis_payment_return.png)
+</br>
+
+
+## Pagar encomenda com Pix
+
+* Selecione Pix no checkout e finalize o pedido:
+1. Selecione "Pagamento por Pix";
+2. Preencha o nome, CPF e e-mail (estes são obrigatórios);
+3. Campos relacionados ao endereço são opcionais;
+4. Colocar o visto nos "termos do serviço" (Depende da sua configuração do Prestashop);
+5. Clique no botão "PLACE ORDER".
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_pix.png)
+</br>
+
+* Proceder com o pagamento de duas formas:
+1. Ler o código QR com o smartphone;
+2. Copiar o código Pix e pagar com online banking;
+**Nota Importante:** De modo a ser redirecionado de volta para a loja após o pagamento, esta página deve permanecer aberta. Se fechada, o consumidor ainda pode proceder ao pagamento desde que já tenha lido o código Pix, apenas não será redirecionado de volta para a loja.
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_payment.png)
+</br>
+
+* Após pagar, será redirecionado de volta para a loja;
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_payment_return.png)
 </br>
 
 
