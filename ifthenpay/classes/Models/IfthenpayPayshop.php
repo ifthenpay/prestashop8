@@ -103,7 +103,8 @@ class IfthenpayPayshop extends \ObjectModel implements PaymentModelInterface
 	{
 		$rowOrder = \Db::getInstance()
 			->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE (transaction_id = ' . '\'' . \pSQL((string) $transaction_id) .  '\') ');
-		if (is_array($rowOrder)) {
+
+		if (is_array($rowOrder) && !empty($rowOrder)) {
 			return $rowOrder[0];
 		} else {
 			return array();

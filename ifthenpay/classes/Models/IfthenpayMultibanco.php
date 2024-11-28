@@ -110,7 +110,7 @@ class IfthenpayMultibanco extends \ObjectModel implements PaymentModelInterface
 		$rowOrder = \DB::getInstance()
 			->executeS('SELECT * FROM ' . _DB_PREFIX_  . self::$definition['table'] . ' WHERE referencia = \'' . \pSQL($referencia) . '\' ORDER BY ' . self::$definition['primary'] . ' DESC LIMIT 1');
 
-		if (is_array($rowOrder)) {
+		if (is_array($rowOrder) && !empty($rowOrder)) {
 			return $rowOrder[0];
 		} else {
 			return array();
