@@ -551,6 +551,18 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 	}
 
 
+	private function getGatewayKeySettingsFromArray(string $ifthenpaygatewayKey, array $gatewayKeys): array
+	{
+		$gatewayKeySettings = array_filter($gatewayKeys, function ($item) use ($ifthenpaygatewayKey) {
+			if ($item['GatewayKey'] === $ifthenpaygatewayKey) {
+				return true;
+			}
+		});
+		$gatewayKeySettings = reset($gatewayKeySettings);
+
+		return $gatewayKeySettings;
+	}
+
 
 	public function generateIfthenpaygatewayDefaultPaymentMethodSelectionHtml(string $ifthenpaygatewayKey): string
 	{
@@ -616,7 +628,9 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 
 		$paymentMethodGroupArray = $this->ifthenpayGateway->getIfthenpayGatewayPaymentMethodsDataByBackofficeKeyAndGatewayKey($backofficeKey, $ifthenpaygatewayKey);
 
-		$gatewayKeySettings = $this->ifthenpayGateway->getIthenpaygatewayKeys();
+		$gatewayKeys = $this->ifthenpayGateway->getIthenpaygatewayKeys();
+
+		$gatewayKeySettings = $this->getGatewayKeySettingsFromArray($ifthenpaygatewayKey, $gatewayKeys);
 
 
 		$isStaticGatewayKey = $this->isGatewayKeyStatic($gatewayKeySettings);

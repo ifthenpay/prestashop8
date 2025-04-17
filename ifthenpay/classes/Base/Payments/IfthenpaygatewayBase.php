@@ -49,7 +49,7 @@ class IfthenpaygatewayBase extends PaymentBase
 	protected function saveToDatabase()
 	{
 		$this->paymentModel->payment_url = $this->paymentGatewayResultData->paymentUrl;
-		$this->paymentModel->deadline = $this->paymentGatewayResultData->deadline;
+		$this->paymentModel->deadline = isset($this->paymentGatewayResultData->deadline) ? $this->paymentGatewayResultData->deadline : null;
 		$this->paymentModel->order_id = $this->paymentDefaultData->order->id;
 		$this->paymentModel->status = 'pending';
 		$this->paymentModel->save();
@@ -76,6 +76,8 @@ class IfthenpaygatewayBase extends PaymentBase
 
 		$deadline = isset($this->paymentGatewayResultData->deadline) ? $this->paymentGatewayResultData->deadline : $this->paymentDataFromDb['deadline'];
 		$deadline = $deadline != '' ? (new \DateTime($deadline))->format('d-m-Y') : '';
+
+
 
 		$deadlineHtml = <<<HTML
 			<tr>
