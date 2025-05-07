@@ -83,7 +83,7 @@ See more at [Ifthenpay](https://ifthenpay.com).
 Follow the table below to verify Ifthenpay's module compatibility with your online store.
 |                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.7]  |
 |----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 -> v8.3.1 | Not compatible | Not compatible | Compatible                    |
+| Ifthenpay v8.0.0 -> v8.3.2 | Not compatible | Not compatible | Compatible                    |
 
 
 # Installation
