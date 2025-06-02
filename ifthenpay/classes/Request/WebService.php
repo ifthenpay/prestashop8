@@ -62,18 +62,20 @@ class WebService
         return json_decode(json_encode(json_decode((string) $this->response->getBody())), true);
     }
 
-    public function postRequest($url, $data, $json = false)
-    {
-        try {
-            $this->response = $this->client->post(
-                $url,
-                $json ? ['json' => $data] : ['form_params' => $data]
-            );
-            return $this;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+public function postRequest($url, $data, $jsonContentType = false)
+{
+    try {
+        $this->response = $this->client->post(
+            $url,
+            $jsonContentType ? ['json' => $data] :
+            ['form_params' => $data]
+        );
+        return $this;
+    } catch (\Throwable $th) {
+        throw $th;
     }
+}
+
 
     public function getRequest($url, $data = [])
     {
