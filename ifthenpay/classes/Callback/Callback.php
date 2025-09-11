@@ -44,6 +44,7 @@ class Callback
 	private $entidade;
 	private $subEntidade;
 	private $urlCallbackParameters = [];
+	private $paymentType;
 
 
 
@@ -190,8 +191,7 @@ class Callback
 			true
 		);
 
-		$response = $request->getResponse();
-		if (!$response->getStatusCode() === 200 && !$response->getReasonPhrase()) {
+		if ($request->getResponseCode() !== 200 && !$request->getResponse()) {
 			throw new \Exception("Error Activating Callback");
 		}
 	}

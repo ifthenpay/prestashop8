@@ -257,7 +257,7 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 	private function generateAndSavePaymentLogo($paymentMethodGroups, $paymentLogoType): bool
 	{
 		// exit early if is only showing text instead of logo
-		if ($paymentLogoType == '0') {
+		if ($paymentLogoType == '1') {
 			return true;
 		}
 
@@ -435,7 +435,8 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 
 		$key = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_KEY');
 		if ($key == '') {
-			Utility::setPrestashopCookie('error', 'Selected Key is not valid', pathinfo(__FILE__)['filename']);
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Selected Key is not valid', pathinfo(__FILE__)['filename']));
+
 			return false;
 		}
 
@@ -445,7 +446,24 @@ class IfthenpaygatewayConfigForm extends ConfigForm
 			$deadline !== '' &&
 			((is_numeric($deadline) ? intval($deadline) != $deadline : true) || intval($deadline) <= 0)
 		) {
-			Utility::setPrestashopCookie('error', 'Selected Deadline is not valid', pathinfo(__FILE__)['filename']);
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Selected Deadline is not valid', pathinfo(__FILE__)['filename']));
+			return false;
+		}
+
+
+		$paymentMethods = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_METHODS');
+
+		$hasSelectedMethod = false;
+		foreach ($paymentMethods as $key => $value) {
+
+			if (isset($value['is_active']) && $value['is_active'] === '1') {
+				$hasSelectedMethod = true;
+				break;
+			}
+		}
+
+		if (!$hasSelectedMethod) {
+			Utility::setPrestashopCookie('error', 'No selected gateway methods', pathinfo(__FILE__)['filename']);
 			return false;
 		}
 

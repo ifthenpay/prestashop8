@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,22 +27,22 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Request;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
-use GuzzleHttp\Client;
+use Symfony\Component\HttpClient\HttpClient;
 use PrestaShop\Module\Ifthenpay\Request\WebService;
 
 class RequestFactory
 {
 
-    public static function buildWebservice($headers = [])
-    {
-        return new Webservice($headers);
-    }
+	public static function buildWebservice($headers = [])
+	{
+		return new Webservice($headers);
+	}
 
-    public static function buildClient()
-    {
-        return new Client();
-    }
+	public static function buildClient()
+	{
+		return HttpClient::create();
+	}
 }

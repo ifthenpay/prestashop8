@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -27,28 +28,31 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Admin;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
+use PrestaShop\Module\Ifthenpay\Admin\Payments\IfthenpaygatewayAdminRemember;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\PayshopAdminRemember;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MultibancoAdminRemember;
 
 class AdminRememberFactory
 {
-    public static function build(
-        $type,
-        $paymentDefaultData,
-        $ifthenpayModule,
-        $smartyDefaultData = null,
-        $emailDefaultData = null
-    ) {
-        switch ($type) {
-            case 'multibanco':
-                return new MultibancoAdminRemember($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
-            case 'payshop':
-                return new PayshopAdminRemember($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
-            default:
-                throw new \Exception('Unknown Admin Remember class');
-        }
-    }
+	public static function build(
+		$type,
+		$paymentDefaultData,
+		$ifthenpayModule,
+		$smartyDefaultData = null,
+		$emailDefaultData = null
+	) {
+		switch ($type) {
+			case 'multibanco':
+				return new MultibancoAdminRemember($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			case 'payshop':
+				return new PayshopAdminRemember($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			case 'ifthenpaygateway':
+				return new IfthenpaygatewayAdminRemember($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			default:
+				throw new \Exception('Unknown Admin Remember class');
+		}
+	}
 }

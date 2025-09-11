@@ -47,12 +47,13 @@ class Ifthenpay extends PaymentModule
 {
 	protected $config_form = false;
 	private $ifthenpayConfig;
+	public string $cacheBuster;
 
 	public function __construct()
 	{
 		$this->name = 'ifthenpay';
 		$this->tab = 'payments_gateways';
-		$this->version = '8.3.1';
+		$this->version = '8.3.3';
 		$this->author = 'Ifthenpay';
 		$this->need_instance = 0;
 		$this->bootstrap = true;
@@ -72,6 +73,7 @@ class Ifthenpay extends PaymentModule
 			'cancelMbwayOrder',
 			'adminIfthenpayResetAccount'
 		];
+		$this->cacheBuster = substr(md5($this->version), 0, 8);
 
 		parent::__construct();
 
@@ -104,10 +106,15 @@ class Ifthenpay extends PaymentModule
 			Shop::setContext(Shop::CONTEXT_ALL);
 		}
 		if (
-			!parent::install() || !$this->registerHook('paymentOptions') || !$this->registerHook('paymentReturn') ||
-			!$this->registerHook('displayAdminOrder') || !$this->registerHook('displayOrderDetail') || !$this->registerHook('displayHeader') ||
-			!$this->registerHook('actionAdminControllerSetMedia') || !$this->registerHook('actionFrontControllerSetMedia') ||
-			!$this->registerHook('displayBackOfficeHeader') || !$this->registerHook('actionProductCancel')
+			!parent::install() ||
+			!$this->registerHook('paymentOptions') ||
+			!$this->registerHook('paymentReturn') ||
+			!$this->registerHook('displayAdminOrder') ||
+			!$this->registerHook('displayOrderDetail') ||
+			!$this->registerHook('actionAdminControllerSetMedia') ||
+			!$this->registerHook('actionFrontControllerSetMedia') ||
+			!$this->registerHook('displayBackOfficeHeader') ||
+			!$this->registerHook('actionProductCancel')
 		) {
 			return false;
 		}
@@ -329,7 +336,7 @@ class Ifthenpay extends PaymentModule
 			$form['form']['input'][] = [
 				'type' => 'html',
 				'name' => '',
-				'html_content' => '<img style="margin-top: 20px;" src="' . \Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/' . $paymentMethod . '.png') . '" title="' . $title . '">'
+				'html_content' => '<img style="margin-top: 20px;" src="' . \Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/' . $paymentMethod . '.png') . '" height="40px" title="' . $title . '">'
 			];
 
 
@@ -716,14 +723,13 @@ class Ifthenpay extends PaymentModule
 						$logoTypeToShow = Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_SHOW_LOGO');
 						$paymentMethodTitle = Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_TITLE');
 						// if show logo
-						if ($logoTypeToShow === '1') //show regular logo
-						{
+						if ($logoTypeToShow === '0') {
 							$option->setCallToActionText($this->l('Pay by ') . $paymentMethodTitle);
 						} else { //show payment title
 							$option->setLogo(
 								Media::getMediaPath(
 									_PS_MODULE_DIR_ . $this->name . '/views/img/' . $paymentMethod . '_option.png'
-								)
+								) . '?v=' . Configuration::get('IFTHENPAY_IFTHENPAYGATEWAY_CACHE_BUSTER') ?? $this->cacheBuster
 							);
 						}
 
@@ -753,7 +759,7 @@ class Ifthenpay extends PaymentModule
 					)
 						->setLogo(
 							$this->_path .
-								'views/img/' . $paymentMethod . '_option.png'
+								'views/img/' . $paymentMethod . '_option.png' . '?v=' . $this->cacheBuster
 						)
 						->setAction(
 							$this->context->link->getModuleLink(
@@ -802,9 +808,8 @@ class Ifthenpay extends PaymentModule
 			$customer = $this->context->customer;
 			$addressInvoice = new \Address($this->context->cart->id_address_invoice);
 
-
 			$vars['customerName'] = $customer->firstname . ' ' . $customer->lastname;
-			$var['customerCpf'] = ''; // always blank when first loading
+			$vars['customerCpf'] = ''; // always blank when first loading
 			$vars['customerEmail'] = $customer->email;
 
 			$phone = isset($addressInvoice->phone) && $addressInvoice->phone != '' ? $addressInvoice->phone : '';
@@ -817,7 +822,7 @@ class Ifthenpay extends PaymentModule
 				$vars['customerAddress'] = trim($billingAddress1 . " " . $billingAddress2);
 			}
 
-			$var['customerStreetNumber'] = ''; // always blank when first loading
+			$vars['customerStreetNumber'] = ''; // always blank when first loading
 
 
 			if (isset($addressInvoice->city) && $addressInvoice->city) {
@@ -828,7 +833,7 @@ class Ifthenpay extends PaymentModule
 				$vars['customerZipCode'] = $addressInvoice->postcode;
 			}
 
-			$var['customerState'] = ''; // always blank when first loading
+			$vars['customerState'] = ''; // always blank when first loading
 
 
 			$vars['action'] = $this->context->link->getModuleLink(

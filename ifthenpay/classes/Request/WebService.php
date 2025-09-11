@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,77 +27,89 @@
 namespace PrestaShop\Module\Ifthenpay\Request;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
-use GuzzleHttp\Message\Response;
 use PrestaShop\Module\Ifthenpay\Factory\Request\RequestFactory;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackStrategy;
+use \Symfony\Contracts\HttpClient\ResponseInterface;
 
 class WebService
 {
-    private $client;
-    private $response;
-    private $curl;
+	private $client;
+	private ResponseInterface $response;
+	private $curl;
 
-    public function __construct($headers = [])
-    {
-        $this->client = RequestFactory::buildClient($headers);
+	public function __construct($headers = [])
+	{
+		$this->client = RequestFactory::buildClient();
 
-        $this->curl = curl_init();
-        curl_setopt_array($this->curl, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_HTTPHEADER => $headers,
-        ]);
-    }
+		$this->curl = curl_init();
+		curl_setopt_array($this->curl, [
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_HTTPHEADER => $headers,
+		]);
+	}
 
-    public function getResponse()
-    {
-        return $this->response;
-    }
+	public function getResponseCode()
+	{
+		return $this->response->getStatusCode();
+	}
 
-    public function getResponseJson()
-    {
-        return json_decode(json_encode(json_decode((string) $this->response->getBody())), true);
-    }
 
-    public function postRequest($url, $data, $json = false)
-    {
-        try {
-            $this->response = $this->client->post(
-                $url,
-                $json ? ['json' => $data] : ['form_params' => $data]
-            );
-            return $this;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
+	public function getResponse()
+	{
+		return $this->response->getContent();
+	}
 
-    public function getRequest($url, $data = [])
-    {
-        try {
-            $this->response = $this->client->get($url, ['query' => $data]);
-            return $this;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
+	public function getResponseJson()
+	{
+		return $this->response->toArray();
+	}
 
-    public function getRequest_callback($url, $data = [])
-    {
-        curl_setopt_array($this->curl, [
-            CURLOPT_POST => false,
-            CURLOPT_URL => $url
-        ]);
-        $this->response = curl_exec($this->curl);
+	public function postRequest($url, $data, $json = false)
+	{
+		try {
+			$this->response = $this->client->request(
+				'POST',
+				$url,
+				$json ? ['json' => $data] : [
+					'body' => $data,
+					'headers' => [
+						'Content-Type' => 'application/x-www-form-urlencoded',
+					],
+				]
+			);
+			return $this;
+		} catch (\Throwable $th) {
+			throw $th;
+		}
+	}
 
-        if ($this->response === false) {
-            throw new \Exception(curl_error($this->curl));
-        }
+	public function getRequest($url, $data = [])
+	{
+		try {
+			$this->response = $this->client->request('GET', $url, ['query' => $data]);
+			return $this;
+		} catch (\Throwable $th) {
+			throw $th;
+		}
+	}
 
-        return $this->response;
-    }
+	public function getRequest_callback($url, $data = [])
+	{
+		curl_setopt_array($this->curl, [
+			CURLOPT_POST => false,
+			CURLOPT_URL => $url
+		]);
+		$this->response = curl_exec($this->curl);
+
+		if ($this->response === false) {
+			throw new \Exception(curl_error($this->curl));
+		}
+
+		return $this->response;
+	}
 }

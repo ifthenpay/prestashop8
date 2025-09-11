@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Forms;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Utility\Utility;
@@ -35,171 +35,175 @@ use PrestaShop\Module\Ifthenpay\Forms\ConfigForm;
 
 class CCardConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'ccard';
-    protected $options = []; // array of entity options for GUI select
+	protected $paymentMethod = 'ccard';
+	protected $options = []; // array of entity options for GUI select
 
-    /**
-     * "gets" the form into object... it sets the form that will display in the payment method configuration
-     *
-     * @return void
-     */
-    public function getForm()
-    {
-        // assign template variables
-        $this->setSmartyVariables();
-        $this->setFormParent();
+	/**
+	 * "gets" the form into object... it sets the form that will display in the payment method configuration
+	 *
+	 * @return void
+	 */
+	public function getForm()
+	{
+		// assign template variables
+		$this->setSmartyVariables();
+		$this->setFormParent();
 
-        // sets the $this->options
-        $this->setEntityOptions();
+		// sets the $this->options
+		$this->setEntityOptions();
 
-        $this->form['form']['input'][] = [
-            'type' => 'select',
-            'label' => $this->ifthenpayModule->l('CCard key', pathinfo(__FILE__)['filename']),
-            'desc' => $this->ifthenpayModule->l('Choose CCard key', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_CCARD_KEY',
-            'required' => true,
-            'options' => [
-                'query' => $this->options,
-                'id' => 'id',
-                'name' => 'name'
-            ]
-        ];
+		$this->form['form']['input'][] = [
+			'type' => 'select',
+			'label' => $this->ifthenpayModule->l('CCard key', pathinfo(__FILE__)['filename']),
+			'desc' => $this->ifthenpayModule->l('Choose CCard key', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_CCARD_KEY',
+			'required' => true,
+			'options' => [
+				'query' => $this->options,
+				'id' => 'id',
+				'name' => 'name'
+			]
+		];
+
+		// activate auto callback
+		$this->addActivateCallbackToForm();
 
 		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
 
-        // cancel after timer of 30 minutes
-        $this->form['form']['input'][] = [
-            'type' => 'switch',
-            'label' => $this->ifthenpayModule->l('Cancel CCard Order', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT',
-            'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page.', pathinfo(__FILE__)['filename']),
-            'is_bool' => true,
-            'values' => [
-                [
-                    'id' => 'active_on',
-                    'value' => true,
-                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
-                ],
-                [
-                    'id' => 'active_off',
-                    'value' => false,
-                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
-                ]
-            ]
-        ];
+		// cancel after timer of 30 minutes
+		$this->form['form']['input'][] = [
+			'type' => 'switch',
+			'label' => $this->ifthenpayModule->l('Cancel CCard Order', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT',
+			'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page.', pathinfo(__FILE__)['filename']),
+			'is_bool' => true,
+			'values' => [
+				[
+					'id' => 'active_on',
+					'value' => true,
+					'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
+				],
+				[
+					'id' => 'active_off',
+					'value' => false,
+					'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
+				]
+			]
+		];
 
-        // activate partial refund method
-        $this->form['form']['input'][] = [
-            'type' => 'switch',
-            'label' => $this->ifthenpayModule->l('Partial Refund', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_CCARD_REFUND',
-            'desc' => $this->ifthenpayModule->l('Allows the admin to make partial refunds directly to the Ifthenpay Payment Gateway.', pathinfo(__FILE__)['filename']),
-            'is_bool' => true,
-            'values' => [
-                [
-                    'id' => 'active_on',
-                    'value' => true,
-                    'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
-                ],
-                [
-                    'id' => 'active_off',
-                    'value' => false,
-                    'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
-                ]
-            ]
-        ];
+		// activate partial refund method
+		$this->form['form']['input'][] = [
+			'type' => 'switch',
+			'label' => $this->ifthenpayModule->l('Partial Refund', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_CCARD_REFUND',
+			'desc' => $this->ifthenpayModule->l('Allows the admin to make partial refunds directly to the Ifthenpay Payment Gateway.', pathinfo(__FILE__)['filename']),
+			'is_bool' => true,
+			'values' => [
+				[
+					'id' => 'active_on',
+					'value' => true,
+					'label' => $this->ifthenpayModule->l('ON', pathinfo(__FILE__)['filename'])
+				],
+				[
+					'id' => 'active_off',
+					'value' => false,
+					'label' => $this->ifthenpayModule->l('OFF', pathinfo(__FILE__)['filename'])
+				]
+			]
+		];
 
-        // add min max and country form elements
-        $this->addMinMaxFieldsToForm();
-        $this->addCountriesFieldToForm();
-        $this->addOrderByNumberFieldsToForm();
+		// add min max and country form elements
+		$this->addMinMaxFieldsToForm();
+		$this->addCountriesFieldToForm();
+		$this->addOrderByNumberFieldsToForm();
 
-        // generate form
-        $this->generateHelperForm();
-    }
+		// generate form
+		$this->generateHelperForm();
+	}
 
-    protected function getConfigFormValues()
-    {
-        return array_merge(parent::getCommonConfigFormValues(), [
-            'IFTHENPAY_CCARD_KEY' => \Configuration::get('IFTHENPAY_CCARD_KEY'),
-            'IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'),
-            'IFTHENPAY_CCARD_REFUND' => \Configuration::get('IFTHENPAY_CCARD_REFUND')
-        ]);
-    }
+	protected function getConfigFormValues()
+	{
+		return array_merge(parent::getCommonConfigFormValues(), [
+			'IFTHENPAY_CCARD_KEY' => \Configuration::get('IFTHENPAY_CCARD_KEY'),
+			'IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'),
+			'IFTHENPAY_CCARD_REFUND' => \Configuration::get('IFTHENPAY_CCARD_REFUND')
+		]);
+	}
 
-    public function setSmartyVariables()
-    {
-        // common to all payment methods
-        parent::assignSmartyPayMethodsCommonVars();
+	public function setSmartyVariables()
+	{
+		// common to all payment methods
+		parent::assignSmartyPayMethodsCommonVars();
 
-        // specific to this payment method
-        \Context::getContext()->smarty->assign('ccardKey', \Configuration::get('IFTHENPAY_CCARD_KEY'));
-    }
+		// specific to this payment method
+		\Context::getContext()->smarty->assign('ccardKey', \Configuration::get('IFTHENPAY_CCARD_KEY'));
+	}
 
 
 
-    public function setGatewayBuilderData()
-    {
-        $getCCardKeyFromRequest = \Tools::getValue('IFTHENPAY_CCARD_KEY');
+	public function setGatewayBuilderData()
+	{
+		$getCCardKeyFromRequest = \Tools::getValue('IFTHENPAY_CCARD_KEY');
 
-        parent::setGatewayBuilderData();
-        $this->gatewayDataBuilder->setEntidade(\Tools::strtoupper($this->paymentMethod));
-        $this->gatewayDataBuilder->setSubEntidade($getCCardKeyFromRequest ? $getCCardKeyFromRequest : \Configuration::get('IFTHENPAY_CCARD_KEY'));
-    }
+		parent::setGatewayBuilderData();
+		$this->gatewayDataBuilder->setEntidade(\Tools::strtoupper($this->paymentMethod));
+		$this->gatewayDataBuilder->setSubEntidade($getCCardKeyFromRequest ? $getCCardKeyFromRequest : \Configuration::get('IFTHENPAY_CCARD_KEY'));
+	}
 
-    public function processForm()
-    {
-        if ($this->isValid()) {
+	public function processForm()
+	{
+		if ($this->isValid()) {
 
-            $this->setGatewayBuilderData();
+			$this->setGatewayBuilderData();
 
-            // save specific values
-            \Configuration::updateValue('IFTHENPAY_CCARD_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
-            \Configuration::updateValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'));
-            \Configuration::updateValue('IFTHENPAY_CCARD_REFUND', \Tools::getValue('IFTHENPAY_CCARD_REFUND'));
-            $this->updatePayMethodCommonValues();
+			// save specific values
+			\Configuration::updateValue('IFTHENPAY_CCARD_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
+			\Configuration::updateValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT'));
+			\Configuration::updateValue('IFTHENPAY_CCARD_REFUND', \Tools::getValue('IFTHENPAY_CCARD_REFUND'));
+
+			$this->setIfthenpayCallback();
+			$this->updatePayMethodCommonValues();
 			$this->updatePaymentMethodConfirmedOrderStatus();
 
-            // response msg after submiting form
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Credit card payment method successfully updated.', pathinfo(__FILE__)['filename']));
+			// response msg after submiting form
+			Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Credit card payment method successfully updated.', pathinfo(__FILE__)['filename']));
 
-            return true;
+			return true;
+		} else {
 
-        } else {
-
-            return false;
-        }
-    }
-
+			return false;
+		}
+	}
 
 
-    /**
-     * verifies if form inputs are valid
-     * makes use of parent function that verifies common inputs such as min and max
-     *
-     * @return boolean
-     */
-    public function isValid()
-    {
-        if (!parent::isValid()) {
-            return false;
-        }
 
-        $ccardKey = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_KEY');
+	/**
+	 * verifies if form inputs are valid
+	 * makes use of parent function that verifies common inputs such as min and max
+	 *
+	 * @return boolean
+	 */
+	public function isValid()
+	{
+		if (!parent::isValid()) {
+			return false;
+		}
 
-        if ($ccardKey == '') {
-            Utility::setPrestashopCookie('error', 'Selected Key is not valid');
-            return false;
-        }
+		$ccardKey = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_KEY');
 
-        return true;
-    }
+		if ($ccardKey == '') {
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Selected Key is not valid', pathinfo(__FILE__)['filename']));
+			return false;
+		}
 
-    public function deleteConfigValues()
-    {
-        $this->deleteCommonConfigValues();
-        \Configuration::deleteByName('IFTHENPAY_CCARD_KEY');
-        \Configuration::deleteByName('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT');
-        \Configuration::deleteByName('IFTHENPAY_CCARD_REFUND');
-    }
+		return true;
+	}
+
+	public function deleteConfigValues()
+	{
+		$this->deleteCommonConfigValues();
+		\Configuration::deleteByName('IFTHENPAY_CCARD_KEY');
+		\Configuration::deleteByName('IFTHENPAY_CCARD_CANCEL_ORDER_AFTER_TIMEOUT');
+		\Configuration::deleteByName('IFTHENPAY_CCARD_REFUND');
+	}
 }

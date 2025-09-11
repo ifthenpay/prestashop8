@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Message from {shop_name}</title>
+</head>
+
+<body>
+	<table style="font-family: Verdana,sans-serif; font-size: 11px; color: #374953; width: 550px;">
+		<tbody>
+			<tr>
+				<td align="left"><a title="{shop_name}" href="{shop_url}"><img style="border: none;" src="{shop_logo}"
+							alt="{shop_name}" /></a></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="left">Ol&aacute; <strong style="color: #db3484;">{firstname} {lastname}</strong>,</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="background-color: #db3484; color: #fff; font-size: 12px; font-weight: bold; padding: 0.5em 1em;"
+					align="left">Your order {order_name} - Wait for payment by Ifthenpay Gateway</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="left">It serves as a reminder that you have not yet paid for purchases made at
+					{shop_name}!<br /><br /> Your Order {order_name} will be <strong> shipped as soon as your payment is
+						confirmed</strong>.</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="left">
+					You Chose payment by Ifthenpay Gateway<br /><br />Here are the details to make the payment: <br /><br />
+
+
+					<table cellpadding="0" cellspacing="0"
+						style="margin:auto; border: 1px solid black; border-collapse: collapse; width: 400px;">
+
+						<tr style="border-bottom: solid 1px #222;">
+							<td valign="top" style="padding-top: 5px; padding-bottom: 5px;">
+								<img src="{mb_logo}" border="0" style="height: 30px; padding: 5px;">
+							</td>
+							<td valign="middle" width="100%" style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px; ">
+								Payment by Ifthenpay Gateway&nbsp;&nbsp;
+							</td>
+						</tr>
+						<tr style="border-bottom: solid 1px #222;">
+							<td valign="top" align="left" style="padding-top: 2px; padding-bottom: 2px;">
+								<strong>&nbsp;Payment Gateway Link:</strong>
+							</td>
+							<td valign="top" align="right" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px;">
+								{payment_url}
+							</td>
+						</tr>
+
+						<tr style="border-bottom: solid 1px #222;">
+							<td valign="top" align="left" style="padding-top: 2px; padding-bottom: 2px;">
+								<strong>&nbsp;Amount:</strong>
+							</td>
+							<td valign="top" align="right" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px;">
+								{total_paid}
+							</td>
+						</tr>
+
+						<tr style="border-bottom: solid 1px #222;">
+							<td valign="top" align="left" style="padding-top: 2px; padding-bottom: 2px;">
+								<strong>&nbsp;Deadline:</strong>
+							</td>
+							<td valign="top" align="right" style="padding-top: 2px; padding-bottom: 2px; padding-right: 2px;">
+								{deadline}
+							</td>
+						</tr>
+
+
+
+					</table>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td align="left">You can review your order and download your invoice at <a
+						style="color: #db3484; font-weight: bold; text-decoration: none;" href="{shop_url}history.php">"Orders
+						history"</a> your customer account by clicking <a
+						style="color: #db3484; font-weight: bold; text-decoration: none;" href="{shop_url}my-account.php">"My
+						account"</a> in our store.<br /><br /></td>
+			</tr>
+			<tr>
+				<td align="left">If you have a visitor account, you can track your order at <a
+						style="color: #db3484; font-weight: bold; text-decoration: none;"
+						href="{shop_url}guest-tracking.php">"Visitor orders"</a> from our store.</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="font-size: 10px; border-top: 1px solid #D9DADE;" align="center"><a
+						style="color: #db3484; font-weight: bold; text-decoration: none;" href="{shop_url}">{shop_name}</a> powered
+					by <a style="text-decoration: none; color: #374953;" href="http://www.prestashop.com/">PrestaShop&trade;</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>

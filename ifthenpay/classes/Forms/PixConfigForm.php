@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Forms;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Utility\Utility;
@@ -36,37 +36,37 @@ use PrestaShop\Module\Ifthenpay\Forms\ConfigForm;
 
 class PixConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'pix';
+	protected $paymentMethod = 'pix';
 
-    protected $options = []; // array of entity options for GUI select
-
-
-    /**
-     * "gets" the form into object... it sets the form that will display in the payment method configuration
-     *
-     * @return void
-     */
-    public function getForm()
-    {
-        // assign template variables
-        $this->setSmartyVariables();
-
-        $this->setFormParent();
-        $this->setEntityOptions();
+	protected $options = []; // array of entity options for GUI select
 
 
-        $this->form['form']['input'][] = [
-            'type' => 'select',
-            'label' => $this->ifthenpayModule->l('Pix key', pathinfo(__FILE__)['filename']),
-            'desc' => $this->ifthenpayModule->l('Choose Pix key', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_PIX_KEY',
-            'required' => true,
-            'options' => [
-                'query' => $this->options,
-                'id' => 'id',
-                'name' => 'name'
-            ]
-        ];
+	/**
+	 * "gets" the form into object... it sets the form that will display in the payment method configuration
+	 *
+	 * @return void
+	 */
+	public function getForm()
+	{
+		// assign template variables
+		$this->setSmartyVariables();
+
+		$this->setFormParent();
+		$this->setEntityOptions();
+
+
+		$this->form['form']['input'][] = [
+			'type' => 'select',
+			'label' => $this->ifthenpayModule->l('Pix key', pathinfo(__FILE__)['filename']),
+			'desc' => $this->ifthenpayModule->l('Choose Pix key', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_PIX_KEY',
+			'required' => true,
+			'options' => [
+				'query' => $this->options,
+				'id' => 'id',
+				'name' => 'name'
+			]
+		];
 
 		// activate auto callback
 		$this->addActivateCallbackToForm();
@@ -74,116 +74,116 @@ class PixConfigForm extends ConfigForm
 		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
 
 
-        // cancel after timer of 30 minutes
-        $this->form['form']['input'][] = [
-            'type' => 'switch',
-            'label' => $this->ifthenpayModule->l('Cancel Pix Order', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT',
-            'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page.'),
-            'is_bool' => true,
-            'values' => [
-                [
-                    'id' => 'active_on',
-                    'value' => true,
-                    'label' => $this->ifthenpayModule->l('Activated', pathinfo(__FILE__)['filename'])
-                ],
-                [
-                    'id' => 'active_off',
-                    'value' => false,
-                    'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
-                ]
-            ]
-        ];
+		// cancel after timer of 30 minutes
+		$this->form['form']['input'][] = [
+			'type' => 'switch',
+			'label' => $this->ifthenpayModule->l('Cancel Pix Order', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT',
+			'desc' => $this->ifthenpayModule->l('Cancel order if not payed within 30 minutes after confirmation. This is triggered when admin visits the order list page.'),
+			'is_bool' => true,
+			'values' => [
+				[
+					'id' => 'active_on',
+					'value' => true,
+					'label' => $this->ifthenpayModule->l('Activated', pathinfo(__FILE__)['filename'])
+				],
+				[
+					'id' => 'active_off',
+					'value' => false,
+					'label' => $this->ifthenpayModule->l('Disabled', pathinfo(__FILE__)['filename'])
+				]
+			]
+		];
 
-        // add min max and country form elements
-        $this->addMinMaxFieldsToForm();
-        $this->addCountriesFieldToForm();
-        $this->addOrderByNumberFieldsToForm();
+		// add min max and country form elements
+		$this->addMinMaxFieldsToForm();
+		$this->addCountriesFieldToForm();
+		$this->addOrderByNumberFieldsToForm();
 
-        // generate form
-        $this->generateHelperForm();
-    }
+		// generate form
+		$this->generateHelperForm();
+	}
 
-    protected function getConfigFormValues()
-    {
-        return array_merge(parent::getCommonConfigFormValues(), [
-            'IFTHENPAY_PIX_KEY' => \Configuration::get('IFTHENPAY_PIX_KEY'),
-            'IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT')
-        ]);
-    }
+	protected function getConfigFormValues()
+	{
+		return array_merge(parent::getCommonConfigFormValues(), [
+			'IFTHENPAY_PIX_KEY' => \Configuration::get('IFTHENPAY_PIX_KEY'),
+			'IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT')
+		]);
+	}
 
-    public function setSmartyVariables()
-    {
-        // common to all payment methods
-        parent::assignSmartyPayMethodsCommonVars();
+	public function setSmartyVariables()
+	{
+		// common to all payment methods
+		parent::assignSmartyPayMethodsCommonVars();
 
-        // specific to this payment method
-        \Context::getContext()->smarty->assign('pixKey', \Configuration::get('IFTHENPAY_PIX_KEY'));
-    }
+		// specific to this payment method
+		\Context::getContext()->smarty->assign('pixKey', \Configuration::get('IFTHENPAY_PIX_KEY'));
+	}
 
 
 
-    public function setGatewayBuilderData()
-    {
-        $getPixKeyFromRequest = \Tools::getValue('IFTHENPAY_PIX_KEY');
+	public function setGatewayBuilderData()
+	{
+		$getPixKeyFromRequest = \Tools::getValue('IFTHENPAY_PIX_KEY');
 
-        parent::setGatewayBuilderData();
-        $this->gatewayDataBuilder->setEntidade(\Tools::strtoupper($this->paymentMethod));
-        $this->gatewayDataBuilder->setSubEntidade($getPixKeyFromRequest ? $getPixKeyFromRequest : \Configuration::get('IFTHENPAY_PIX_KEY'));
-    }
+		parent::setGatewayBuilderData();
+		$this->gatewayDataBuilder->setEntidade(\Tools::strtoupper($this->paymentMethod));
+		$this->gatewayDataBuilder->setSubEntidade($getPixKeyFromRequest ? $getPixKeyFromRequest : \Configuration::get('IFTHENPAY_PIX_KEY'));
+	}
 
-    public function processForm()
-    {
-        if ($this->isValid()) {
+	public function processForm()
+	{
+		if ($this->isValid()) {
 
-            $this->setGatewayBuilderData();
+			$this->setGatewayBuilderData();
 
-            // save specific values
-            \Configuration::updateValue('IFTHENPAY_PIX_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
+			// save specific values
+			\Configuration::updateValue('IFTHENPAY_PIX_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
 
-            \Configuration::updateValue('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT'));
+			\Configuration::updateValue('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT'));
 
 
 			$this->setIfthenpayCallback();
-            $this->updatePayMethodCommonValues();
+			$this->updatePayMethodCommonValues();
 			$this->updatePaymentMethodConfirmedOrderStatus();
 
-            // response msg after submiting form
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Pix payment method successfully updated.', pathinfo(__FILE__)['filename']));
-        }
-    }
+			// response msg after submiting form
+			Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Pix payment method successfully updated.', pathinfo(__FILE__)['filename']));
+		}
+	}
 
 
 
-    /**
-     * verifies if form inputs are valid
-     * makes use of parent function that verifies common inputs such as min and max
-     *
-     * @return boolean
-     */
-    public function isValid()
-    {
-        if (!parent::isValid()) {
-            return false;
-        }
+	/**
+	 * verifies if form inputs are valid
+	 * makes use of parent function that verifies common inputs such as min and max
+	 *
+	 * @return boolean
+	 */
+	public function isValid()
+	{
+		if (!parent::isValid()) {
+			return false;
+		}
 
-        $pixKey = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_KEY');
+		$pixKey = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_KEY');
 
-        if ($pixKey == '') {
-            Utility::setPrestashopCookie('error', 'Selected Key is not valid', pathinfo(__FILE__)['filename']);
-            return false;
-        }
+		if ($pixKey == '') {
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Selected Key is not valid', pathinfo(__FILE__)['filename']));
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public function deleteConfigValues()
-    {
-        $this->deleteCommonConfigValues();
-        \Configuration::deleteByName('IFTHENPAY_PIX_KEY');
-        \Configuration::deleteByName('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT');
-        \Configuration::deleteByName('IFTHENPAY_PIX_URL_CALLBACK');
-        \Configuration::deleteByName('IFTHENPAY_PIX_CHAVE_ANTI_PHISHING');
-        \Configuration::deleteByName('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT');
-    }
+	public function deleteConfigValues()
+	{
+		$this->deleteCommonConfigValues();
+		\Configuration::deleteByName('IFTHENPAY_PIX_KEY');
+		\Configuration::deleteByName('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT');
+		\Configuration::deleteByName('IFTHENPAY_PIX_URL_CALLBACK');
+		\Configuration::deleteByName('IFTHENPAY_PIX_CHAVE_ANTI_PHISHING');
+		\Configuration::deleteByName('IFTHENPAY_PIX_CANCEL_ORDER_AFTER_TIMEOUT');
+	}
 }

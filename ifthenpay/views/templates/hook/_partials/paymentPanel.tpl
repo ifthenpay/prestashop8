@@ -24,11 +24,11 @@
 *}
 
 <div class="panel-heading">
-	<h5>{l s='Pay by %s' mod='ifthenpay' sprintf=[$paymentMethod]}</h5>
+	<h5>{l s='Pay by %s' mod='ifthenpay' sprintf=[$paymentMethod|ucfirst]}</h5>
 </div>
 <div class="panel-body">
 	<div class="paymentLogo">
-		<img src="{$paymentLogo}" alt="{$paymentMethod} logotipo">
+		<img src="{$paymentLogo}" alt="{$paymentMethod} logotipo" height="40px">
 	</div>
 	<div class="paymentData">
 		{if $paymentMethod == 'multibanco'}

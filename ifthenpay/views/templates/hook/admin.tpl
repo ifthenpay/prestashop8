@@ -37,11 +37,14 @@
 					<div class="panel-heading">
 						<h3>{l s='Pay by %s' mod='ifthenpay' sprintf=[$paymentMethod|ucfirst]}</h3>
 					</div>
-					<div>{$message}</div>
+					<div class="flash_message">{$message}</div>
+					<div class="bootstrap validation">
+					</div>
+
 					<div class="panel-body">
 						<div class="row m_bottom_20">
 							<div class="paymentLogo  col-auto">
-								<img id="pm_logo" src="{$paymentLogo}">
+								<img id="pm_logo" src="{$paymentLogo}" height="40px">
 							</div>
 							<div class="paymentData  col">
 								{if $paymentMethod == 'multibanco'}
@@ -93,7 +96,7 @@
 											</li>
 										{/if}
 										<li class="list-group-item">
-											{l s='IdRequest:' mod='ifthenpay'}
+											{l s='Request ID:' mod='ifthenpay'}
 											<span class="badge">{$idPedido}</span>
 										</li>
 										<li class="list-group-item">
@@ -121,7 +124,7 @@
 								{else}
 									<ul class="list-group">
 										<li class="list-group-item">
-											{l s='IdRequest:' mod='ifthenpay'}
+											{l s='Request ID:' mod='ifthenpay'}
 											<span class="badge">{$idPedido}</span>
 										</li>
 										<li class="list-group-item">
@@ -134,7 +137,7 @@
 						</div>
 
 						<div class="row">
-							{if $paymentMethod == 'multibanco' || $paymentMethod == 'payshop' || $paymentMethod == 'mbway'}
+							{if $paymentMethod == 'multibanco' || $paymentMethod == 'payshop' || $paymentMethod == 'mbway' || $paymentMethod == 'ifthenpaygateway'}
 								<div class="adm_hist_actions">
 									<a href="{$updateControllerUrl}"
 										class=" btn btn-primary">{l s='Update %s Data' mod='ifthenpay' sprintf=[$paymentMethod|ucfirst]}</a>
@@ -151,7 +154,7 @@
 										class="btn btn-primary">{l s='Resend Payment Data' mod='ifthenpay' }</a>
 								</div>
 							{/if}
-							{if $paymentMethod == 'multibanco' || $paymentMethod == 'payshop'}
+							{if $paymentMethod == 'multibanco' || $paymentMethod == 'payshop' || $paymentMethod == 'ifthenpaygateway'}
 								<div class="adm_hist_actions">
 									<a href="{$resendControllerUrl}"
 										class=" btn btn-primary">{l s='Resend Payment Data' mod='ifthenpay' }</a>

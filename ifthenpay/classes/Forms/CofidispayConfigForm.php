@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Forms;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Utility\Utility;
@@ -35,43 +35,43 @@ use PrestaShop\Module\Ifthenpay\Forms\ConfigForm;
 
 class CofidispayConfigForm extends ConfigForm
 {
-    protected $paymentMethod = 'cofidispay';
-    protected $options = []; // array of entity options for GUI select
+	protected $paymentMethod = 'cofidispay';
+	protected $options = []; // array of entity options for GUI select
 
-    /**
-     * "gets" the form into object... it sets the form that will display in the payment method configuration
-     *
-     * @return void
-     */
-    public function getForm()
-    {
-        // assign template variables
-        $this->setSmartyVariables();
-        $this->setFormParent();
+	/**
+	 * "gets" the form into object... it sets the form that will display in the payment method configuration
+	 *
+	 * @return void
+	 */
+	public function getForm()
+	{
+		// assign template variables
+		$this->setSmartyVariables();
+		$this->setFormParent();
 
-        // sets the $this->options
-        $this->setEntityOptions();
+		// sets the $this->options
+		$this->setEntityOptions();
 
-        $this->form['form']['input'][] = [
-            'type' => 'select',
-            'label' => $this->ifthenpayModule->l('Cofidis key', pathinfo(__FILE__)['filename']),
-            'desc' => $this->ifthenpayModule->l('Choose Cofidis key', pathinfo(__FILE__)['filename']),
-            'name' => 'IFTHENPAY_COFIDISPAY_KEY',
-            'id' => 'ifthenpayCofidisKey',
-            'required' => true,
-            'options' => [
-                'query' => $this->options,
-                'id' => 'id',
-                'name' => 'name'
-            ]
-        ];
+		$this->form['form']['input'][] = [
+			'type' => 'select',
+			'label' => $this->ifthenpayModule->l('Cofidis key', pathinfo(__FILE__)['filename']),
+			'desc' => $this->ifthenpayModule->l('Choose Cofidis key', pathinfo(__FILE__)['filename']),
+			'name' => 'IFTHENPAY_COFIDISPAY_KEY',
+			'id' => 'ifthenpayCofidisKey',
+			'required' => true,
+			'options' => [
+				'query' => $this->options,
+				'id' => 'id',
+				'name' => 'name'
+			]
+		];
 
-        // activate auto callback
-        $this->addActivateCallbackToForm();
+		// activate auto callback
+		$this->addActivateCallbackToForm();
 
 		$this->addEnableConfirmedOrderStatusWithInvoiceToForm();
 
-        // cancel after deadline
+		// cancel after deadline
 		$this->form['form']['input'][] = [
 			'type' => 'switch',
 			'label' => $this->ifthenpayModule->l('Cancel Cofidis Pay Order', pathinfo(__FILE__)['filename']),
@@ -92,117 +92,116 @@ class CofidispayConfigForm extends ConfigForm
 			]
 		];
 
-        // add min max and country form elements
-        $this->addMinMaxFieldsToForm();
+		// add min max and country form elements
+		$this->addMinMaxFieldsToForm();
 
-        // modify min max info
+		// modify min max info
 		$this->form['form']['input'][count($this->form['form']['input']) - 2]['desc'] = $this->ifthenpayModule->l('Only display this payment method for orders with total value greater than inserted value. Inputted value can not be less than defined value in ifthenpay backoffice.', pathinfo(__FILE__)['filename']);
 		$this->form['form']['input'][count($this->form['form']['input']) - 1]['desc'] = $this->ifthenpayModule->l('Only display this payment method for orders with total value less than inserted value. Inputted value can not be greater than defined value in ifthenpay backoffice.', pathinfo(__FILE__)['filename']);
 
-        $this->addCountriesFieldToForm();
-        $this->addOrderByNumberFieldsToForm();
+		$this->addCountriesFieldToForm();
+		$this->addOrderByNumberFieldsToForm();
 
-        // generate form
-        $this->generateHelperForm();
-    }
+		// generate form
+		$this->generateHelperForm();
+	}
 
-    protected function getConfigFormValues()
-    {
-        return array_merge(parent::getCommonConfigFormValues(), [
-            'IFTHENPAY_COFIDISPAY_KEY' => \Configuration::get('IFTHENPAY_COFIDISPAY_KEY'),
-            'IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT')
-        ]);
-    }
+	protected function getConfigFormValues()
+	{
+		return array_merge(parent::getCommonConfigFormValues(), [
+			'IFTHENPAY_COFIDISPAY_KEY' => \Configuration::get('IFTHENPAY_COFIDISPAY_KEY'),
+			'IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT' => \Configuration::get('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT')
+		]);
+	}
 
-    public function setSmartyVariables()
-    {
-        // common to all payment methods
-        parent::assignSmartyPayMethodsCommonVars();
+	public function setSmartyVariables()
+	{
+		// common to all payment methods
+		parent::assignSmartyPayMethodsCommonVars();
 
-        // specific to this payment method
-        \Context::getContext()->smarty->assign('cofidisKey', \Configuration::get('IFTHENPAY_COFIDISPAY_KEY'));
-    }
+		// specific to this payment method
+		\Context::getContext()->smarty->assign('cofidisKey', \Configuration::get('IFTHENPAY_COFIDISPAY_KEY'));
+	}
 
 
 
-    public function setGatewayBuilderData()
-    {
-        $getCofidisKeyFromRequest = \Tools::getValue('IFTHENPAY_COFIDISPAY_KEY');
+	public function setGatewayBuilderData()
+	{
+		$getCofidisKeyFromRequest = \Tools::getValue('IFTHENPAY_COFIDISPAY_KEY');
 
-        parent::setGatewayBuilderData();
-        $this->gatewayDataBuilder->setEntidade(\Tools::strtoupper('COFIDIS'));
-        $this->gatewayDataBuilder->setSubEntidade($getCofidisKeyFromRequest ? $getCofidisKeyFromRequest : \Configuration::get('IFTHENPAY_COFIDISPAY_KEY'));
-    }
+		parent::setGatewayBuilderData();
+		$this->gatewayDataBuilder->setEntidade(\Tools::strtoupper('COFIDIS'));
+		$this->gatewayDataBuilder->setSubEntidade($getCofidisKeyFromRequest ? $getCofidisKeyFromRequest : \Configuration::get('IFTHENPAY_COFIDISPAY_KEY'));
+	}
 
-    public function processForm()
-    {
-        if ($this->isValid()) {
+	public function processForm()
+	{
+		if ($this->isValid()) {
 
-            $this->setGatewayBuilderData();
+			$this->setGatewayBuilderData();
 
-            // save specific values
-            \Configuration::updateValue('IFTHENPAY_COFIDISPAY_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
-            \Configuration::updateValue('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT'));
+			// save specific values
+			\Configuration::updateValue('IFTHENPAY_COFIDISPAY_KEY', $this->gatewayDataBuilder->getData()->subEntidade);
+			\Configuration::updateValue('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT', \Tools::getValue('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT'));
 
-            $this->setIfthenpayCallback();
-            $this->updatePayMethodCommonValues();
+			$this->setIfthenpayCallback();
+			$this->updatePayMethodCommonValues();
 			$this->updatePaymentMethodConfirmedOrderStatus();
 
-            // response msg after submiting form
-            Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Cofidis Pay payment method successfully updated.', pathinfo(__FILE__)['filename']));
+			// response msg after submiting form
+			Utility::setPrestashopCookie('success', $this->ifthenpayModule->l('Cofidis Pay payment method successfully updated.', pathinfo(__FILE__)['filename']));
 
-            return true;
+			return true;
+		} else {
 
-        } else {
-
-            return false;
-        }
-    }
-
+			return false;
+		}
+	}
 
 
-    /**
-     * verifies if form inputs are valid
-     * makes use of parent function that verifies common inputs such as min and max
-     *
-     * @return boolean
-     */
-    public function isValid()
-    {
-        if (!parent::isValid()) {
-            return false;
-        }
 
-        $cofidisKey = \Tools::getValue('IFTHENPAY_COFIDISPAY_KEY');
-        $minimum = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MINIMUM');
-        $maximum = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MAXIMUM');
+	/**
+	 * verifies if form inputs are valid
+	 * makes use of parent function that verifies common inputs such as min and max
+	 *
+	 * @return boolean
+	 */
+	public function isValid()
+	{
+		if (!parent::isValid()) {
+			return false;
+		}
 
-        $limits = $this->ifthenpayGateway->getCofidisLimits($cofidisKey);
+		$cofidisKey = \Tools::getValue('IFTHENPAY_COFIDISPAY_KEY');
+		$minimum = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MINIMUM');
+		$maximum = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MAXIMUM');
 
-        if ($minimum < $limits['minAmount']) {
-            Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is not valid');
-            return false;
-        }
+		$limits = $this->ifthenpayGateway->getCofidisLimits($cofidisKey);
 
-        if ($maximum > $limits['maxAmount']) {
-            Utility::setPrestashopCookie('error', 'Inputted Maximum Order Value is not valid');
-            return false;
-        }
+		if ($minimum < $limits['minAmount']) {
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Minimum Order Value is not valid', pathinfo(__FILE__)['filename']));
+			return false;
+		}
 
-        if ($cofidisKey == '') {
-            Utility::setPrestashopCookie('error', 'Selected Key is not valid');
-            return false;
-        }
+		if ($maximum > $limits['maxAmount']) {
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Maximum Order Value is not valid', pathinfo(__FILE__)['filename']));
+			return false;
+		}
 
-        return true;
-    }
+		if ($cofidisKey == '') {
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Selected Key is not valid', pathinfo(__FILE__)['filename']));
+			return false;
+		}
 
-    public function deleteConfigValues()
-    {
-        $this->deleteCommonConfigValues();
-        \Configuration::deleteByName('IFTHENPAY_COFIDISPAY_KEY');
+		return true;
+	}
+
+	public function deleteConfigValues()
+	{
+		$this->deleteCommonConfigValues();
+		\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_KEY');
 		\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_URL_CALLBACK');
-        \Configuration::deleteByName('IFTHENPAY_COFIDISPAY_CHAVE_ANTI_PHISHING');
-        \Configuration::deleteByName('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT');
-    }
+		\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_CHAVE_ANTI_PHISHING');
+		\Configuration::deleteByName('IFTHENPAY_COFIDISPAY_CANCEL_ORDER_AFTER_TIMEOUT');
+	}
 }

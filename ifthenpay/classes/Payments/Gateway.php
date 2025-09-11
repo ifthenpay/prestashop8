@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Payments;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Builders\DataBuilder;
@@ -37,46 +38,46 @@ use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 
 class Gateway
 {
-    private $webservice;
-    private $account;
+	private $webservice;
+	private $account;
 	private $paymentMethods = ['multibanco', 'mbway', 'payshop', 'ccard', 'cofidispay', 'ifthenpay', 'ifthenpaygateway', 'pix'];
-    private $previousModulePaymentMethods = ['pagamento por multibanco', 'pagamento por mbway', 'pagamento por payshop'];
-    private $aliasPaymentMethods = [
-        'multibanco' => [
-            'gb' => 'Multibanco',
-            'en' => 'Multibanco',
-            'pt' => 'Multibanco',
-            'es' => 'Cajero automático',
-            'de' => 'Geldautomat'
-        ],
-        'mbway' => [
-            'gb' => 'MB WAY',
-            'en' => 'MB WAY',
-            'pt' => 'MB WAY',
-            'es' => 'MB WAY',
-            'de' => 'MB WAY'
-        ],
-        'payshop' => [
-            'gb' => 'Payshop',
-            'en' => 'Payshop',
-            'pt' => 'Payshop',
-            'es' => 'Payshop',
-            'de' => 'Payshop'
-        ],
-        'ccard' => [
-            'gb' => 'Credit Card',
-            'en' => 'Credit Card',
-            'pt' => 'Cartão de Crédito',
-            'es' => 'Tarjeta de crédito',
-            'de' => 'Kreditkarte'
-        ],
-        'cofidispay' => [
-            'gb' => 'Cofidis Pay',
-            'en' => 'Cofidis Pay',
-            'pt' => 'Cofidis Pay',
-            'es' => 'Cofidis Pay',
-            'de' => 'Cofidis Pay'
-        ],
+	private $previousModulePaymentMethods = ['pagamento por multibanco', 'pagamento por mbway', 'pagamento por payshop'];
+	private $aliasPaymentMethods = [
+		'multibanco' => [
+			'gb' => 'Multibanco',
+			'en' => 'Multibanco',
+			'pt' => 'Multibanco',
+			'es' => 'Cajero automático',
+			'de' => 'Geldautomat'
+		],
+		'mbway' => [
+			'gb' => 'MB WAY',
+			'en' => 'MB WAY',
+			'pt' => 'MB WAY',
+			'es' => 'MB WAY',
+			'de' => 'MB WAY'
+		],
+		'payshop' => [
+			'gb' => 'Payshop',
+			'en' => 'Payshop',
+			'pt' => 'Payshop',
+			'es' => 'Payshop',
+			'de' => 'Payshop'
+		],
+		'ccard' => [
+			'gb' => 'Credit Card',
+			'en' => 'Credit Card',
+			'pt' => 'Cartão de Crédito',
+			'es' => 'Tarjeta de crédito',
+			'de' => 'Kreditkarte'
+		],
+		'cofidispay' => [
+			'gb' => 'Cofidis Pay',
+			'en' => 'Cofidis Pay',
+			'pt' => 'Cofidis Pay',
+			'es' => 'Cofidis Pay',
+			'de' => 'Cofidis Pay'
+		],
 		'ifthenpaygateway' => [
 			'gb' => 'Ifthenpay Gateway',
 			'en' => 'Ifthenpay Gateway',
@@ -91,39 +92,39 @@ class Gateway
 			'es' => 'Pix',
 			'de' => 'Pix'
 		],
-    ];
+	];
 
-    public function __construct()
-    {
-        $this->webservice = RequestFactory::buildWebservice();
-    }
+	public function __construct()
+	{
+		$this->webservice = RequestFactory::buildWebservice();
+	}
 
-    public function getAliasPaymentMethods($paymentMethod, $isoCodeLanguage)
-    {
-        return $this->aliasPaymentMethods[$paymentMethod][$isoCodeLanguage] ?? $this->aliasPaymentMethods[$paymentMethod]['pt'];
-    }
+	public function getAliasPaymentMethods($paymentMethod, $isoCodeLanguage)
+	{
+		return $this->aliasPaymentMethods[$paymentMethod][$isoCodeLanguage] ?? $this->aliasPaymentMethods[$paymentMethod]['pt'];
+	}
 
-    public function getPaymentMethodsType()
-    {
-        return $this->paymentMethods;
-    }
+	public function getPaymentMethodsType()
+	{
+		return $this->paymentMethods;
+	}
 
-    public function checkIfthenpayPaymentMethod($paymentMethod)
-    {
-        return in_array(strtolower($paymentMethod), $this->paymentMethods);
-    }
+	public function checkIfthenpayPaymentMethod($paymentMethod)
+	{
+		return in_array(strtolower($paymentMethod), $this->paymentMethods);
+	}
 
-    public function checkIfPaymentMethodIsPreviousModule($paymentMethod)
-    {
-        $paymentMethodLowerCase = strtolower($paymentMethod);
-        if (in_array($paymentMethodLowerCase, $this->previousModulePaymentMethods)) {
-            return $this->paymentMethods[array_search($paymentMethodLowerCase, $this->previousModulePaymentMethods)];
-        }
-        return false;
-    }
+	public function checkIfPaymentMethodIsPreviousModule($paymentMethod)
+	{
+		$paymentMethodLowerCase = strtolower($paymentMethod);
+		if (in_array($paymentMethodLowerCase, $this->previousModulePaymentMethods)) {
+			return $this->paymentMethods[array_search($paymentMethodLowerCase, $this->previousModulePaymentMethods)];
+		}
+		return false;
+	}
 
-    public function authenticate($backofficeKey)
-    {
+	public function authenticate($backofficeKey)
+	{
 		$gatewayKeys = $this->webservice->getRequest(
 			'https://ifthenpay.com/IfmbWS/ifthenpaymobile.asmx/GetGatewayKeys',
 			[
@@ -154,93 +155,94 @@ class Gateway
 				'SubEntidade' => $gatewayKeys
 			];
 		}
-    }
+	}
 
-    public function getAccount()
-    {
-        return $this->account;
-    }
+	public function getAccount()
+	{
+		return $this->account;
+	}
 
-    public function setAccount($account)
-    {
-        $this->account = $account;
-    }
+	public function setAccount($account)
+	{
+		$this->account = $account;
+	}
 
-    public function getPaymentMethods()
-    {
-        $userPaymentMethods = [];
-        $paymentMethodMapping = [
-            'mb' => $this->paymentMethods[0],
-            'cofidis' => $this->paymentMethods[4],
+	public function getPaymentMethods()
+	{
+		$userPaymentMethods = [];
+		$paymentMethodMapping = [
+			'mb' => $this->paymentMethods[0],
+			'cofidis' => $this->paymentMethods[4],
 			'ifthenpaygateway' => $this->paymentMethods[6],
-        ];
+		];
 
-        foreach ($this->account as $account) {
-            $entidade = strtolower($account['Entidade']);
+		foreach ($this->account as $account) {
+			$entidade = strtolower($account['Entidade']);
 
-            if (in_array($entidade, $this->paymentMethods)) {
-                $userPaymentMethods[] = $entidade;
-            } elseif (is_numeric($entidade) || $entidade == 'mb') {
-                $userPaymentMethods[] = $paymentMethodMapping['mb'];
-            } elseif ($entidade == 'cofidis') {
-                $userPaymentMethods[] = $paymentMethodMapping['cofidis'];
-            } elseif ($entidade == 'ifthenpaygateway') {
+			if (in_array($entidade, $this->paymentMethods)) {
+				$userPaymentMethods[] = $entidade;
+			} elseif (is_numeric($entidade) || $entidade == 'mb') {
+				$userPaymentMethods[] = $paymentMethodMapping['mb'];
+			} elseif ($entidade == 'cofidis') {
+				$userPaymentMethods[] = $paymentMethodMapping['cofidis'];
+			} elseif ($entidade == 'ifthenpaygateway') {
 				$userPaymentMethods[] = $paymentMethodMapping['ifthenpaygateway'];
 			}
-        }
-        return array_unique($userPaymentMethods);
-    }
+		}
+		return array_unique($userPaymentMethods);
+	}
 
-    public function getSubEntidadeInEntidade($entidade)
-    {
-        return array_filter(
-            $this->account,
-            function ($value) use ($entidade) {
-                return $value['Entidade'] === $entidade;
-            }
-        );
-    }
+	public function getSubEntidadeInEntidade($entidade)
+	{
+		return array_filter(
+			$this->account,
+			function ($value) use ($entidade) {
+				return $value['Entidade'] === $entidade;
+			}
+		);
+	}
 
-    public function getEntidadeSubEntidade($paymentMethod)
-    {
-        $list = [];
-        if ($paymentMethod === 'multibanco') {
-            $list = array_filter(
-                array_column($this->account, 'Entidade'),
-                function ($value) {
-                    return is_numeric($value) || $value === 'MB' || $value === 'mb';
-                }
-            );
-        } elseif ($paymentMethod === 'cofidispay') {
-            foreach (array_column($this->account, 'SubEntidade', 'Entidade') as $key => $value) {
-                if ($key === \Tools::strtoupper('cofidis')) {
-                    $list[] = $value;
-                }
-            }
-        } else {
-            foreach (array_column($this->account, 'SubEntidade', 'Entidade') as $key => $value) {
-                if ($key === \Tools::strtoupper($paymentMethod)) {
-                    $list[] = $value;
-                }
-            }
-        }
-        return $list;
-    }
+	public function getEntidadeSubEntidade($paymentMethod)
+	{
+		$list = [];
+		if ($paymentMethod === 'multibanco') {
+			$list = array_filter(
+				array_column($this->account, 'Entidade'),
+				function ($value) {
+					return is_numeric($value) || $value === 'MB' || $value === 'mb';
+				}
+			);
+		} elseif ($paymentMethod === 'cofidispay') {
+			foreach (array_column($this->account, 'SubEntidade', 'Entidade') as $key => $value) {
+				if ($key === \Tools::strtoupper('cofidis')) {
+					$list[] = $value;
+				}
+			}
+		} else {
+			foreach (array_column($this->account, 'SubEntidade', 'Entidade') as $key => $value) {
+				if ($key === \Tools::strtoupper($paymentMethod)) {
+					$list[] = $value;
+				}
+			}
+		}
+		return $list;
+	}
 
-    public function refund($body)
-    {
-        $refund = $this->webservice->postRequest(
-            'http://ifthenpay.com/api/endpoint/payments/refund',
-            $body,
-            true
-        )->getResponseJson();
+	public function refund($body)
+	{
+		$refund = $this->webservice->postRequest(
+			'http://ifthenpay.com/api/endpoint/payments/refund',
+			$body,
+			true
+		)->getResponseJson();
 
-        return $refund;
-    }
+		return $refund;
+	}
 
 
 
-	public function getIthenpaygatewayKeys(){
+	public function getIthenpaygatewayKeys()
+	{
 		foreach (array_column($this->account, 'SubEntidade', 'Entidade') as $key => $value) {
 			if ($key === \Tools::strtoupper('ifthenpaygateway')) {
 				return $value;
@@ -291,22 +293,23 @@ class Gateway
 
 
 
-    public function getCofidisLimits($cofidisKey) {
-        $response = $this->webservice->getRequest("https://ifthenpay.com/api/cofidis/limits/$cofidisKey")->getResponseJson();
-        $limits = [];
+	public function getCofidisLimits($cofidisKey)
+	{
+		$response = $this->webservice->getRequest("https://ifthenpay.com/api/cofidis/limits/$cofidisKey")->getResponseJson();
+		$limits = [];
 
-        if(is_array($response) && $response['message'] == 'success') {
-            $limits['maxAmount'] = $response['limits']['maxAmount'];
-            $limits['minAmount'] = $response['limits']['minAmount'];
-        }
+		if (is_array($response) && $response['message'] == 'success') {
+			$limits['maxAmount'] = $response['limits']['maxAmount'];
+			$limits['minAmount'] = $response['limits']['minAmount'];
+		}
 
-        return $limits;
-    }
+		return $limits;
+	}
 
 
-    public function execute($paymentMethod, $data, $orderId, $valor)
-    {
-        $paymentMethod = PaymentFactory::build($paymentMethod, $data, $orderId, $valor, $this->webservice);
-        return $paymentMethod->buy();
-    }
+	public function execute($paymentMethod, $data, $orderId, $valor)
+	{
+		$paymentMethod = PaymentFactory::build($paymentMethod, $data, $orderId, $valor, $this->webservice);
+		return $paymentMethod->buy();
+	}
 }

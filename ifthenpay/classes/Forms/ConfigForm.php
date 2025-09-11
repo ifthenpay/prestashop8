@@ -116,7 +116,7 @@ abstract class ConfigForm
 			'IFTHENPAY_' . $paymentMethod . '_MINIMUM' => \Configuration::get('IFTHENPAY_' . $paymentMethod . '_MINIMUM', false),
 			'IFTHENPAY_' . $paymentMethod . '_COUNTRIES[]' => json_decode(\Configuration::get('IFTHENPAY_' . $paymentMethod . '_COUNTRIES', false)),
 			'IFTHENPAY_' . $paymentMethod . '_ORDER' => \Configuration::get('IFTHENPAY_' . $paymentMethod . '_ORDER', false),
-            'IFTHENPAY_' . $paymentMethod . '_INVOICE' => \Configuration::get('IFTHENPAY_' . $paymentMethod . '_INVOICE')
+			'IFTHENPAY_' . $paymentMethod . '_INVOICE' => \Configuration::get('IFTHENPAY_' . $paymentMethod . '_INVOICE')
 		];
 	}
 
@@ -395,6 +395,7 @@ abstract class ConfigForm
 	 */
 	protected function deleteCommonConfigValues()
 	{
+		\Configuration::deleteByName('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_CACHE_BUSTER');
 		\Configuration::deleteByName('IFTHENPAY_CALLBACK_ACTIVATED_FOR_' . strtoupper($this->paymentMethod));
 		\Configuration::deleteByName('IFTHENPAY_' . strtoupper($this->paymentMethod . '_MINIMUM'));
 		\Configuration::deleteByName('IFTHENPAY_' . strtoupper($this->paymentMethod . '_MAXIMUM'));
@@ -447,6 +448,7 @@ abstract class ConfigForm
 	 */
 	protected function updatePayMethodCommonValues()
 	{
+		\Configuration::updateValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_CACHE_BUSTER', uniqid());
 		\Configuration::updateValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MINIMUM', $this->gatewayDataBuilder->getData()->min);
 		\Configuration::updateValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_MAXIMUM', $this->gatewayDataBuilder->getData()->max);
 		\Configuration::updateValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_COUNTRIES', json_encode($this->gatewayDataBuilder->getData()->countries));
@@ -492,27 +494,32 @@ abstract class ConfigForm
 		$order = \Tools::getValue('IFTHENPAY_' . strtoupper($this->paymentMethod) . '_ORDER');
 
 		if (!preg_match("/^[0-9]+([.][0-9]+)?$/", $minimum) && $minimum != '') {
-			Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is not valid');
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Minimum Order Value is not valid', pathinfo(__FILE__)['filename']));
+
 			return false;
 		}
 
 		if (!preg_match("/^[0-9]+([.][0-9]+)?$/", $maximum) && $maximum != '') {
-			Utility::setPrestashopCookie('error', 'Inputted Maximum Order Value is not valid');
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Maximum Order Value is not valid', pathinfo(__FILE__)['filename']));
+
 			return false;
 		}
 
 		if ($minimum > $maximum  && $minimum != '' && $maximum != '') {
-			Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is larger than Maximum Order Value');
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Minimum Order Value is larger than Maximum Order Value', pathinfo(__FILE__)['filename']));
+
 			return false;
 		}
 
 		if ($minimum == $maximum  && $minimum != '' && $maximum != '') {
-			Utility::setPrestashopCookie('error', 'Inputted Minimum Order Value is equal to Maximum Order Value');
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Minimum Order Value is equal to Maximum Order Value', pathinfo(__FILE__)['filename']));
+
 			return false;
 		}
 
 		if (!preg_match("/^[0-9]+([.][0-9])*$/", $order) && $order != '') {
-			Utility::setPrestashopCookie('error', 'Inputted Order Value is not valid');
+			Utility::setPrestashopCookie('error', $this->ifthenpayModule->l('Inputted Order Value is not valid', pathinfo(__FILE__)['filename']));
+
 			return false;
 		}
 

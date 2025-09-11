@@ -30,6 +30,7 @@ use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 use PrestaShop\Module\Ifthenpay\Factory\Callback\CallbackFactory;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackProcessInterface;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackVars as Cb;
+use PrestaShop\Module\Ifthenpay\Exceptions\AlreadyPaidException;
 
 if (!defined('_PS_VERSION_')) {
 	exit;
@@ -113,6 +114,9 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
 
 				http_response_code(200);
 				die('ok');
+			} catch (AlreadyPaidException $th) {
+				http_response_code(200);
+				die($th->getMessage());
 			} catch (\Throwable $th) {
 
 				if (isset($_GET['test']) && $_GET['test'] === 'true') {

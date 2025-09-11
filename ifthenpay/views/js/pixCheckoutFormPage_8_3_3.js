@@ -281,7 +281,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
         document.addEventListener("DOMContentLoaded", function () {
           if (!self.formElement || !self.arePixFieldsPresent()) {
-            console.log("PixFormValidator: pix form not detected");
+            // console.log("PixFormValidator: pix form not detected");
             return;
           } //   name
 
@@ -375,7 +375,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /home/devilbox/data/www/prestashop817/htdocs/modules/ifthenpay/_dev/js/pixCheckoutFormPage.ts */
+    /*! /home/ddev/prestashop8/modules/ifthenpay/_dev/js/pixCheckoutFormPage.ts */
     "./_dev/js/pixCheckoutFormPage.ts");
     /***/
   }

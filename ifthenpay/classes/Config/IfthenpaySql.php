@@ -167,7 +167,7 @@ class IfthenpaySql implements InstallerInterface
 	private $ifthenpaySqlLogTable = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_log` (
         `id_ifthenpay_log` int(10) unsigned NOT NULL auto_increment,
         `type` varchar(50) NOT NULL,
-        `message` varchar(250) NOT NULL,
+        `message` text NOT NULL,
         `order_id` int(11) NOT NULL,
         `created` DATETIME NOT NULL,
         PRIMARY KEY  (`id_ifthenpay_log`)
@@ -239,7 +239,7 @@ class IfthenpaySql implements InstallerInterface
 	private function createTempIfthenpaySql()
 	{
 		foreach ($this->userPaymentMethods as $paymentMethod) {
-			if (!$this->tempSqlTable[$paymentMethod]) {
+			if (!isset($this->tempSqlTable[$paymentMethod])) {
 				continue;
 			}
 			$sql = \Db::getInstance()->execute($this->tempSqlTable[$paymentMethod]);
@@ -292,7 +292,7 @@ class IfthenpaySql implements InstallerInterface
 	private function deleteTempIfthenpaySql()
 	{
 		foreach ($this->userPaymentMethods as $paymentMethod) {
-			if (!$this->tempSqlTable[$paymentMethod]) {
+			if (!isset($this->tempSqlTable[$paymentMethod])) {
 				continue;
 			}
 

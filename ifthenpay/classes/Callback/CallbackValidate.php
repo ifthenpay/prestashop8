@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,67 +27,68 @@
 namespace PrestaShop\Module\Ifthenpay\Callback;
 
 use PrestaShop\Module\Ifthenpay\Callback\CallbackVars as Cb;
+use PrestaShop\Module\Ifthenpay\Exceptions\AlreadyPaidException;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 class CallbackValidate
 {
 
-    private $httpRequest;
-    private $order;
-    private $configurationChaveAntiPhishing;
-    private $paymentDataFromDb;
+	private $httpRequest;
+	private $order;
+	private $configurationChaveAntiPhishing;
+	private $paymentDataFromDb;
 
-    public function __construct($httpRequest, $order, $configurationChaveAntiPhishing, $paymentDataFromDb)
-    {
-        $this->httpRequest = $httpRequest;
-        $this->order = $order;
-        $this->configurationChaveAntiPhishing = $configurationChaveAntiPhishing;
-        $this->paymentDataFromDb = $paymentDataFromDb;
-    }
+	public function __construct($httpRequest, $order, $configurationChaveAntiPhishing, $paymentDataFromDb)
+	{
+		$this->httpRequest = $httpRequest;
+		$this->order = $order;
+		$this->configurationChaveAntiPhishing = $configurationChaveAntiPhishing;
+		$this->paymentDataFromDb = $paymentDataFromDb;
+	}
 
-    private function validateOrder()
-    {
-        if (!$this->order) {
-            throw new \Exception('Ordem não encontrada.');
-        }
-    }
+	private function validateOrder()
+	{
+		if (!$this->order) {
+			throw new \Exception('Ordem não encontrada.');
+		}
+	}
 
-    private function validateOrderValue()
-    {
-        $orderTotal = floatval($this->order->getOrdersTotalPaid());
+	private function validateOrderValue()
+	{
+		$orderTotal = floatval($this->order->getOrdersTotalPaid());
 		$requestValor = floatval($this->httpRequest[Cb::AMOUNT]);
-        if (round($orderTotal, 2) !== round($requestValor, 2)) {
-            throw new \Exception('Valor não corresponde ao valor da encomenda.');
-        }
-    }
+		if (round($orderTotal, 2) !== round($requestValor, 2)) {
+			throw new \Exception('Valor não corresponde ao valor da encomenda.');
+		}
+	}
 
-    private function validateOrderStatus()
-    {
-        if ($this->paymentDataFromDb['status'] === 'paid') {
-                throw new \Exception('Encomenda já foi paga.');
-        }
-    }
+	private function validateOrderStatus()
+	{
+		if ($this->paymentDataFromDb['status'] === 'paid') {
+			throw new AlreadyPaidException('Encomenda já foi paga.');
+		}
+	}
 
-    private function validateChaveAntiPhishing()
-    {
-        if (!$this->httpRequest[Cb::ANTIPHISH_KEY]) {
-            throw new \Exception('Chave Anti-Phishing não foi enviada.');
-        }
+	private function validateChaveAntiPhishing()
+	{
+		if (!$this->httpRequest[Cb::ANTIPHISH_KEY]) {
+			throw new \Exception('Chave Anti-Phishing não foi enviada.');
+		}
 
-        if ($this->httpRequest[Cb::ANTIPHISH_KEY] !== $this->configurationChaveAntiPhishing) {
-            throw new \Exception('Chave Anti-Phishing não é válida.');
-        }
-    }
+		if ($this->httpRequest[Cb::ANTIPHISH_KEY] !== $this->configurationChaveAntiPhishing) {
+			throw new \Exception('Chave Anti-Phishing não é válida.');
+		}
+	}
 
-    public function validate()
-    {
-        $this->validateChaveAntiPhishing();
-        $this->validateOrder();
-        $this->validateOrderValue();
-        $this->validateOrderStatus();
-        return true;
-    }
+	public function validate()
+	{
+		$this->validateChaveAntiPhishing();
+		$this->validateOrder();
+		$this->validateOrderValue();
+		$this->validateOrderStatus();
+		return true;
+	}
 }

@@ -27,29 +27,32 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Admin;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
+use PrestaShop\Module\Ifthenpay\Admin\Payments\IfthenpaygatewayAdminUpdate;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\PayshopAdminUpdate;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MultibancoAdminUpdate;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MbwayAdminUpdate;
 
 class AdminUpdateFactory
 {
-    public static function build(
-        $type,
-        $paymentDefaultData,
-        $ifthenpayModule
-    ) {
-        switch ($type) {
-            case 'multibanco':
-                return new MultibancoAdminUpdate($ifthenpayModule, $paymentDefaultData);
-            case 'payshop':
-                return new PayshopAdminUpdate($ifthenpayModule, $paymentDefaultData);
-            case 'mbway':
-                return new MbwayAdminUpdate($ifthenpayModule, $paymentDefaultData);
-            default:
-                throw new \Exception('Unknown Admin Order Update Class');
-        }
-    }
+	public static function build(
+		$type,
+		$paymentDefaultData,
+		$ifthenpayModule
+	) {
+		switch ($type) {
+			case 'multibanco':
+				return new MultibancoAdminUpdate($ifthenpayModule, $paymentDefaultData);
+			case 'payshop':
+				return new PayshopAdminUpdate($ifthenpayModule, $paymentDefaultData);
+			case 'mbway':
+				return new MbwayAdminUpdate($ifthenpayModule, $paymentDefaultData);
+			case 'ifthenpaygateway':
+				return new IfthenpaygatewayAdminUpdate($ifthenpayModule, $paymentDefaultData);
+			default:
+				throw new \Exception('Unknown Admin Order Update Class');
+		}
+	}
 }

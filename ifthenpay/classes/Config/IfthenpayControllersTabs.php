@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Config;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Utility\Utility;
@@ -36,57 +37,69 @@ use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopModelFactory;
 
 class IfthenpayControllersTabs implements InstallerInterface
 {
-    private $adminControllers;
-    private $ifthenpayModule;
+	private $adminControllers;
+	private $ifthenpayModule;
 
-    public function __construct($ifthenpayModule)
-    {
-        $this->adminControllers = [
-            'AdminIfthenpayPaymentMethodSetup', 
-            'Update', 
-            'Resend', 
-            'Remember',
-            'Refund',
-            'AdminIfthenpayChooseNewPaymentMethod', 
-            'AdminIfthenpayResetAccount'
-        ];
-        $this->ifthenpayModule = $ifthenpayModule;                                                      
-    }
+	public function __construct($ifthenpayModule)
+	{
+		$this->adminControllers = [
+			'AdminIfthenpayPaymentMethodSetup',
+			'Update',
+			'Resend',
+			'Remember',
+			'Refund',
+			'AdminIfthenpayChooseNewPaymentMethod',
+			'AdminIfthenpayResetAccount'
+		];
+		$this->ifthenpayModule = $ifthenpayModule;
+	}
 
-    public function install()
-    {
-        foreach ($this->adminControllers as $controller) {
-            $tab = PrestashopModelFactory::buildTab();
-            foreach (\Language::getLanguages() as $lang) {
-                $tab->name[$lang['id_lang']] = $this->ifthenpayModule->l('Payment Setup', pathinfo(__FILE__)['filename']);
-            }
-            $tab->class_name = $controller;
-            $tab->id_parent = -1;
-            $tab->module = $this->ifthenpayModule->name;
-            $tab->add();
-            if (!$tab->save()) {
-                throw new \Exception('Error creating admin controllers tab.');
-            }
-        }
-    }
+	public function install()
+	{
+		$installedIfthenpayControllerTabs = [];
 
-    public function dynamicInstall(string $controllerType)
-    {
-        $this->adminControllers = [$controllerType];
-        $this->install();
-    }
+		foreach (\Tab::getCollectionFromModule($this->ifthenpayModule->name) as $tab) {
+			/** @var \Tab $tab */
+			$installedIfthenpayControllerTabs[] = $tab->class_name;
+		}
 
-    public function uninstall()
-    {
-        $query = DatabaseFactory::buildDbQuery();
-        $query->select('*');
-        $query->from('tab');
-        $query->where('module = \''.pSQL($this->ifthenpayModule->name).'\'');
+		foreach ($this->adminControllers as $controller) {
 
-        $tabs = \Db::getInstance()->executeS($query);
-        foreach ($tabs as $tabData) {
-            $tab = PrestashopModelFactory::buildTab($tabData['id_tab']);
-            $tab->delete();
-        }
-    }
+			if (in_array($controller, $installedIfthenpayControllerTabs)) {
+				continue;
+			}
+
+			$tab = PrestashopModelFactory::buildTab();
+			foreach (\Language::getLanguages() as $lang) {
+				$tab->name[$lang['id_lang']] = $this->ifthenpayModule->l('Payment Setup', pathinfo(__FILE__)['filename']);
+			}
+			$tab->class_name = $controller;
+			$tab->id_parent = -1;
+			$tab->module = $this->ifthenpayModule->name;
+			$tab->add();
+			if (!$tab->save()) {
+				throw new \Exception('Error creating admin controllers tab.');
+			}
+		}
+	}
+
+	public function dynamicInstall(string $controllerType)
+	{
+		$this->adminControllers = [$controllerType];
+		$this->install();
+	}
+
+	public function uninstall()
+	{
+		$query = DatabaseFactory::buildDbQuery();
+		$query->select('*');
+		$query->from('tab');
+		$query->where('module = \'' . pSQL($this->ifthenpayModule->name) . '\'');
+
+		$tabs = \Db::getInstance()->executeS($query);
+		foreach ($tabs as $tabData) {
+			$tab = PrestashopModelFactory::buildTab($tabData['id_tab']);
+			$tab->delete();
+		}
+	}
 }

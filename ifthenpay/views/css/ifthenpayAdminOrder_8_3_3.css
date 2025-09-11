@@ -68,12 +68,16 @@
   flex-wrap: wrap;
 }
 
-.adm_hist_actions {
-  margin-top: 20px;
-  margin-left: 20px;
+.adm_hist_actions.new_payment {
+  gap: 1rem;
 }
 
-.m_left_20 {
+.adm_hist_actions.new_payment #mbway_input {
+  width: 12rem;
+}
+
+.adm_hist_actions {
+  margin-top: 20px;
   margin-left: 20px;
 }
 
@@ -85,4 +89,30 @@
   vertical-align: middle;
   display: inline-block;
   width: auto;
+}
+
+.adm_hist_actions {
+  display: flex;
+  flex-wrap: wrap; /* ensures items don't overflow */
+  gap: 10px; /* adds spacing between items */
+}
+
+/* Large screens: row layout */
+@media (min-width: 768px) {
+  .adm_hist_actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+/* Mobile: column layout */
+@media (max-width: 767px) {
+  .adm_hist_actions {
+    flex-direction: column;
+    align-items: stretch; /* makes buttons/selects take full width */
+  }
+  .adm_hist_actions .btn,
+.adm_hist_actions .form-control,
+.adm_hist_actions .form-select {
+    width: 100%; /* full width for better UX */
+  }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -24,7 +25,7 @@
  */
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
@@ -34,21 +35,21 @@ use PrestaShop\Module\Ifthenpay\Utility\Utility;
 
 class ResendController extends ModuleAdminController
 {
-    public function postProcess()
-    {
-        try {
-            $order = PrestashopModelFactory::buildOrder(Tools::getValue("orderId"));
-            if (Tools::getValue('mbwayPhoneAdmin')) {
-                \Configuration::updateValue('IFTHENPAY_MBWAY_PHONE_BO_CREATED' . $order->id,  Tools::getValue('mbwayPhoneAdmin'));
-            }
-            IfthenpayStrategyFactory::build('ifthenpayAdminResend', $order, $this->module)->execute();
-            // unnecessary log, uncomment for testing
-            // IfthenpayLogProcess::addLog('Payment data sent with success', IfthenpayLogProcess::INFO, $order->id);
-            Utility::setPrestashopCookie('success', $this->module->l('Payment data sent with success!', pathinfo(__FILE__)['filename']));
-        } catch (Exception $th) {
-            IfthenpayLogProcess::addLog('Error sending payment data - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, $order->id);
-            Utility::setPrestashopCookie('error', $this->module->l('Error sending payment data!', pathinfo(__FILE__)['filename']));
-        }
-        Utility::redirectAdminOrder($order);
-    }
+	public function postProcess()
+	{
+		try {
+			$order = PrestashopModelFactory::buildOrder(Tools::getValue("orderId"));
+			if (Tools::getValue('mbwayPhoneAdmin')) {
+				\Configuration::updateValue('IFTHENPAY_MBWAY_PHONE_BO_CREATED' . $order->id,  Tools::getValue('mbwayPhoneAdmin'));
+			}
+			IfthenpayStrategyFactory::build('ifthenpayAdminResend', $order, $this->module)->execute();
+			// unnecessary log, uncomment for testing
+			// IfthenpayLogProcess::addLog('Payment data sent with success', IfthenpayLogProcess::INFO, $order->id);
+			Utility::setPrestashopCookie('success', $this->module->l('Payment data sent with success!', pathinfo(__FILE__)['filename']));
+		} catch (Exception $th) {
+			IfthenpayLogProcess::addLog('Error sending payment data - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, $order->id);
+			Utility::setPrestashopCookie('error', $this->module->l('Error sending payment data!', pathinfo(__FILE__)['filename']));
+		}
+		Utility::redirectAdminOrder($order);
+	}
 }

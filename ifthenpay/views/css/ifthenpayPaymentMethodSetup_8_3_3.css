@@ -25,10 +25,6 @@
   float: left;
 }
 
-.body-paymentMethod {
-  margin-left: 150px;
-}
-
 .callback-list-group {
   margin-top: 15px !important;
 }
@@ -114,4 +110,36 @@
 
 .width_100 {
   width: 100%;
+}
+
+.iftp_payment_method {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 24px;
+}
+
+.iftp_payment_method_image {
+  flex: 0 0 auto;
+}
+
+.iftp_payment_method_image img {
+  display: block;
+  height: 40px;
+}
+
+.iftp_payment_method_text {
+  flex: 1;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  .iftp_payment_method {
+    flex-direction: column;
+    align-items: flex-start; /* align text and image to left */
+    text-align: left;
+  }
+  .iftp_payment_method_image {
+    margin-bottom: 10px;
+  }
 }

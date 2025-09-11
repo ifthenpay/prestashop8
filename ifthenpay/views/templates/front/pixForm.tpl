@@ -45,7 +45,7 @@
 			{l s='CPF' mod='ifthenpay'}
 		</label>
 		<div class="col-md-6">
-			<input id="field-cpf" class="form-control" name="ifthenpay_customerCpf" type="text" value="{$customerCPF}">
+			<input id="field-cpf" class="form-control" name="ifthenpay_customerCpf" type="text" value="{$customerCpf}">
 			<span class="error-message message_required" style="color: red; font-size:12px; display: none;">{l s='CPF is required.' mod='ifthenpay'}</span>
 			<span class="error-message message_regex" style="color: red; font-size:12px; display: none;">{l s='CPF format is invalid.' mod='ifthenpay'}</span>
 		</div>
@@ -67,11 +67,10 @@
 	</div>
 
 	<div class="row bootstrap iftp_separator">
-		<hr class="">
-		</hr>
+		<hr>
 		<span class="text-muted">{l s='Address' mod='ifthenpay'}</span>
-		<hr class="">
-		</hr>
+		<hr>
+
 	</div>
 
 	{* <div class="iftp_separator">Next section</div> *}

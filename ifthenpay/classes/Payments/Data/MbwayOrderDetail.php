@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Payments\Data;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Utility\Utility;
@@ -35,43 +36,43 @@ use PrestaShop\Module\Ifthenpay\Contracts\Order\OrderDetailInterface;
 
 class MbwayOrderDetail extends MbwayBase implements OrderDetailInterface
 {
-    public function setSmartyVariables()
-    {
-        $this->smartyDefaultData->setTelemovel(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['telemovel'] : '');
-        $this->smartyDefaultData->setOrderId((string) $this->paymentDefaultData->order->id);
-        $this->smartyDefaultData->setIdPedido(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['id_transacao'] : '');
-        
-        if (!empty($this->paymentDataFromDb) && $this->paymentDataFromDb['status'] !== 'paid' && $this->paymentDefaultData->order->getCurrentOrderState()->name[1] !== 'Canceled') {
-            $this->smartyDefaultData->setResendMbwayNotificationControllerUrl(
-                \Context::getContext()->link->getModuleLink(
-                    'ifthenpay',
-                    'resendMbwayNotification',
-                    [
-                    'orderId' => $this->paymentDataFromDb['order_id'],
-                    'mbwayTelemovel' => $this->paymentDataFromDb['telemovel'],
-                    'orderTotalPay' => $this->paymentDefaultData->order->getOrdersTotalPaid(),
-                    'cartId' => \Tools::getValue('id_cart'),
-                    'customerSecureKey' => $this->paymentDefaultData->customer->secure_key
-                    ]
-                )
-            );
-            $this->setOrderIcons();
-            if (\Context::getContext()->cookie->__isset('mbwayResendNotificationSent')) {
-                Utility::setPrestashopCookie('mbwayCountdownShow', true);
-                $this->smartyDefaultData->setMbwayCountdownShow(true);
-                \Context::getContext()->cookie->__unset('mbwayResendNotificationSent');
-            }
-        } else {
-            $this->smartyDefaultData->setMbwayCountdownShow(false);
-            $this->smartyDefaultData->setResendMbwayNotificationControllerUrl('');
-        }
-    }
+	public function setSmartyVariables()
+	{
+		$this->smartyDefaultData->setTelemovel(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['telemovel'] : '');
+		$this->smartyDefaultData->setOrderId((string) $this->paymentDefaultData->order->id);
+		$this->smartyDefaultData->setIdPedido(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['transaction_id'] : '');
 
-    public function getOrderDetail()
-    {
-        $this->setPaymentModel('mbway');
-        $this->getFromDatabaseById();
-        $this->setSmartyVariables();
-        return $this;
-    }
+		if (!empty($this->paymentDataFromDb) && $this->paymentDataFromDb['status'] !== 'paid' && $this->paymentDefaultData->order->getCurrentOrderState()->name[1] !== 'Canceled') {
+			$this->smartyDefaultData->setResendMbwayNotificationControllerUrl(
+				\Context::getContext()->link->getModuleLink(
+					'ifthenpay',
+					'resendMbwayNotification',
+					[
+						'orderId' => $this->paymentDataFromDb['order_id'],
+						'mbwayTelemovel' => $this->paymentDataFromDb['telemovel'],
+						'orderTotalPay' => $this->paymentDefaultData->order->getOrdersTotalPaid(),
+						'cartId' => \Tools::getValue('id_cart'),
+						'customerSecureKey' => $this->paymentDefaultData->customer->secure_key
+					]
+				)
+			);
+			$this->setOrderIcons();
+			if (\Context::getContext()->cookie->__isset('mbwayResendNotificationSent')) {
+				Utility::setPrestashopCookie('mbwayCountdownShow', true);
+				$this->smartyDefaultData->setMbwayCountdownShow(true);
+				\Context::getContext()->cookie->__unset('mbwayResendNotificationSent');
+			}
+		} else {
+			$this->smartyDefaultData->setMbwayCountdownShow(false);
+			$this->smartyDefaultData->setResendMbwayNotificationControllerUrl('');
+		}
+	}
+
+	public function getOrderDetail()
+	{
+		$this->setPaymentModel('mbway');
+		$this->getFromDatabaseById();
+		$this->setSmartyVariables();
+		return $this;
+	}
 }

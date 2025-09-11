@@ -97,7 +97,6 @@
     <div class="tab-pane active" id="template_1">
         <div class="container-full">
         <script>
-	console.log({$isBackofficeKey});
     </script>
             {if $isBackofficeKey}
                 <div>

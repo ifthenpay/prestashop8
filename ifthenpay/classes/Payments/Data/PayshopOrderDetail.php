@@ -27,7 +27,7 @@
 namespace PrestaShop\Module\Ifthenpay\Payments\Data;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 use PrestaShop\Module\Ifthenpay\Base\Payments\PayshopBase;
@@ -35,20 +35,20 @@ use PrestaShop\Module\Ifthenpay\Contracts\Order\OrderDetailInterface;
 
 class PayshopOrderDetail extends PayshopBase implements OrderDetailInterface
 {
-    public function setSmartyVariables()
-    {
-        $this->smartyDefaultData->setReferencia(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['referencia'] : '');
-        $this->smartyDefaultData->setValidade((!empty($this->paymentDataFromDb) && isset($this->paymentDataFromDb['validade']) && $this->paymentDataFromDb['validade'] != '') ?
-                (new \DateTime($this->paymentDataFromDb['validade']))->format('d-m-Y') : ''
-        );
-        $this->smartyDefaultData->setIdPedido(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['id_transacao'] : '');
-    }
+	public function setSmartyVariables()
+	{
+		$this->smartyDefaultData->setReferencia(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['referencia'] : '');
+		$this->smartyDefaultData->setValidade((!empty($this->paymentDataFromDb) && isset($this->paymentDataFromDb['validade']) && $this->paymentDataFromDb['validade'] != '') ?
+				(new \DateTime($this->paymentDataFromDb['validade']))->format('d-m-Y') : ''
+		);
+		$this->smartyDefaultData->setIdPedido(!empty($this->paymentDataFromDb) ? $this->paymentDataFromDb['transaction_id'] : '');
+	}
 
-    public function getOrderDetail()
-    {
-        $this->setPaymentModel('payshop');
-        $this->getFromDatabaseById();
-        $this->setSmartyVariables();
-        return $this;
-    }
+	public function getOrderDetail()
+	{
+		$this->setPaymentModel('payshop');
+		$this->getFromDatabaseById();
+		$this->setSmartyVariables();
+		return $this;
+	}
 }

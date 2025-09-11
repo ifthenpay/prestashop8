@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2007-2024 Ifthenpay Lda
  *
@@ -26,31 +27,34 @@
 namespace PrestaShop\Module\Ifthenpay\Factory\Admin;
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
+use PrestaShop\Module\Ifthenpay\Admin\Payments\IfthenpaygatewayAdminResend;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MbwayAdminResend;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\PayshopAdminResend;
 use PrestaShop\Module\Ifthenpay\Admin\Payments\MultibancoAdminResend;
 
 class AdminResendFactory
 {
-    public static function build(
-        $type,
-        $paymentDefaultData,
-        $ifthenpayModule,
-        $smartyDefaultData = null,
-        $emailDefaultData = null
-    ) {
-        switch ($type) {
-            case 'multibanco':
-                return new MultibancoAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
-            case 'mbway':
-                return new MbwayAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
-            case 'payshop':
-                return new PayshopAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
-            default:
-                throw new \Exception('Unknown Admin Order Resend Class');
-        }
-    }
+	public static function build(
+		$type,
+		$paymentDefaultData,
+		$ifthenpayModule,
+		$smartyDefaultData = null,
+		$emailDefaultData = null
+	) {
+		switch ($type) {
+			case 'multibanco':
+				return new MultibancoAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			case 'mbway':
+				return new MbwayAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			case 'payshop':
+				return new PayshopAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			case 'ifthenpaygateway':
+				return new IfthenpaygatewayAdminResend($ifthenpayModule, $paymentDefaultData, $smartyDefaultData, $emailDefaultData);
+			default:
+				throw new \Exception('Unknown Admin Order Resend Class');
+		}
+	}
 }
