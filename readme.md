@@ -81,10 +81,13 @@ See more at [Ifthenpay](https://ifthenpay.com).
 # Compatibility
 
 Follow the table below to verify Ifthenpay's module compatibility with your online store.
-|                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.7]  |
-|----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 -> v8.3.2 | Not compatible | Not compatible | Compatible                    |
 
+|                            | Prestashop 1.6 | Prestashop 8 [8.0.0 - 8.1.7] | Prestashop 9 [9.0.0] |
+| -------------------------- | -------------- | ---------------------------- | -------------------- |
+| Ifthenpay v8.0.0 -> v8.3.2 | Not compatible | Compatible                   | Not compatible           |
+| Ifthenpay v8.3.3           | Not compatible | Compatible               | Compatible           |
+
+**Note:** ifthenpay v8.3.2 may function on Prestashop 9 but it is advisable to upgrade/use Ifthenpay v8.3.3 and above for Prestashop platforms of version 9 and above.
 
 # Installation
 
@@ -181,15 +184,18 @@ Multibanco with Dynamic References payment method generates references by reques
 </br>
 
 * Configure MB WAY payment method:
-1. Activate Callback, by selecting this option the order state will update when a payment is received;
-2. (optional) Activate Cancel MB WAY Order, by selecting this option, MB WAY orders that are still unpaid 30 min after confirmation, will have status changed to "Canceled";
-3. MB WAY Countdown, set to "Activate" by default, this option determines whether the MB WAY 5 minutes countdown is displayed or not after confirming order;
-4. Select a MB WAY key. Can only select from the MB WAY keys associated with your Backoffice key; 
-5. (optional) Input minimum order value to only display this payment method for orders above it;
-6. (optional) Input maximum order value to only display this payment method for orders below it;
-7. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
-8. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
-9. Click "Save" button;
+1. Select a MB WAY key. Can only select from the MB WAY keys associated with your Backoffice key; 
+2. Activate Callback, by selecting this option the order state will update when a payment is received;
+3. (optional) Activate Invoice logic, by selecting this option it will execute standard Prestashop logic for invoice;
+4. (optional) Activate Cancel MB WAY Order, by selecting this option, MB WAY orders that are still unpaid 30 min after confirmation, will have status changed to "Canceled";
+5. MB WAY Countdown, set to "Activate" by default, this option determines whether the MB WAY 4 minutes countdown is displayed or not after confirming order;
+6. (optional) Activate Partial refund to allow shop admin to refund from prestashop backoffice;
+7. (optional) Input minimum order value to only display this payment method for orders above it;
+8. (optional) Input maximum order value to only display this payment method for orders below it;
+9.  MB WAY App Notification Description, set to "MB WAY Payment Order {{order_id}} by default, edit this value to customize the small description shown to the customer in the MB WAY App;
+10. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
+11. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
+12. Click "Save" button;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_mbway.png)
 </br>
 
@@ -319,7 +325,7 @@ Multibanco with Dynamic References payment method generates references by reques
 
 
 # Edit payment details
-**Important Notice:** It is not possible to change to or update to the Credit Card and Cofidis Pay payment methods.
+**Important Notice:** It is not possible to change to or update to the Credit Card, Cofidis Pay or Pix payment methods.
 At Prestashop order details, you can edit the order payment method and payment data.
 An use case for this would be a customer ordered 2 units of a product, but decided to only get one, so the customer contacts the store admin and requests that change.
 The store admin edits the product quantity and at the bottom of the page clicks the "Update Multibanco/MB WAY/Payshop Data" button and next clicks the "Resend Payment Data".
@@ -362,7 +368,7 @@ Choose a different payment method:
   ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/new_payment_method.png)
 </br>
 
-  * If you are changing from Multibanco or Payshop to MB WAY, you are required to input the customer's phone number and click the "Change Payment Method" button. This action sends the MB WAY notification automatically, but you can use the "Resend Payment Data" button if the customer does not pay in the 5 minutes time window and requires another payment notification to their MB WAY app;
+  * If you are changing from Multibanco or Payshop to MB WAY, you are required to input the customer's phone number and click the "Change Payment Method" button. This action sends the MB WAY notification automatically, but you can use the "Resend Payment Data" button if the customer does not pay in the 4 minutes time window and requires another payment notification to their MB WAY app;
     ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/change_to_mbway_payment.png)
 </br>
 
