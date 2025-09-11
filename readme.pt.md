@@ -79,10 +79,14 @@ Mais informações em [Ifthenpay](https://ifthenpay.com).
 # Compatibilidade
 
 Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a sua loja online.
-|                            | Prestashop 1.6 | Prestashop 1.7 | Prestashop 8 [8.0.0 - 8.1.7]  |
+|                            | Prestashop 1.6 | Prestashop 8 [8.0.0 - 8.1.7] | Prestashop 9 [9.0.0]  |
 |----------------------------|----------------|----------------|-------------------------------|
-| Ifthenpay v8.0.0 -> v8.3.2 | Não compatível | Não compatível | Compatível                    |
+| Ifthenpay v8.0.0 -> v8.3.2 | Não compatível | Compatível | Não Compatível                    |
+| Ifthenpay v8.3.3 | Não compatível | Compatível | Compatível                    |
 
+
+
+Nota: A versão v8.3.2 do Ifthenpay pode funcionar no Prestashop 9, mas é aconselhável atualizar/utilizar a versão v8.3.3 ou superior do Ifthenpay para plataformas Prestashop de versão 9 ou superior.
 
 # Instalação
 
@@ -180,15 +184,18 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 </br>
 
 * Configurar método de pagamento MB WAY:
-1. Ativar Callback. Ao selecionar esta opção, o estado da encomenda será atualizado quando o pagamento for recebido;
-2. (opcional) Ativar Cancelar Encomenda MB WAY. Ao selecionar esta opção, encomendas MB WAY que ainda não receberam pagamento serão canceladas 30 minutos após a confirmação no checkout;
-3. Contador MB WAY, está ativo por defeito. Esta opção determina se o contador MB WAY de 5 minutos é ou não exibido após a confirmação da encomenda;  
-4. Selecionar uma Chave MB WAY. Apenas pode selecionar uma das Chaves MB WAY associadas à Chave Backoffice;
-5. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
-6. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
-7. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
-8. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
-9. Clicar no botão "Salvar";
+1. Selecionar uma Chave MB WAY. Apenas pode selecionar uma das Chaves MB WAY associadas à Chave Backoffice;
+2. Ativar Callback. Ao selecionar esta opção, o estado da encomenda será atualizado quando o pagamento for recebido;
+3. (opcional) Ativar lógica de Fatura: ao selecionar esta opção será executada a lógica padrão do Prestashop para fatura;
+4. (opcional) Ativar Cancelar Encomenda MB WAY. Ao selecionar esta opção, encomendas MB WAY que ainda não receberam pagamento serão canceladas 30 minutos após a confirmação no checkout;
+5. Contador MB WAY, está ativo por defeito. Esta opção determina se o contador MB WAY de 4 minutos é ou não exibido após a confirmação da encomenda;  
+6. (opcional) Ativar Reembolso Parcial para permitir que o administrador da loja reembolse a partir do backoffice do Prestashop;
+7. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+8. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+9. Descrição da Notificação na App MB WAY: definido como "Pagamento MB WAY Encomenda {{order_id}}" por defeito, edite este valor para personalizar a pequena descrição apresentada ao cliente na App MB WAY;
+10. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+11. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+12. Clicar no botão "Salvar";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/config_mbway.png)
 </br>
 
@@ -324,7 +331,7 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 
 
 # Editar Dados de Pagamento
-**Nota importante:** Não é possível mudar ou atualizar para os métodos de pagamento de Cartão de Crédito e Cofidis Pay.
+**Nota importante:** Não é possível mudar ou atualizar para os métodos de pagamento de Cartão de Crédito, Cofidis Pay e Pix.
 Na página de detalhes de uma encomenda, é possível editar o método de pagamento e os dados de pagamento.
 Um caso de uso para isto seria o seguinte:
   - Um consumidor encomenda 2 unidades de um produto, mas decide que apenas quer um;
@@ -367,7 +374,7 @@ Escolher outro método de pagamento:
   ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/new_payment_method.png)
 </br>
 
-  * Se está a mudar de Multibanco ou Payshop para MB WAY, precisa de inserir o número de telemóvel do consumidor e clicar no botão "Alterar Método de Pagamento". Esta ação envia notificação MB WAY automaticamente, mas pode usar o botão " Reenviar Dados de Pagamento" se o consumidor não pagou dentro dos 5 minutos de tempo limite e necessita de outra notificação para a app MB WAY;
+  * Se está a mudar de Multibanco ou Payshop para MB WAY, precisa de inserir o número de telemóvel do consumidor e clicar no botão "Alterar Método de Pagamento". Esta ação envia notificação MB WAY automaticamente, mas pode usar o botão " Reenviar Dados de Pagamento" se o consumidor não pagou dentro dos 4 minutos de tempo limite e necessita de outra notificação para a app MB WAY;
     ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/change_to_mbway_payment.png)
 </br>
 
