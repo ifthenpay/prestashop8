@@ -212,12 +212,15 @@ Multibanco with Dynamic References payment method generates references by reques
 
 * Configure Credit Card (also referred to as Ccard) payment method:
 1. Select a CCard key. Can only select from the CCard keys associated with your Backoffice key; 
-2. (optional) Activate Cancel Credit Card Order, by selecting this option, Credit Card orders that are still unpaid 30 min after confirmation, will have status changed to "Canceled";
-3. (optional) Input minimum order value to only display this payment method for orders above it;
-4. (optional) Input maximum order value to only display this payment method for orders below it;
-5. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
-6. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
-7. Click "Save" button;
+2. Activate Callback, by selecting this option the order state will update when a payment is received;
+3. Enable Invoice, by selecting this option, when an order is updated with it's respective payment method confirmed status, it will trigger Prestashop invoice logic.
+4. (optional) Activate Cancel Credit Card Order, by selecting this option, Credit Card orders that are still unpaid 30 min after confirmation, will have status changed to "Canceled";
+5. (optional) Activate Partial refund to allow shop admin to refund from prestashop backoffice;
+6. (optional) Input minimum order value to only display this payment method for orders above it;
+7. (optional) Input maximum order value to only display this payment method for orders below it;
+8. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
+9. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
+10. Click "Save" button;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_ccard.png)
 </br>
 
