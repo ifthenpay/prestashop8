@@ -214,12 +214,15 @@ O método de pagamento Multibanco com Referências Dinâmicas, gera referências
 
 * Configurar método de pagamento Cartão de Crédito:
 1. Selecionar uma Chave CCard. Apenas pode selecionar uma das Chaves CCard associadas à Chave Backoffice;
-2. (opcional) Ativar Cancelar Encomenda Ccard. Ao selecionar esta opção, encomendas Ccard que ainda não receberam pagamento serão canceladas 30 minutos após a confirmação no checkout;
-3. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
-4. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
-5. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
-6. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
-7. Clicar no botão "Salvar";
+2. Ativar Callback. Ao selecionar esta opção, o estado da encomenda será atualizado quando o pagamento for recebido;
+3. (opcional) Ativar lógica de Fatura: ao selecionar esta opção será executada a lógica padrão do Prestashop para fatura;
+4. (opcional) Ativar Cancelar Encomenda Ccard. Ao selecionar esta opção, encomendas Ccard que ainda não receberam pagamento serão canceladas 30 minutos após a confirmação no checkout;
+5. (opcional) Ativar Reembolso Parcial para permitir que o administrador da loja reembolse a partir do backoffice do Prestashop;
+6. (opcional) Inserir valor mínimo de encomenda. Apenas exibe este método de pagamento para encomendas com valor superior ao valor inserido;
+7. (opcional) Inserir valor máximo de encomenda. Apenas exibe este método de pagamento para encomendas com valor inferior ao valor inserido;
+8. (opcional) Selecione um ou mais países. Apenas exibe este método de pagamento para encomendas com destino de envio dentro dos países selecionados, deixar vazio para permitir todos os países;
+9. (opcional) Inserir um número de sequência. Ordena os métodos de pagamento na página de checkout de forma ascendente. Número mais baixo toma o primeiro lugar;
+10. Clicar no botão "Salvar";
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/config_ccard.png)
 </br>
 
