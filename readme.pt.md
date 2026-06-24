@@ -414,7 +414,7 @@ Se solicitou a criação de uma nova conta por telefone, ou se algo correu mal e
 > **Nota:** Disponível a partir da versão 1.6.6.
 
 * Em Módulos/Ifthenpay/Configurar, estará disponível um botão "Atualizar". Clique no botão para recarregar as contas disponíveis associadas à sua chave de backoffice.
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/refresh_accounts.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/refresh_accounts.png)
 </br>
 
 ## Logs
