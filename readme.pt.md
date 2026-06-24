@@ -31,6 +31,7 @@ Ler em ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/readme_
   * [Suporte](#Suporte)
   * [Pedir Conta](#Pedir-Conta)
   * [Requerer criação de conta adicional](#Requerer-criação-de-conta-adicional)
+  * [Atualizar Contas](#atualizar-contas)
   * [Logs](#Logs)
   * [Reset de Configuração](#Reset-de-Configuração)
   * [Atualizações](#Atualizações)
@@ -82,11 +83,11 @@ Use a tabela abaixo para verificar a compatibilidade do módulo Ifthenpay com a 
 |                            | Prestashop 1.6 | Prestashop 8 [8.0.0 - 8.1.7] | Prestashop 9 [9.0.0]  |
 |----------------------------|----------------|----------------|-------------------------------|
 | Ifthenpay v8.0.0 -> v8.3.2 | Não compatível | Compatível | Não Compatível                    |
-| Ifthenpay v8.3.3 | Não compatível | Compatível | Compatível                    |
+| Ifthenpay v8.3.4 | Não compatível | Compatível | Compatível                    |
 
 
 
-Nota: A versão v8.3.2 do Ifthenpay pode funcionar no Prestashop 9, mas é aconselhável atualizar/utilizar a versão v8.3.3 ou superior do Ifthenpay para plataformas Prestashop de versão 9 ou superior.
+Nota: A versão v8.3.2 do Ifthenpay pode funcionar no Prestashop 9, mas é aconselhável atualizar/utilizar a versão v8.3.4 ou superior do Ifthenpay para plataformas Prestashop de versão 9 ou superior.
 
 # Instalação
 
@@ -404,7 +405,17 @@ Se já tem uma conta Ifthenpay, mas não tem contratou um método de pagamento q
 
 * Em Módulos/Ifthenpay/Configurar, haverá um botão "REQUERER A CRIAÇÃO DE CONTA ..." para cada método de pagamento que ainda não tenha contratado. Clique no botão do método de pagamento de necessita. Assim que a equipa da Ifthenpay adiciona o método de pagamento à sua conta, a lista de métodos de pagamento disponíveis no seu módulo será atualizada com o novo.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/pt/request_account_creation.png)
+</br>
 
+
+## Atualizar Contas
+
+Se solicitou a criação de uma nova conta por telefone, ou se algo correu mal e a equipa de helpdesk não conseguiu atualizar as suas contas, pode fazê-lo você mesmo.
+> **Nota:** Disponível a partir da versão 1.6.6.
+
+* Em Módulos/Ifthenpay/Configurar, estará disponível um botão "Atualizar". Clique no botão para recarregar as contas disponíveis associadas à sua chave de backoffice.
+![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/refresh_accounts.png)
+</br>
 
 ## Logs
 
