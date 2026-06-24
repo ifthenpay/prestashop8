@@ -401,13 +401,15 @@ If you already have an Ifthenpay account, but don't have a payment method unlock
 * At Modules/Ifthenpay/Configure, there will be a "REQUEST ... ACCOUNT CREATION" button for every payment method that you have yet to unlock. Click the button for the payment method you require. After Ifthenpay's team have added your payment method, the list of payment methods available on your module will be updated with the new one. 
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/request_account_creation.png)
 </br>
+
+
 ## Refresh Accounts
 
 If you Requested a new account creation by phone or something went wrong and helpdesk team was unable to refresh your accounts, you can do it yourself
 > **Note:** Available from version 1.6.6.
 
 * At Modules/Ifthenpay/Configure, there will be a "Refresh" button. Click the button to reload the available accounts assigned to your backoffice key.
-![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/refresh_accounts.png)
+![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/refresh_accounts.png)
 </br>
 
 
