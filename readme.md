@@ -31,6 +31,7 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Support](#Support)
   * [Request account](#Request-account)
   * [Request additional account](#Request-additional-account)
+  * [Refresh accounts](#refresh-accounts)
   * [Logs](#Logs)
   * [Reset Configuration](#Reset-Configuration)
   * [Updates](#Updates)
@@ -85,9 +86,9 @@ Follow the table below to verify Ifthenpay's module compatibility with your onli
 |                            | Prestashop 1.6 | Prestashop 8 [8.0.0 - 8.1.7] | Prestashop 9 [9.0.0] |
 | -------------------------- | -------------- | ---------------------------- | -------------------- |
 | Ifthenpay v8.0.0 -> v8.3.2 | Not compatible | Compatible                   | Not compatible           |
-| Ifthenpay v8.3.3           | Not compatible | Compatible               | Compatible           |
+| Ifthenpay v8.3.4           | Not compatible | Compatible               | Compatible           |
 
-**Note:** ifthenpay v8.3.2 may function on Prestashop 9 but it is advisable to upgrade/use Ifthenpay v8.3.3 and above for Prestashop platforms of version 9 and above.
+**Note:** ifthenpay v8.3.2 may function on Prestashop 9 but it is advisable to upgrade/use Ifthenpay v8.3.4 and above for Prestashop platforms of version 9 and above.
 
 # Installation
 
@@ -399,6 +400,15 @@ If you already have an Ifthenpay account, but don't have a payment method unlock
 
 * At Modules/Ifthenpay/Configure, there will be a "REQUEST ... ACCOUNT CREATION" button for every payment method that you have yet to unlock. Click the button for the payment method you require. After Ifthenpay's team have added your payment method, the list of payment methods available on your module will be updated with the new one. 
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/request_account_creation.png)
+</br>
+## Refresh Accounts
+
+If you Requested a new account creation by phone or something went wrong and helpdesk team was unable to refresh your accounts, you can do it yourself
+> **Note:** Available from version 1.6.6.
+
+* At Modules/Ifthenpay/Configure, there will be a "Refresh" button. Click the button to reload the available accounts assigned to your backoffice key.
+![img](https://github.com/ifthenpay/prestashop/raw/assets/version17/img/en/refresh_accounts.png)
+</br>
 
 
 ## Logs
