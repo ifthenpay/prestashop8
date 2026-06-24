@@ -53,7 +53,7 @@ class Ifthenpay extends PaymentModule
 	{
 		$this->name = 'ifthenpay';
 		$this->tab = 'payments_gateways';
-		$this->version = '8.3.3';
+		$this->version = '8.3.4';
 		$this->author = 'Ifthenpay';
 		$this->need_instance = 0;
 		$this->bootstrap = true;
@@ -295,6 +295,21 @@ class Ifthenpay extends PaymentModule
 					'title' => $this->l('Save')
 				],
 			],
+		];
+
+
+		// account refresh button
+		$form['form']['input'][] = [
+			'type' => 'html',
+			'label' => $this->l('Accounts', pathinfo(__FILE__)['filename']),
+			'desc' => $this->l('If you activated new methods or accounts but they are not visible, click the button to refresh the available accounts.', pathinfo(__FILE__)['filename']),
+			'name' => 'my_action_button',
+			'html_content' => '<button type="button"
+        id="ifthenpayRefreshAccountsBtn"
+        data-url="' . \Context::getContext()->link->getAdminLink('AdminIfthenpayRefreshAccounts') . '"
+        class="btn btn-info">
+        ' . $this->l('Refresh', pathinfo(__FILE__)['filename']) . '
+    </button>',
 		];
 
 		/**

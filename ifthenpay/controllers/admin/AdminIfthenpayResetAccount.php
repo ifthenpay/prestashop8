@@ -152,4 +152,35 @@ class AdminIfthenpayResetAccountController extends ModuleAdminController
             }
         }
     }
+
+	public function ajaxProcessRefreshAccounts()
+	{
+		try {
+			$backofficeKey = \Configuration::get('IFTHENPAY_BACKOFFICE_KEY');
+
+			if (!$backofficeKey) {
+				IfthenpayLogProcess::addLog('Backoffice key does not exist on database', IfthenpayLogProcess::ERROR, 0);
+				die('Backoffice key is required!');
+			}
+
+			$ifthenpayGateway = GatewayFactory::build('gateway');
+
+			$ifthenpayGateway->authenticate($backofficeKey);
+			Configuration::updateValue('IFTHENPAY_USER_PAYMENT_METHODS', serialize($ifthenpayGateway->getPaymentMethods()));
+			Configuration::updateValue('IFTHENPAY_USER_ACCOUNT', serialize($ifthenpayGateway->getAccount()));
+
+			Utility::setPrestashopCookie('success', 'Ifthenpay accounts refreshed with success');
+			IfthenpayLogProcess::addLog('Ifthenpay accounts refreshed with success', IfthenpayLogProcess::INFO, 0);
+
+		} catch (\Throwable $th) {
+
+			Utility::setPrestashopCookie('error', 'Error refreshing ifthenpay accounts');
+			IfthenpayLogProcess::addLog('Error refreshing ifthenpay accounts - ' . $th->getMessage(), IfthenpayLogProcess::ERROR, 0);
+			die(json_encode(
+				[
+					'error' => $th->getMessage()
+				]
+			));
+		}
+	}
 }

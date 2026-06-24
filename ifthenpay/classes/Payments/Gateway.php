@@ -276,6 +276,9 @@ class Gateway
 			return [];
 		}
 
+		$methods = array_values(array_filter($methods, function ($method) {
+			return !(isset($method['IsVisible']) && $method['IsVisible'] === false);
+		}));
 
 		foreach ($methods as &$method) {
 
