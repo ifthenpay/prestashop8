@@ -406,7 +406,7 @@ If you already have an Ifthenpay account, but don't have a payment method unlock
 ## Refresh Accounts
 
 If you Requested a new account creation by phone or something went wrong and helpdesk team was unable to refresh your accounts, you can do it yourself
-> **Note:** Available from version 1.6.6.
+> **Note:** Available from version 8.3.4.
 
 * At Modules/Ifthenpay/Configure, there will be a "Refresh" button. Click the button to reload the available accounts assigned to your backoffice key.
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/refresh_accounts.png)
