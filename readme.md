@@ -16,7 +16,6 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [MB WAY](#MB-WAY)
   * [Credit Card](#Credit-Card)
   * [Payshop](#Payshop)
-  * [Cofidis Pay](#Cofidis-Pay)
   * [Pix](#Pix)
   * [Ifthenpay Gateway](#ifthenpay-gateway)
 
@@ -46,7 +45,6 @@ Read this in ![Português](https://github.com/ifthenpay/prestashop8/raw/assets/r
   * [Paying order with Payshop](#Paying-order-with-Payshop)
   * [Paying order with MB WAY](#Paying-order-with-MB-WAY)
   * [Paying order with Credit Card](#Paying-order-with-Credit-Card)
-  * [Paying order with Cofidis Pay](#Paying-order-with-Cofidis-Pay)
   * [Paying order with Pix](#Paying-order-with-Pix)
   * [Paying order with Ifthenpay Gateway](#paying-order-with-ifthenpay-gateway)
 
@@ -69,8 +67,6 @@ This module will allow you to generate a payment Reference that the customer can
 **Credit Card** 
 This module will allow you to generate a payment by Visa or Master card, that the customer can then use to pay for his order. This module uses one of the several gateways/services available in Portugal, IfthenPay.
 
-**Cofidis Pay** is a payment solution of up to 12 interest-free installments that makes it easier to pay for purchases by splitting them. This module uses one of the several gateways/services available in Portugal, IfthenPay.
-
 **Pix** is an instant payment solution widely used in the Brazilian financial market. It enables quick and secure transactions for purchases, using details such as CPF, email, and phone number to complete the payment.
 
 **Contract with Ifthenpay is required.**
@@ -86,9 +82,9 @@ Follow the table below to verify Ifthenpay's module compatibility with your onli
 |                            | Prestashop 1.6 | Prestashop 8 [8.0.0 - 8.1.7] | Prestashop 9 [9.0.0] |
 | -------------------------- | -------------- | ---------------------------- | -------------------- |
 | Ifthenpay v8.0.0 -> v8.3.2 | Not compatible | Compatible                   | Not compatible           |
-| Ifthenpay v8.3.4           | Not compatible | Compatible               | Compatible           |
+| Ifthenpay v8.3.5           | Not compatible | Compatible               | Compatible           |
 
-**Note:** ifthenpay v8.3.2 may function on Prestashop 9 but it is advisable to upgrade/use Ifthenpay v8.3.4 and above for Prestashop platforms of version 9 and above.
+**Note:** ifthenpay v8.3.2 may function on Prestashop 9 but it is advisable to upgrade/use Ifthenpay v8.3.5 and above for Prestashop platforms of version 9 and above.
 
 # Installation
 
@@ -249,30 +245,6 @@ Multibanco with Dynamic References payment method generates references by reques
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_callback_activated.png)
 </br>
 
-
-## Cofidis Pay
-
-* In Modules/Ifthenpay/Configure, click the "MANAGE" button for Cofidis Pay;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/manage_cofidis.png)
-</br>
-
-* Configure Cofidis Pay payment method:
-1. Activate Callback, by selecting this option the order state will update when a payment is received;
-2. Select a Cofidis Pay key. Can only select from the Cofidis Pay keys associated with your Backoffice key;
-3. (optional) Activate Cancel Cofidis Pay Order, by selecting this option, Cofidis Pay orders that are expired 60 minutes after confirmation will have status changed to "Canceled";
-4. (optional) Input minimum order value to only display this payment method for order above it. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be less then the value specified in ifthenpay's backoffice.;
-5. (optional) Input maximum order value to only display this payment method for order below it. **Important Notice:** On Cofidis Key selection, this input is updated with value configured in ifthenpay's backoffice, and when editing, it can not be greater then the value specified in ifthenpay's backoffice.;
-6. (optional) Select one or more countries to only display this payment method for orders with that shipping country, leave empty to allow all;
-7. (optional) Input an Integer number to order this payment method in the checkout page. Smallest takes first place.
-8. Click "Save" button;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/config_cofidis.png)
-</br>
-
-* If you set the "Callback" to activate, it's state will be updated below with the generated Anti-Phishing key and Callback Url;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_callback_activated.png)
-</br>
-
-
 ## Pix
 
 * In Modules/Ifthenpay/Configure, click the "MANAGE" button for Pix;
@@ -329,7 +301,7 @@ Multibanco with Dynamic References payment method generates references by reques
 
 
 # Edit payment details
-**Important Notice:** It is not possible to change to or update to the Credit Card, Cofidis Pay or Pix payment methods.
+**Important Notice:** It is not possible to change to or update to the Credit Card or Pix payment methods.
 At Prestashop order details, you can edit the order payment method and payment data.
 An use case for this would be a customer ordered 2 units of a product, but decided to only get one, so the customer contacts the store admin and requests that change.
 The store admin edits the product quantity and at the bottom of the page clicks the "Update Multibanco/MB WAY/Payshop Data" button and next clicks the "Resend Payment Data".
@@ -528,15 +500,6 @@ to fill the Test Callback form and click the "Test Callback" button (3):
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/payshop_callback_test.png)
 </br>
 
-**Cofidis:** Use the following data (1) and (2) from order payment details:
-
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_callback_data.png)
-</br>
-
-to fill the Test Callback form and click the "Test Callback" button (3):
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_callback_test.png)
-</br>
-
 **Pix:** Use the following data (1) and (2) from order payment details:
 
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/pix_callback_data.png)
@@ -637,60 +600,6 @@ The following action are described from the perspective of the consumer.
 
 * After paying you will be redirected back to the store;
 ![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/ccard_payment_return.png)
-</br>
-
-## Paying order with Cofidis Pay
-
-* Select Cofidis Pay at checkout and place order:
-1. Select "Pay by Cofidis Pay";
-2. Check the box of "terms of service" (this will depend on your Prestashop configuration);
-3. Click "PLACE ORDER" button;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/checkout_cofidis.png)
-</br>
-
-* Login or, if you don't have an account, sign up with Cofidis Pay:
-1. Click "Avançar" to sign up with Cofidis Pay;
-2. Or if you have a Cofidis Pay account, fill in your access credentials and click enter;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_1.png)
-</br>
-
-* Number of installments and billing and personal data:
-1. Select the number of installments you wish;
-2. Verify the summary of the the payment plan;
-3. Fill in your personal and billing data;
-4. Click "Avançar" to continue;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_2.png)
-</br>
-
-* Terms and Conditions:
-1. Select "Li e autorizo" to agree with terms and conditions;
-2. Click "Avançar"
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_3.png)
-</br>
-
-* Agreement formalization:
-1. Click "Enviar código";
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_4.png)
-</br>
-
-* Agreement formalization authentication code:
-1. Fill in the code you received on your phone;
-1. Click "Confirmar código";
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_5.png)
-</br>
-
-* Summary and Payment:
-1. Fill in your credit card details (number, expiration date and CW), and click "Validar";
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_6.png)
-</br>
-
-* Success and return to store:
-1. Click the return icon to return to the store;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_7.png)
-</br>
-
-* After which you will be redirected back to the store;
-![img](https://github.com/ifthenpay/prestashop8/raw/assets/readme_img/en/cofidis_payment_return.png)
 </br>
 
 ## Paying order with Pix
