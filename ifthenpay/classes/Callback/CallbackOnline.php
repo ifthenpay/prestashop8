@@ -32,7 +32,6 @@ use PrestaShop\Module\Ifthenpay\Utility\Utility;
 use PrestaShop\Module\Ifthenpay\Utility\TokenExtra;
 use PrestaShop\Module\Ifthenpay\Log\IfthenpayLogProcess;
 use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopModelFactory;
-use PrestaShop\Module\Ifthenpay\Factory\Request\RequestFactory;
 use PrestaShop\Module\Ifthenpay\Contracts\Callback\CallbackProcessInterface;
 use PrestaShop\Module\Ifthenpay\Callback\CallbackVars as Cb;
 
@@ -48,15 +47,7 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 	private $customer;
 	private $redirectUrl;
 	const CCARD = 'ccard';
-	const COFIDISPAY = 'cofidispay';
 	const CCARD_KEY = 'IFTHENPAY_CCARD_KEY';
-	const COFIDIS_KEY = 'IFTHENPAY_COFIDISPAY_KEY';
-	const COFIDIS_STATUS_INITIATED = 'INITIATED';
-	const COFIDIS_STATUS_PENDING_INVOICE = 'PENDING_INVOICE';
-	const COFIDIS_STATUS_CANCELED = 'CANCELED';
-	const COFIDIS_STATUS_NOT_APPROVED = 'NOT_APPROVED';
-	const COFIDIS_STATUS_TECHNICAL_ERROR = 'TECHNICAL_ERROR';
-	const COFIDIS_ENDPOINT_STATUS = 'https://ifthenpay.com/api/cofidis/status';
 	const IFTHENPAYGATEWAY = 'ifthenpaygateway';
 	const IFTHENPAYGATEWAY_KEY = 'IFTHENPAY_IFTHENPAYGATEWAY_KEY';
 	const PIX = 'pix';
@@ -68,8 +59,6 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 		switch ($paymentMethod) {
 			case self::CCARD:
 				return self::CCARD_KEY;
-			case self::COFIDISPAY:
-				return self::COFIDIS_KEY;
 			case self::IFTHENPAYGATEWAY:
 				return self::IFTHENPAYGATEWAY_KEY;
 			case self::PIX:
@@ -125,9 +114,6 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 				switch ($this->paymentMethod) {
 					case self::CCARD:
 						$this->processCcardPayment($paymentStatus);
-						break;
-					case self::COFIDISPAY:
-						$this->processCofidisPayment($paymentStatus);
 						break;
 					case self::IFTHENPAYGATEWAY:
 						$this->processIfthenpaygatewayPayment($paymentStatus);
@@ -202,94 +188,14 @@ class CallbackOnline extends CallbackProcess implements CallbackProcessInterface
 		}
 	}
 
-	private function processCofidisPayment($paymentStatus)
-	{
-		if ($paymentStatus !== 'success') {
-			throw new \Exception($this->ifthenpayModule->l('Invalid security token', Utility::getClassName($this)));
-		}
 
-		// Sleep 5 seconds because error, cancel, not approved may not be present right after returning with error from cofidis
-		$transactionStatusArray = [];
-		$attempt = 0;
-		do {
-			$transactionStatusArray = $this->getCofidisTransactionStatus();
-			if (count($transactionStatusArray) > 1) {
-				break;
-			}
-			sleep(5);
-			$attempt++;
-		} while ($attempt < 2);
 
-		foreach ($transactionStatusArray as $transactionStatus) {
-			switch ($transactionStatus['statusCode']) {
-				case self::COFIDIS_STATUS_INITIATED:
-				case self::COFIDIS_STATUS_PENDING_INVOICE:
-					if ($this->request['Success'] === 'True') {
-						$this->handleSuccessfulTransaction();
-					}
-					break;
-				case self::COFIDIS_STATUS_CANCELED:
-					$this->handleCanceledCofidisTransaction($transactionStatusArray);
-				case self::COFIDIS_STATUS_NOT_APPROVED:
-					$this->handleNotApprovedPayment();
-				case self::COFIDIS_STATUS_TECHNICAL_ERROR:
-					$this->handleTechnicalError();
-				default:
-					throw new \Exception($transactionStatus['statusCode'] . " status");
-			}
-		}
-	}
-
-	private function handleSuccessfulTransaction()
-	{
-		IfthenpayLogProcess::addLog('Awaiting by ' . $this->paymentMethod . ' invoice', IfthenpayLogProcess::INFO, $this->order->id);
-		$this->redirectUser('success', sprintf($this->ifthenpayModule->l('Payment by %s made with success', Utility::getClassName($this)), $this->ifthenpayModule->l($this->paymentMethod, 'ifthenpay')));
-	}
-	private function handleCanceledCofidisTransaction($transactionStatusArray)
-	{
-		foreach ($transactionStatusArray as $transactionStatus) {
-			if ($transactionStatus['statusCode'] === self::COFIDIS_STATUS_TECHNICAL_ERROR) {
-				$this->changeIfthenpayPaymentStatus('cancel');
-				$this->changePrestashopOrderStatus(\Configuration::get('PS_OS_CANCELED'));
-				IfthenpayLogProcess::addLog('Payment by ' . $this->paymentMethod . ' canceled due to technical error from Cofidis', IfthenpayLogProcess::INFO, $this->order->id);
-				$this->redirectUser('cancel', sprintf($this->ifthenpayModule->l('Payment by %s canceled', Utility::getClassName($this)), $this->ifthenpayModule->l($this->paymentMethod, 'ifthenpay')));
-			}
-		}
-		$this->handleCanceledTransaction();
-	}
 	private function handleCanceledTransaction()
 	{
 		$this->changeIfthenpayPaymentStatus('cancel');
 		$this->changePrestashopOrderStatus(\Configuration::get('PS_OS_CANCELED'));
 		IfthenpayLogProcess::addLog('Payment by ' . $this->paymentMethod . ' canceled by the customer', IfthenpayLogProcess::INFO, $this->order->id);
 		$this->redirectUser('cancel', sprintf($this->ifthenpayModule->l('Payment by %s canceled', Utility::getClassName($this)), $this->ifthenpayModule->l($this->paymentMethod, 'ifthenpay')));
-	}
-	private function handleNotApprovedPayment()
-	{
-		$this->changeIfthenpayPaymentStatus('cancel');
-		$this->changePrestashopOrderStatus(\Configuration::get('IFTHENPAY_' . \Tools::strtoupper($this->paymentMethod) . '_OS_NOT_APPROVED'));
-		IfthenpayLogProcess::addLog('Payment by ' . $this->paymentMethod . ' not approved by Cofidis', IfthenpayLogProcess::INFO, $this->order->id);
-		$this->redirectUser('cancel', sprintf($this->ifthenpayModule->l('Payment by %s not approved', Utility::getClassName($this)), $this->ifthenpayModule->l($this->paymentMethod, 'ifthenpay')));
-	}
-	private function handleTechnicalError()
-	{
-		$this->changeIfthenpayPaymentStatus('cancel');
-		$this->changePrestashopOrderStatus(\Configuration::get('PS_OS_CANCELED'));
-		IfthenpayLogProcess::addLog('Payment by ' . $this->paymentMethod . ' canceled due to technical error from Cofidis', IfthenpayLogProcess::INFO, $this->order->id);
-		$this->redirectUser('cancel', sprintf($this->ifthenpayModule->l('Payment by %s canceled due to technical error', Utility::getClassName($this)), $this->ifthenpayModule->l($this->paymentMethod, 'ifthenpay')));
-	}
-
-	private function getCofidisTransactionStatus()
-	{
-		$webservice = RequestFactory::buildWebservice();
-		return $webservice->postRequest(
-			self::COFIDIS_ENDPOINT_STATUS,
-			[
-				"cofidisKey" => \Configuration::get($this->setPaymentKey($this->paymentMethod)),
-				"requestId" => $this->paymentData['transaction_id']
-			],
-			true
-		)->getResponseJson();
 	}
 
 

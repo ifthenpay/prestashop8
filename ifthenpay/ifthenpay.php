@@ -53,7 +53,7 @@ class Ifthenpay extends PaymentModule
 	{
 		$this->name = 'ifthenpay';
 		$this->tab = 'payments_gateways';
-		$this->version = '8.3.4';
+		$this->version = '8.3.5';
 		$this->author = 'Ifthenpay';
 		$this->need_instance = 0;
 		$this->bootstrap = true;
@@ -78,7 +78,7 @@ class Ifthenpay extends PaymentModule
 		parent::__construct();
 
 		$this->displayName = $this->l('Ifthenpay');
-		$this->description = $this->l('Allows payments by Multibanco reference, MB WAY, Payshop, Credit Card and Cofidis Pay');
+		$this->description = $this->l('Allows payments by Multibanco reference, MB WAY, Payshop, Credit Card and Pix');
 		$this->confirmUninstall = $this->l('Are you sure you want to uninstall ifthenpay module?');
 		$this->currencies = true;
 		$this->currencies_mode = 'checkbox';
@@ -327,7 +327,6 @@ class Ifthenpay extends PaymentModule
 			'multibanco' => $this->l('multibanco', 'ifthenpay'),
 			'mbway' => $this->l('mbway', 'ifthenpay'),
 			'payshop' => $this->l('payshop', 'ifthenpay'),
-			'cofidis' => $this->l('cofidis', 'ifthenpay'),
 			'ccard' => $this->l('ccard', 'ifthenpay'),
 			'pix' => $this->l('pix', 'ifthenpay'),
 			'ifthenpaygateway' => $this->l('ifthenpaygateway', 'ifthenpay')
@@ -335,6 +334,12 @@ class Ifthenpay extends PaymentModule
 
 		// TODO: one may set the displayed order of the payment methods in the admin config page, but currently there does not seem to be necessary
 		foreach ($ifthenpayUserPaymentMethods as $paymentMethod) {
+
+			// skip cofidis since user may still have the cofidis account registered even though its disabled
+			if ($paymentMethod === 'cofidispay') {
+				continue;
+			}
+
 			$this->context->smarty->assign(
 				'isActive',
 				(bool) Configuration::get('IFTHENPAY_' . Tools::strtoupper($paymentMethod)) ? true : false
@@ -351,7 +356,7 @@ class Ifthenpay extends PaymentModule
 			$form['form']['input'][] = [
 				'type' => 'html',
 				'name' => '',
-				'html_content' => '<img style="margin-top: 20px;" src="' . \Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/' . $paymentMethod . '.png') . '" height="40px" title="' . $title . '">'
+				'html_content' => '<img style="margin-top: 20px; height: 40px;" src="' . \Media::getMediaPath(_PS_MODULE_DIR_ . 'ifthenpay/views/img/' . $paymentMethod . '.png') . '" height="40px" title="' . $title . '">'
 			];
 
 
@@ -708,14 +713,6 @@ class Ifthenpay extends PaymentModule
 							)
 						);
 					}
-					if ($paymentMethod === 'cofidispay') {
-						$option->setAdditionalInformation(
-							$this->context->smarty->fetch(
-								$this->local_path .
-									'views/templates/front/cofidisOption.tpl'
-							)
-						);
-					}
 					if ($paymentMethod === 'ifthenpaygateway') {
 						$option->setCallToActionText(
 							$this->l('Pay by ') . $ifthenpayGateway->getAliasPaymentMethods(
@@ -923,11 +920,6 @@ class Ifthenpay extends PaymentModule
 					\Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_ENTIDADE') &&
 					\Configuration::get('IFTHENPAY_' . strtoupper($paymentMethod) . '_SUBENTIDADE')
 				) {
-					return true;
-				}
-				break;
-			case 'cofidispay':
-				if (\Configuration::get('IFTHENPAY_COFIDISPAY_KEY')) {
 					return true;
 				}
 				break;
@@ -1306,7 +1298,6 @@ class Ifthenpay extends PaymentModule
 			ConfigFactory::buildCancelCcardOrder()->cancelOrder();
 			ConfigFactory::buildCancelPayshopOrder()->cancelOrder();
 			ConfigFactory::buildCancelMultibancoOrder()->cancelOrder();
-			ConfigFactory::buildCancelCofidisOrder()->cancelOrder();
 			ConfigFactory::buildCancelIfthenpaygatewayOrder()->cancelOrder();
 			ConfigFactory::buildCancelPixOrder()->cancelOrder();
 		}

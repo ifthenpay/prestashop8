@@ -311,10 +311,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         dom_alignSpinnerWithInput();
       }
 
-      if (isCofidis()) {
-        dom_alignSpinnerWithInput();
-      }
-
       if (isIfthenpaygateway()) {
         dom_alignSpinnerWithInput();
         dom_disableUncheckedDefaultPaymentMethods();
@@ -405,10 +401,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
     function isMultbanco() {
       return document.getElementById("ifthenpayMultibancoEntidade") ? true : false;
-    }
-
-    function isCofidis() {
-      return document.getElementById("ifthenpayCofidisKey") ? true : false;
     }
 
     function isIfthenpaygateway() {
@@ -986,28 +978,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         }
       };
 
-      AdminConfigPage.prototype.changeCofidisKey = function (event) {
-        var spinner = $("#appSpinner");
-        var containerCofidisMax = $("#ifthenpayMaxAmount");
-        var containerCofidisMin = $("#ifthenpayMinAmount");
-        spinner.parent().insertAfter($(event.target));
-        spinner.show();
-        this.httpService = inversify_adminConfigPage_1["default"].get(HttpService_1.HttpService);
-        this.httpService.setUrl(controllerUrl);
-        this.httpService.post({
-          ajax: 1,
-          controller: "AdminIfthenpayPaymentMethodSetup",
-          action: "getCofidisLimits",
-          cofidisKey: $(event.target).val()
-        }).then(function (response) {
-          var _a, _b;
-
-          containerCofidisMax.val((_a = response["maxAmount"]) !== null && _a !== void 0 ? _a : "");
-          containerCofidisMin.val((_b = response["minAmount"]) !== null && _b !== void 0 ? _b : "");
-          spinner.hide();
-        });
-      };
-
       AdminConfigPage.prototype.testCallback = function (event) {
         var bootstrapMsgContainer = $("#callback_result");
         bootstrapMsgContainer.html(""); // clear previous messages
@@ -1017,7 +987,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var amountDom = $("#amount");
         var mbwayTransactionIdDom = $("#mbway_transaction_id");
         var payshopTransactionIdDom = $("#payshop_transaction_id");
-        var cofidisTransactionIdDom = $("#cofidispay_transaction_id");
         var pixTransactionIdDom = $("#pix_transaction_id");
         var ccardTransactionIdDom = $("#ccard_transaction_id");
         var orderIdDom = $("#order_id"); // message template
@@ -1028,12 +997,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var amount = amountDom.length ? amountDom.val() : "";
         var mbwayTransactionId = mbwayTransactionIdDom.length ? mbwayTransactionIdDom.val() : "";
         var payshopTransactionId = payshopTransactionIdDom.length ? payshopTransactionIdDom.val() : "";
-        var cofidisTransactionId = cofidisTransactionIdDom.length ? cofidisTransactionIdDom.val() : "";
         var pixTransactionId = pixTransactionIdDom.length ? pixTransactionIdDom.val() : "";
         var ccardTransactionId = ccardTransactionIdDom.length ? ccardTransactionIdDom.val() : "";
         var orderId = orderIdDom.length ? orderIdDom.val() : ""; // verify if multibanco or mbway or payshop have arguments
 
-        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "payshop" && (amount === "" || payshopTransactionId === "") || method === "cofidis" && (amount === "" || cofidisTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "") || method === "pix" && (amount === "" || pixTransactionId === "")) {
+        if (method === "multibanco" && (reference === "" || amount === "") || method === "mbway" && (amount === "" || mbwayTransactionId === "") || method === "payshop" && (amount === "" || payshopTransactionId === "") || method === "ifthenpaygateway" && (amount === "" || orderId === "") || method === "pix" && (amount === "" || pixTransactionId === "")) {
           bootstrapMsgContainer.html(msgHtml.replace("{{type}}", "danger").replace("{{message}}", msgFillAllFields));
           return;
         }
@@ -1048,7 +1016,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           amount: amount,
           mbway_transaction_id: mbwayTransactionId,
           payshop_transaction_id: payshopTransactionId,
-          cofidis_transaction_id: cofidisTransactionId,
           pix_transaction_id: pixTransactionId,
           ccard_transaction_id: ccardTransactionId,
           order_id: orderId,
@@ -1073,8 +1040,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       __decorate([(0, Event_1.Event)("change", "#ifthenpayIfthenpaygatewayKey"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeIfthenpayGatewayKey", null);
 
       __decorate([(0, Event_1.Event)("change", "#methods_container", ".method_checkbox_input"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "updateSelectedDefault", null);
-
-      __decorate([(0, Event_1.Event)("change", "#ifthenpayCofidisKey"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "changeCofidisKey", null);
 
       __decorate([(0, Event_1.Event)("click", "#testCallback"), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], AdminConfigPage.prototype, "testCallback", null);
 

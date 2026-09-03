@@ -36,7 +36,6 @@ use PrestaShop\Module\Ifthenpay\Factory\Prestashop\PrestashopModelFactory;
 class IfthenpayOrderStates implements InstallerInterface
 {
 	private $ifthenpayStatusKeys;
-	private $cofidisStatusKeys;
 	private $userPaymentMethods;
 	private $paymentMethodNames = [
 		'multibanco' => [
@@ -55,10 +54,6 @@ class IfthenpayOrderStates implements InstallerInterface
 			'en' => 'Credit Card',
 			'pt' => 'Cartão de Crédito'
 		],
-		'cofidispay' => [
-			'en' => 'Cofidis Pay',
-			'pt' => 'Cofidis Pay'
-		],
 		'ifthenpaygateway' => [
 			'en' => 'Ifthenpay Gateway',
 			'pt' => 'Ifthenpay Gateway'
@@ -73,7 +68,6 @@ class IfthenpayOrderStates implements InstallerInterface
 	{
 		$this->userPaymentMethods = $userPaymentMethods;
 		$this->ifthenpayStatusKeys = ['IFTHENPAY_{paymentMethod}_OS_WAITING', 'IFTHENPAY_{paymentMethod}_OS_CONFIRMED'];
-		$this->cofidisStatusKeys = ['IFTHENPAY_{paymentMethod}_OS_NOT_APPROVED'];
 	}
 
 	public function install()
@@ -122,56 +116,6 @@ class IfthenpayOrderStates implements InstallerInterface
 						}
 					} else {
 						\Configuration::updateValue($status, (int) $order_state->id);
-					}
-				}
-			}
-
-
-			if (strpos(strtolower($paymentMethod), 'cofidis') !== false) {
-
-				foreach ($this->cofidisStatusKeys as $status) {
-					$status = str_replace('{paymentMethod}', \Tools::strtoupper($paymentMethod), $status);
-					if (!\Configuration::get($status) || !\Validate::isLoadedObject(PrestashopModelFactory::buildOrderState(\Configuration::get($status)))) {
-						$order_state = PrestashopModelFactory::buildOrderState();
-						$order_state->name = array();
-						foreach (\Language::getLanguages() as $language) {
-							if (\Tools::strtolower($language['iso_code']) == 'en') {
-								$paymentMethodName = $this->paymentMethodName($paymentMethod, 'en');
-								$order_state->name[$language['id_lang']] = $paymentMethodName . ' payment not approved';
-							} else {
-								$paymentMethodName = $this->paymentMethodName($paymentMethod, 'pt');
-								$order_state->name[$language['id_lang']] = 'Pagamento por ' . $paymentMethodName . ' não aprovado';
-							}
-						}
-
-						$order_state->send_email = false;
-						$order_state->template = '';
-						$order_state->color = '#e74c3c';
-						$order_state->hidden = false;
-						$order_state->delivery = false;
-						$order_state->logable = false;
-						$order_state->invoice = false;
-						$order_state->module_name = 'ifthenpay';
-						$order_state->unremovable = true;
-						$order_state->paid = false;
-
-
-						if ($order_state->add()) {
-							$source = _PS_MODULE_DIR_ . 'ifthenpay/views/img/os_' . $paymentMethod . '.png';
-							$destination = _PS_ROOT_DIR_ . '/img/os/' . (int) $order_state->id . '.gif';
-							copy($source, $destination);
-						} else {
-							throw new \Exception('Error saving order state.');
-						}
-
-						if (\Shop::isFeatureActive()) {
-							$shops = \Shop::getShops();
-							foreach ($shops as $shop) {
-								\Configuration::updateValue($status, (int) $order_state->id, false, null, (int) $shop['id_shop']);
-							}
-						} else {
-							\Configuration::updateValue($status, (int) $order_state->id);
-						}
 					}
 				}
 			}

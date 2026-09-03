@@ -33,48 +33,6 @@ function upgrade_module_8_3_0($module)
 
 	$statusArray = [
 		[
-			'methodName' => 'cofidispay',
-			'configName' => 'IFTHENPAY_COFIDISPAY_OS_WAITING',
-			'statusNameArray' => [
-				'pt' => 'Aguarda pagamento por Cofidis Pay',
-				'en' => 'Awaiting for Cofidis Pay payment',
-			],
-			'sendEmail' => false,
-			'template' => '',
-			'color' => '#FF8100',
-			'logable' => false,
-			'paid' => false,
-			'imageName' => 'os_cofidispay.png',
-		],
-		[
-			'methodName' => 'cofidispay',
-			'configName' => 'IFTHENPAY_COFIDISPAY_OS_CONFIRMED',
-			'statusNameArray' => [
-				'pt' => 'Confirmado pagamento por Cofidis Pay',
-				'en' => 'Payment by Cofidis Pay confirmed',
-			],
-			'sendEmail' => true,
-			'template' => 'payment',
-			'color' => '#33B200',
-			'logable' => true,
-			'paid' => true,
-			'imageName' => 'os_cofidispay.png',
-		],
-		[
-			'methodName' => 'cofidispay',
-			'configName' => 'IFTHENPAY_COFIDISPAY_OS_NOT_APPROVED',
-			'statusNameArray' => [
-				'pt' => 'Pagamento por Cofidis Pay não aprovado',
-				'en' => 'Cofidis Pay payment not approved',
-			],
-			'sendEmail' => false,
-			'template' => '',
-			'color' => '#E74C3C',
-			'logable' => false,
-			'paid' => false,
-			'imageName' => 'os_cofidispay.png',
-		],
-		[
 			'methodName' => 'pix',
 			'configName' => 'IFTHENPAY_PIX_OS_WAITING',
 			'statusNameArray' => [
@@ -228,7 +186,7 @@ function reactivateCallbacks(): bool
 {
 	try {
 
-		$methodNameArray = ['MULTIBANCO', 'MBWAY', 'PAYSHOP', 'COFIDIS'];
+		$methodNameArray = ['MULTIBANCO', 'MBWAY', 'PAYSHOP'];
 
 		foreach ($methodNameArray as $methodName) {
 
@@ -298,14 +256,6 @@ function createDatabaseTables()
 	try {
 
 		$tablesToCreate = [
-			'cofidispay' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_cofidispay` (
-				`id_ifthenpay_cofidispay` int(10) unsigned NOT NULL auto_increment,
-				`transaction_id` varchar(50) NOT NULL,
-				`order_id` int(11) NOT NULL,
-				`status` varchar(50) NOT NULL,
-				PRIMARY KEY  (`id_ifthenpay_cofidispay`),
-				INDEX `transaction_id` (`transaction_id`)
-			  ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
 			'ifthenpaygateway' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ifthenpaygateway` (
 				`id_ifthenpay_ifthenpaygateway` int(10) unsigned NOT NULL auto_increment,
 				`order_id` int(11) NOT NULL,
@@ -322,11 +272,6 @@ function createDatabaseTables()
 				`status` varchar(50) NOT NULL,
 				PRIMARY KEY  (`id_ifthenpay_pix`),
 				INDEX `transaction_id` (`transaction_id`)
-			  ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
-			'shop_cofidispay' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_cofidispay_shop` (
-				`id_ifthenpay_cofidispay` int(10) unsigned NOT NULL auto_increment,
-				`id_shop` int(10) unsigned NOT NULL,
-				PRIMARY KEY (`id_ifthenpay_cofidispay`, `id_shop`)
 			  ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;',
 			'shop_ifthenpaygateway' => 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'ifthenpay_ifthenpaygateway_shop` (
 				`id_ifthenpay_ifthenpaygateway` int(10) unsigned NOT NULL auto_increment,
@@ -391,14 +336,6 @@ function updateOrderStateNames()
 		[
 			'old' => 'Payment by Ccardconfirmed',
 			'new' => 'Payment by Credit Card confirmed'
-		],
-		[
-			'old' => 'Awaiting for Cofidispaypayment',
-			'new' => 'Awaiting for Cofidis Pay payment'
-		],
-		[
-			'old' => 'Payment by Cofidispayconfirmed',
-			'new' => 'Payment by Cofidis Pay confirmed'
 		],
 		[
 			'old' => 'Awaiting for Mbwaypayment',

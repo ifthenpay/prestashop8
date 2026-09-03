@@ -24,7 +24,7 @@
 *}
 
 <div class="panel">
-    <div class="row m-20">
+    <div class="row m-20 p-4">
 
         <div class="col-sm-8 col-md-7">
             <img src="{$module_dir|escape:'html':'UTF-8'}views/img/ifthenpay.png" id="payment-logo" />
@@ -47,7 +47,7 @@
 
     </div>
     <div class="panel-body">
-        <h3>{l s='Multibanco, MB WAY, PAYSHOP, Credit Card and Cofidis Pay payments has numerous advantages for your business' mod='ifthenpay'}
+        <h3>{l s='Multibanco, MB WAY, PAYSHOP, Credit Card and Pix payments have numerous advantages for your business' mod='ifthenpay'}
         </h3>
         <ul>
             <li>
@@ -57,7 +57,7 @@
                 <h6>{l s='Payments 24 hours a day with real-time notifications' mod='ifthenpay'}</h6>
             </li>
             <li>
-                <h6>{l s='Secure payments by Multibanco, MB WAY, PAYSHOP, Credit Card and Cofidis Pay' mod='ifthenpay'}</h6>
+                <h6>{l s='Secure payments by Multibanco, MB WAY, PAYSHOP, Credit Card and Pix' mod='ifthenpay'}</h6>
             </li>
             <li>
                 <h6>{l s='Protected user data, no need to enter bank or card information' mod='ifthenpay'}</h6>
@@ -131,7 +131,7 @@
                             {else}
 
                                 <h2>{l s='Version ' mod='ifthenpay'}{$ifthenpayVersion}</h2>
-                                <img src="{$updatedModuleIcon}" alt="update system icon">
+                                <img style="margin: auto;" src="{$updatedModuleIcon}" alt="update system icon">
                                 <h2>{l s='Your module is up to date!' mod='ifthenpay'}</h2>
                             {/if}
                         </div>
