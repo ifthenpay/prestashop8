@@ -116,6 +116,15 @@ class CallbackOffline extends CallbackProcess implements CallbackProcessInterfac
 				die('ok');
 			} catch (AlreadyPaidException $th) {
 				http_response_code(200);
+
+				// the backoffice test tool expects a JSON response
+				if (isset($_GET['test']) && $_GET['test'] === 'true') {
+					die(json_encode([
+						'status' => 'warning',
+						'message' => $th->getMessage(),
+					]));
+				}
+
 				die($th->getMessage());
 			} catch (\Throwable $th) {
 

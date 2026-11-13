@@ -104,12 +104,13 @@ class WebService
 			CURLOPT_POST => false,
 			CURLOPT_URL => $url
 		]);
-		$this->response = curl_exec($this->curl);
+		// $this->response is typed as ResponseInterface, so the raw curl string must use a local variable
+		$response = curl_exec($this->curl);
 
-		if ($this->response === false) {
+		if ($response === false) {
 			throw new \Exception(curl_error($this->curl));
 		}
 
-		return $this->response;
+		return $response;
 	}
 }

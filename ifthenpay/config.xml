@@ -2,7 +2,7 @@
 <module>
     <name>ifthenpay</name>
     <displayName><![CDATA[Ifthenpay]]></displayName>
-    <version><![CDATA[8.3.5]]></version>
+    <version><![CDATA[8.3.6]]></version>
     <description><![CDATA[Allows payments by Multibanco reference, MB WAY, Payshop, Credit Card and Pix]]></description>
     <author><![CDATA[Ifthenpay]]></author>
     <tab><![CDATA[payments_gateways]]></tab>
